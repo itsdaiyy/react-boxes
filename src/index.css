@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply font-bold text-[40px] leading-[48px];
+  }
+  h2 {
+    @apply font-bold text-[32px] leading-[38.4px];
+  }
+  h3 {
+    @apply font-bold text-[28px] leading-[33.6px];
+  }
+  h4 {
+    @apply font-bold text-[24px] leading-[28.8px];
+  }
+  h5 {
+    @apply font-medium text-[20px] leading-[24px];
+  }
+  h6 {
+    @apply font-medium text-[16px] leading-[19.2px];
+  }
+  h7 {
+    @apply font-medium text-[14px] leading-[16.8px];
+  }
+}
+
+@layer components {
+  .fs-1 {
+    @apply font-normal text-[40px] leading-[60px];
+  }
+  .fs-2 {
+    @apply font-normal text-[32px] leading-[48px];
+  }
+  .fs-3 {
+    @apply font-normal text-[28px] leading-[42px];
+  }
+  .fs-4 {
+    @apply font-normal text-[24px] leading-[36px];
+  }
+  .fs-5 {
+    @apply font-normal text-[20px] leading-[30px];
+  }
+  .fs-6 {
+    @apply font-normal text-[16px] leading-[24px];
+  }
+  .fs-7 {
+    @apply font-normal text-[14px] leading-[21px];
+  }
+}
