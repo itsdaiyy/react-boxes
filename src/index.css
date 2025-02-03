@@ -4,28 +4,27 @@
 
 @layer base {
   h1 {
-    @apply font-bold text-[40px] leading-[48px];
+    @apply text-[40px] font-bold leading-[48px];
   }
   h2 {
-    @apply font-bold text-[32px] leading-[38.4px];
+    @apply text-[32px] font-bold leading-[38.4px];
   }
   h3 {
-    @apply font-bold text-[28px] leading-[33.6px];
+    @apply text-[28px] font-bold leading-[33.6px];
   }
   h4 {
-    @apply font-bold text-[24px] leading-[28.8px];
+    @apply text-[24px] font-bold leading-[28.8px];
   }
   h5 {
-    @apply font-medium text-[20px] leading-[24px];
+    @apply text-[20px] font-medium leading-[24px];
   }
   h6 {
-    @apply font-medium text-[16px] leading-[19.2px];
+    @apply text-[16px] font-medium leading-[19.2px];
   }
   h7 {
-    @apply font-medium text-[14px] leading-[16.8px];
+    @apply text-[14px] font-medium leading-[16.8px];
   }
   :root {
-
     --background: 0 0% 100%;
 
     --foreground: 0 0% 3.9%;
@@ -74,10 +73,9 @@
 
     --chart-5: 27 87% 67%;
 
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
   .dark {
-
     --background: 0 0% 3.9%;
 
     --foreground: 0 0% 98%;
@@ -124,31 +122,34 @@
 
     --chart-4: 280 65% 60%;
 
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
 
 @layer components {
   .fs-1 {
-    @apply font-normal text-[40px] leading-[60px];
+    @apply text-[40px] font-normal leading-[60px];
   }
   .fs-2 {
-    @apply font-normal text-[32px] leading-[48px];
+    @apply text-[32px] font-normal leading-[48px];
   }
   .fs-3 {
-    @apply font-normal text-[28px] leading-[42px];
+    @apply text-[28px] font-normal leading-[42px];
   }
   .fs-4 {
-    @apply font-normal text-[24px] leading-[36px];
+    @apply text-[24px] font-normal leading-[36px];
   }
   .fs-5 {
-    @apply font-normal text-[20px] leading-[30px];
+    @apply text-[20px] font-normal leading-[30px];
   }
   .fs-6 {
-    @apply font-normal text-[16px] leading-[24px];
+    @apply text-[16px] font-normal leading-[24px];
   }
   .fs-7 {
-    @apply font-normal text-[14px] leading-[21px];
+    @apply text-[14px] font-normal leading-[21px];
+  }
+  .btn {
+    @apply rounded-[20px] border border-[#563B28] bg-main-600 px-5 py-2 text-main-200 shadow-[0_2px_0_#563B28] hover:bg-main-500;
   }
 }
 

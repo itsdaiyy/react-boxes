@@ -10,9 +10,9 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="react-boxes/" element={<HomePage />} />
-          <Route path="react-boxes/map" element={<Map />} />
-          <Route path="react-boxes/signin" element={<Signin />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="map" element={<Map />} />
+          <Route path="signin" element={<Signin />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
