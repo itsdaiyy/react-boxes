@@ -1,10 +1,10 @@
+import MapNav from "@/components/MapNav";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 
 function Map() {
   return (
     <div>
-      <Header />
+      <MapNav />
       2-1地圖檢索頁
       <Footer />
     </div>

@@ -6,7 +6,8 @@ import yt from "@/assets/yt.svg";
 import ig from "@/assets/ig.svg";
 
 const style = {
-  container: "",
+  container:
+    "container mx-auto flex flex-col items-center justify-between py-10 md:flex-row",
   nav: "mb-4 ml-auto flex w-[152px] items-center justify-between gap-4",
 };
 
@@ -14,7 +15,7 @@ function Footer() {
   return (
     <>
       <div className="bg-main-600">
-        <div className="mx-auto flex flex-col items-center justify-between px-5 py-10 xl:container md:flex-row">
+        <div className={style.container}>
           <Link to="/" className="mb-4 md:mb-0">
             <img src={logoWhite} alt="紙箱轉運站" height="56" width="235" />
           </Link>
