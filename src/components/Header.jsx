@@ -5,9 +5,7 @@ import MenuLogin from "./MenuLogin";
 
 const style = {
   container:
-    "container mx-auto flex flex-col items-center justify-between py-2 md:flex-row",
-  logoContainer:
-    "flex w-full items-center justify-between px-5 pb-2 shadow-[0px_1px_1px_0px_rgba(0,0,0,0.1)] backdrop-blur-[5px] md:mb-0 md:w-auto md:px-0 md:shadow-none md:backdrop-blur-none",
+    "container mx-auto flex items-center justify-between px-5 py-2 shadow-[0px_1px_1px_0px_rgba(0,0,0,0.1)] backdrop-blur-[5px] lg:px-0 lg:shadow-none lg:backdrop-blur-none",
   menu: "hidden cursor-pointer md:block lg:hidden",
   nav: "hidden items-center justify-between gap-6 lg:flex text-nowrap",
   mapAfter:
@@ -18,24 +16,19 @@ function Header() {
   return (
     <div className="bg-[rgba(255,255,255,0.75)]">
       <div className={style.container}>
-        <div className={style.logoContainer}>
-          <Link to="/">
-            <picture>
-              <source
-                srcSet={logoSm}
-                alt="紙箱轉運站"
-                media="(max-width: 768px)"
-                height="40"
-                width="168"
-              />
-              <img src={logo} alt="紙箱轉運站" height="56" width="235" />
-            </picture>
-          </Link>
-          <div className="md:hidden">
-            <MenuLogin />
-          </div>
-        </div>
-        <div className={style.menu}>
+        <Link to="/">
+          <picture>
+            <source
+              srcSet={logoSm}
+              alt="紙箱轉運站"
+              media="(max-width: 992px)"
+              height="40"
+              width="168"
+            />
+            <img src={logo} alt="紙箱轉運站" height="56" width="235" />
+          </picture>
+        </Link>
+        <div className="lg:hidden">
           <MenuLogin />
         </div>
         <nav className={style.nav}>

@@ -20,7 +20,7 @@ function Menu() {
         <DropdownMenuTrigger>
           <MenuIcon className="text-[#4767A2]" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="mt-4 w-[375px]">
+        <DropdownMenuContent className="mt-4 w-[375px] pr-4 sm:mr-14 lg:hidden">
           <DropdownMenuItem>
             <NavLink
               to="/map"
