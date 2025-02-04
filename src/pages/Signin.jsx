@@ -1,5 +1,12 @@
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+
 function Signin() {
-  return <div>登入頁</div>;
+  return (
+    <div>
+      <Header /> 登入頁 <Footer />
+    </div>
+  );
 }
 
 export default Signin;
