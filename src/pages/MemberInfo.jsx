@@ -1,5 +1,15 @@
+import Header from "@/components/Header";
+import MemberBanner from "@/components/MemberBanner";
+import Footer from "@/components/Footer";
+
 function MemberInfo() {
-  return <div>4-1 一般會員資訊頁</div>;
+  return (
+    <div>
+      <Header />
+      <MemberBanner />
+      <Footer />
+    </div>
+  );
 }
 
 export default MemberInfo;
