@@ -30,13 +30,13 @@ function App() {
             <Route path="memberInfo" element={<MemberInfo />} />
             <Route path="pointsRecords" element={<PointRecords />} />
             <Route path="transactionRecords" element={<TransactionRecords />} />
-            <Route path="admitInfo" element={<AdmitInfo />}></Route>
-            <Route path="boxesTable" element={<BoxesTable />}></Route>
-            <Route path="recyclingTable" element={<RecyclingTable />}></Route>
+            <Route path="admitInfo" element={<AdmitInfo />} />
+            <Route path="boxesTable" element={<BoxesTable />} />
+            <Route path="recyclingTable" element={<RecyclingTable />} />
             <Route
               path="admitTransactionRecords"
               element={<AdmitTransactionRecords />}
-            ></Route>
+            />
           </Route>
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
