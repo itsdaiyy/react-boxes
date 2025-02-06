@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 
 const style = {
   mainNavContainer:
@@ -15,10 +14,19 @@ const style = {
 };
 
 function MemberNav() {
-  const [nav, setNav] = useState(localStorage.getItem("nav") || "normal");
-  useEffect(() => {
-    localStorage.setItem("nav", nav); // 將 nav 的值儲存到 localStorage
-  }, [nav]); // 當 nav 改變時，更新 localStorage
+  const location = useLocation();
+
+  const getNavType = () => {
+    if (location.pathname.startsWith("/member/normal")) {
+      return "normal";
+    } else if (location.pathname.startsWith("/member/admit")) {
+      return "admit";
+    } else {
+      return "normal"; // 預設值
+    }
+  };
+
+  const navType = getNavType();
 
   return (
     <>
@@ -30,7 +38,6 @@ function MemberNav() {
             className={({ isActive }) =>
               isActive ? style.mainNavActive : style.mainNav
             }
-            onClick={() => setNav("normal")}
           >
             <h4>會員頁面</h4>
           </NavLink>
@@ -39,13 +46,12 @@ function MemberNav() {
             className={({ isActive }) =>
               isActive ? style.mainNavActive : style.mainNav
             }
-            onClick={() => setNav("admit")}
           >
             <h4>管理者頁面</h4>
           </NavLink>
         </div>
       </div>
-      {nav === "normal" ? <NormalNav /> : <AdmitNav />}
+      {navType === "normal" ? <NormalNav /> : <AdmitNav />}
       <div className="container mx-auto">
         <Outlet />
       </div>
