@@ -27,6 +27,10 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="map" element={<Map />} />
           <Route path="member" element={<Member />}>
+            <Route
+              index
+              element={<Navigate replace to="normal/memberInfo" />}
+            />
             <Route path="normal">
               <Route index element={<Navigate replace to="memberInfo" />} />
               <Route path="memberInfo" element={<MemberInfo />} />
