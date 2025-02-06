@@ -15,6 +15,8 @@ import AdmitInfo from "./components/AdmitInfo";
 import BoxesTable from "./components/BoxesTable";
 import RecyclingTable from "./components/RecyclingTable";
 import AdmitTransactionRecords from "./components/AdmitTransactionRecords";
+import MapPage from "./pages/MapPage";
+import StationInfo from "./pages/StationInfo";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +27,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="map" element={<Map />} />
+          <Route path="map" element={<MapPage />}>
+            <Route index element={<Map />} />
+            <Route path=":stationId" element={<StationInfo />} />
+          </Route>
           <Route path="member" element={<Member />}>
             <Route
               index
