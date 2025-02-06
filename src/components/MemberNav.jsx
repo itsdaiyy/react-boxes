@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
 const style = {
@@ -15,7 +15,11 @@ const style = {
 };
 
 function MemberNav() {
-  const [nav, setNav] = useState("normal");
+  const [nav, setNav] = useState(localStorage.getItem("nav") || "normal");
+  useEffect(() => {
+    localStorage.setItem("nav", nav); // 將 nav 的值儲存到 localStorage
+  }, [nav]); // 當 nav 改變時，更新 localStorage
+
   return (
     <>
       <div className="bg-[#F3F3F3]">
