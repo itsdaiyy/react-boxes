@@ -23,6 +23,24 @@ export async function apiGetStations() {
     // supabase 錯誤內容
     console.error(error);
     // UI 顯示的錯誤內容
-    throw new Error("無法獲取 Stations 資料，請稍後再試");
+    throw new Error("無法取得 Stations 資料，請稍後再試");
+  }
+}
+
+export async function apiGetStationById(stationId) {
+  try {
+    let { data: station, error } = await supabase
+      .from("stations")
+      .select("*")
+      .eq("id", stationId)
+      .single();
+    if (error) throw error;
+
+    console.log(station);
+
+    return station;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`無法取得 Station - id: ${stationId}  資料，請稍後再試`);
   }
 }
