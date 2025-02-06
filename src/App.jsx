@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -27,6 +27,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="map" element={<Map />} />
           <Route path="member" element={<Member />}>
+            <Route index element={<Navigate replace to="memberInfo" />} />
             <Route path="memberInfo" element={<MemberInfo />} />
             <Route path="pointsRecords" element={<PointRecords />} />
             <Route path="transactionRecords" element={<TransactionRecords />} />
