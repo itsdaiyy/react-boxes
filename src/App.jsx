@@ -4,10 +4,17 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import HomePage from "./pages/HomePage";
 import Map from "./pages/Map";
-import MemberInfo from "./pages/MemberInfo";
+import Member from "./pages/Member";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import PageNotFound from "./pages/PageNotFound";
+import MemberInfo from "./components/MemberInfo";
+import PointRecords from "./components/PointRecords";
+import TransactionRecords from "./components/TransactionRecords";
+import AdmitInfo from "./components/AdmitInfo";
+import BoxesTable from "./components/BoxesTable";
+import RecyclingTable from "./components/RecyclingTable";
+import AdmitTransactionRecords from "./components/AdmitTransactionRecords";
 
 const queryClient = new QueryClient();
 
@@ -19,11 +26,17 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="map" element={<Map />} />
-          <Route path="member" element={<MemberInfo />}>
-            <Route index element={<MemberInfo />} />
-            <Route path="memberInfo" />
-            <Route path="pointsRecords" />
-            <Route path="transactionRecords" />
+          <Route path="member" element={<Member />}>
+            <Route path="memberInfo" element={<MemberInfo />} />
+            <Route path="pointsRecords" element={<PointRecords />} />
+            <Route path="transactionRecords" element={<TransactionRecords />} />
+            <Route path="admitInfo" element={<AdmitInfo />}></Route>
+            <Route path="boxesTable" element={<BoxesTable />}></Route>
+            <Route path="recyclingTable" element={<RecyclingTable />}></Route>
+            <Route
+              path="admitTransactionRecords"
+              element={<AdmitTransactionRecords />}
+            ></Route>
           </Route>
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
