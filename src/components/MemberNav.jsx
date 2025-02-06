@@ -1,101 +1,125 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Link, NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, Outlet } from "react-router-dom";
 
 const style = {
-  TabsList:
-    "h-full w-full gap-2 rounded-none bg-[#F3F3F3] p-0 md:justify-start",
-  TabListContainer: "container mx-auto",
-  TabsTrigger:
-    "h-[77px] w-[168px] rounded-2xl rounded-b-none border border-b-0 border-[#D9D9D9] bg-[#FFFFFF] p-6 text-[#6F6F6F] data-[state=active]:bg-main-600 data-[state=active]:text-white",
-  TabsContentContainer: "container mx-auto flex justify-between text-[#6F6F6F]",
-  NavLink: "text-center py-[23px] grow",
-  active: "grow border-b-4 border-main-600 py-[23px] text-center text-main-600",
+  mainNavContainer:
+    "container mx-auto flex w-full justify-center gap-2 md:justify-start",
+  mainNav:
+    "inline-flex h-[77px] grow md:grow-0 w-[168px] items-center justify-center rounded-2xl rounded-b-none border border-b-0 border-[#D9D9D9] bg-white text-[#6F6F6F]",
+  mainNavActive:
+    "inline-flex h-[77px] grow md:grow-0 w-[168px] items-center justify-center rounded-2xl rounded-b-none border border-b-0 border-[#D9D9D9] bg-main-600 text-white",
+  secondNavContainer: "container mx-auto flex gap-2 overflow-x-auto",
+  secondNav: "grow py-[23px] text-center text-[#6F6F6F] text-nowrap",
+  secondActive:
+    "grow border-b-4 border-main-600 py-[23px] text-center text-main-600 text-nowrap",
 };
+
 function MemberNav() {
+  const [nav, setNav] = useState("normal");
   return (
-    <Tabs defaultValue="member">
+    <>
       <div className="bg-[#F3F3F3]">
-        <div className={style.TabListContainer}>
-          <TabsList className={style.TabsList}>
-            <TabsTrigger value="member" className={style.TabsTrigger}>
-              <Link to="/member/memberInfo">
-                <h4>會員頁面</h4>
-              </Link>
-            </TabsTrigger>
-            <TabsTrigger value="admit" className={style.TabsTrigger}>
-              <Link to="/member/admitInfo">
-                <h4>管理者頁面</h4>
-              </Link>
-            </TabsTrigger>
-          </TabsList>
+        {/* TabTrigger */}
+        <div className={style.mainNavContainer}>
+          <NavLink
+            to="/member/normal"
+            className={({ isActive }) =>
+              isActive ? style.mainNavActive : style.mainNav
+            }
+            onClick={() => setNav("normal")}
+          >
+            <h4>會員頁面</h4>
+          </NavLink>
+          <NavLink
+            to="/member/admit"
+            className={({ isActive }) =>
+              isActive ? style.mainNavActive : style.mainNav
+            }
+            onClick={() => setNav("admit")}
+          >
+            <h4>管理者頁面</h4>
+          </NavLink>
         </div>
       </div>
-      <TabsContent value="member" className="bg-white">
-        <div className={style.TabsContentContainer}>
-          <NavLink
-            to="memberInfo"
-            className={({ isActive }) =>
-              isActive ? style.active : style.NavLink
-            }
-          >
-            <h5>會員資訊</h5>
-          </NavLink>
-          <NavLink
-            to="pointsRecords"
-            className={({ isActive }) =>
-              isActive ? style.active : style.NavLink
-            }
-          >
-            <h5>積分紀錄</h5>
-          </NavLink>
-          <NavLink
-            to="transactionRecords"
-            className={({ isActive }) =>
-              isActive ? style.active : style.NavLink
-            }
-          >
-            <h5>交易紀錄</h5>
-          </NavLink>
-        </div>
-      </TabsContent>
-      <TabsContent value="admit">
-        <div className={style.TabsContentContainer}>
-          <NavLink
-            to="admitInfo"
-            className={({ isActive }) =>
-              isActive ? style.active : style.NavLink
-            }
-          >
-            <h5>站點概述</h5>
-          </NavLink>
-          <NavLink
-            to="boxesTable"
-            className={({ isActive }) =>
-              isActive ? style.active : style.NavLink
-            }
-          >
-            <h5>可認領紙箱列表</h5>
-          </NavLink>
-          <NavLink
-            to="recyclingTable"
-            className={({ isActive }) =>
-              isActive ? style.active : style.NavLink
-            }
-          >
-            <h5>待回收紙箱列表</h5>
-          </NavLink>
-          <NavLink
-            to="admitTransactionRecords"
-            className={({ isActive }) =>
-              isActive ? style.active : style.NavLink
-            }
-          >
-            <h5>交易紀錄</h5>
-          </NavLink>
-        </div>
-      </TabsContent>
-    </Tabs>
+      {nav === "normal" ? <NormalNav /> : <AdmitNav />}
+      <div className="container mx-auto">
+        <Outlet />
+      </div>
+    </>
   );
 }
 
+function NormalNav() {
+  return (
+    <div className="bg-white">
+      <div className={style.secondNavContainer}>
+        <NavLink
+          to="normal/memberInfo"
+          className={({ isActive }) =>
+            isActive ? style.secondActive : style.secondNav
+          }
+        >
+          <h4>會員頁面</h4>
+        </NavLink>
+        <NavLink
+          to="normal/pointsRecords"
+          className={({ isActive }) =>
+            isActive ? style.secondActive : style.secondNav
+          }
+        >
+          <h4>積分紀錄</h4>
+        </NavLink>
+        <NavLink
+          to="normal/transactionRecords"
+          className={({ isActive }) =>
+            isActive ? style.secondActive : style.secondNav
+          }
+        >
+          <h4>交易紀錄</h4>
+        </NavLink>
+      </div>
+    </div>
+  );
+}
+
+function AdmitNav() {
+  return (
+    <div className="bg-white">
+      <div className={style.secondNavContainer}>
+        <NavLink
+          to="admit/admitInfo"
+          className={({ isActive }) =>
+            isActive ? style.secondActive : style.secondNav
+          }
+        >
+          <h4>站點概況</h4>
+        </NavLink>
+        <NavLink
+          to="admit/boxesTable"
+          className={({ isActive }) =>
+            isActive ? style.secondActive : style.secondNav
+          }
+        >
+          <h4>可認領紙箱列表</h4>
+        </NavLink>
+        <NavLink
+          to="admit/recyclingTable"
+          className={({ isActive }) =>
+            isActive ? style.secondActive : style.secondNav
+          }
+        >
+          <h4>待回收紙箱列表</h4>
+        </NavLink>
+        <NavLink
+          to="admit/admitTransactionRecords"
+          className={({ isActive }) =>
+            isActive ? style.secondActive : style.secondNav
+          }
+        >
+          <h4>交易紀錄</h4>
+        </NavLink>
+      </div>
+    </div>
+  );
+}
 export default MemberNav;

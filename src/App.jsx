@@ -27,17 +27,25 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="map" element={<Map />} />
           <Route path="member" element={<Member />}>
-            <Route index element={<Navigate replace to="memberInfo" />} />
-            <Route path="memberInfo" element={<MemberInfo />} />
-            <Route path="pointsRecords" element={<PointRecords />} />
-            <Route path="transactionRecords" element={<TransactionRecords />} />
-            <Route path="admitInfo" element={<AdmitInfo />} />
-            <Route path="boxesTable" element={<BoxesTable />} />
-            <Route path="recyclingTable" element={<RecyclingTable />} />
-            <Route
-              path="admitTransactionRecords"
-              element={<AdmitTransactionRecords />}
-            />
+            <Route path="normal">
+              <Route index element={<Navigate replace to="memberInfo" />} />
+              <Route path="memberInfo" element={<MemberInfo />} />
+              <Route path="pointsRecords" element={<PointRecords />} />
+              <Route
+                path="transactionRecords"
+                element={<TransactionRecords />}
+              />
+            </Route>
+            <Route path="admit">
+              <Route index element={<Navigate replace to="admitInfo" />} />
+              <Route path="admitInfo" element={<AdmitInfo />} />
+              <Route path="boxesTable" element={<BoxesTable />} />
+              <Route path="recyclingTable" element={<RecyclingTable />} />
+              <Route
+                path="admitTransactionRecords"
+                element={<AdmitTransactionRecords />}
+              />
+            </Route>
           </Route>
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
