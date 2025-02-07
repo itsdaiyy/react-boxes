@@ -3,7 +3,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import HomePage from "./pages/HomePage";
-import Map from "./pages/Map";
+import Map from "./components/Map";
+import MapPage from "./pages/MapPage";
+import StationInfo from "./pages/StationInfo";
 import Member from "./pages/Member";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
@@ -25,7 +27,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="map" element={<Map />} />
+          <Route path="map" element={<MapPage />}>
+            <Route index element={<Map />} />
+            <Route path=":stationId" element={<StationInfo />} />
+          </Route>
           <Route path="member" element={<Member />}>
             <Route
               index
