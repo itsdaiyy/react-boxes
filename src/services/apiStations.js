@@ -12,7 +12,9 @@ import supabase from "./supabase";
  */
 export async function apiGetStations() {
   try {
-    let { data: stations, error } = await supabase.from("stations").select("*");
+    let { data: stations, error } = await supabase
+      .from("stations")
+      .select(`id, station_name, latitude, longitude`);
 
     if (error) throw error;
 
@@ -31,7 +33,7 @@ export async function apiGetStationById(stationId) {
   try {
     let { data: station, error } = await supabase
       .from("stations")
-      .select("*")
+      .select(`*,station_daily_hours(id,open_time,close_time,day_of_week)`)
       .eq("id", stationId)
       .single();
     if (error) throw error;
