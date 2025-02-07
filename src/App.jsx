@@ -3,7 +3,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import HomePage from "./pages/HomePage";
-import Map from "./pages/Map";
+import Map from "./components/Map";
+import MapPage from "./pages/MapPage";
+import StationInfo from "./pages/StationInfo";
 import Member from "./pages/Member";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
@@ -15,8 +17,6 @@ import AdmitInfo from "./components/AdmitInfo";
 import BoxesTable from "./components/BoxesTable";
 import RecyclingTable from "./components/RecyclingTable";
 import AdmitTransactionRecords from "./components/AdmitTransactionRecords";
-import MapPage from "./pages/MapPage";
-import StationInfo from "./pages/StationInfo";
 
 const queryClient = new QueryClient();
 
