@@ -1,10 +1,11 @@
 // 5-3 回收站點管理者後台 - 待認領／自用紙箱列表
 import { useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { StyleSheetManager } from 'styled-components'
+import isPropValid from '@emotion/is-prop-valid';
 import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
-import { FaFolderPlus } from "react-icons/fa";
-import { FaCashRegister } from "react-icons/fa";
+import { FaFolderPlus, FaCashRegister } from "react-icons/fa";
 
 
 // 編輯、刪除 Icon
@@ -167,13 +168,11 @@ const AdminBoxManageTable = () => {
       name: '',
       selector: row => row.edit,
       width: '50px',
-      maxWidth: '50px'
     },
     {
       name: '',
       selector: row => row.delete,
       width: '50px',
-      maxWidth: '50px'
     },
   ];
 
@@ -186,16 +185,39 @@ const AdminBoxManageTable = () => {
   //   )
   // );
 
-  return (<>
+  return (
+  <StyleSheetManager shouldForwardProp={isPropValid}>
     <DataTable
       columns={columns}
       data={tempData}
-      pagination
       customStyles={customStyles}
+      pagination
       paginationComponentOptions={paginationComponentOptions}
       subHeader
       subHeaderComponent={
         <div className='flex justify-between w-full'>
+            <input
+              type="text"
+              placeholder="搜尋紙箱編號"
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+              className="p-2 border rounded "
+            />
+            <div className='flex gap-5'>
+              <button className="btn p-2 border flex items-center"><FaFolderPlus /> 新增紙箱</button>
+              <button className="btn p-2 border flex items-center"><FaCashRegister /> 交易紙箱</button>
+            </div>
+          </div>
+      }
+    />
+  </StyleSheetManager>
+    
+  );
+};
+
+export default AdminBoxManageTable;
+
+{/* <div className='flex justify-between w-full'>
           <input
             type="text"
             placeholder="搜尋紙箱編號"
@@ -203,16 +225,8 @@ const AdminBoxManageTable = () => {
             onChange={(e) => setFilterText(e.target.value)}
             className="p-2 border rounded "
           />
-          <div className=''>
-            <button className="p-2 border rounded flex items-center"><FaFolderPlus /> 新增紙箱</button>
-            <button className="p-2 border rounded flex items-center"><FaCashRegister /> 交易紙箱</button>
+          <div className='flex gap-5'>
+            <button className="btn p-2 border flex items-center"><FaFolderPlus /> 新增紙箱</button>
+            <button className="btn p-2 border flex items-center"><FaCashRegister /> 交易紙箱</button>
           </div>
-        </div>
-      }
-    />
-  </>
-    
-  );
-};
-
-export default AdminBoxManageTable;
+        </div> */}

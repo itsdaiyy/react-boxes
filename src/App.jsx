@@ -17,6 +17,7 @@ import AdmitInfo from "./components/AdmitInfo";
 import BoxesTable from "./components/BoxesTable";
 import RecyclingTable from "./components/RecyclingTable";
 import AdmitTransactionRecords from "./components/AdmitTransactionRecords";
+import AdminBoxManageTable from "./components/table/AdminBoxManageTable";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +60,10 @@ function App() {
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
           <Route path="*" element={<PageNotFound />} />
+
+          {/* 測試用 */}
+          <Route path="tableTest" element={<AdminBoxManageTable />} />
+
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

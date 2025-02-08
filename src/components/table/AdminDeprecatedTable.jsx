@@ -1,4 +1,4 @@
-// 5-3 回收站點管理者後台 - 待認領／自用紙箱列表
+// 5-4 待回收紙箱列表（報廢）
 import { useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { FaPen } from "react-icons/fa";
@@ -156,13 +156,11 @@ const AdminDeprecatedTable = () => {
       name: '',
       selector: row => row.edit,
       width: '50px',
-      maxWidth: '50px'
     },
     {
       name: '',
       selector: row => row.delete,
       width: '50px',
-      maxWidth: '50px'
     },
   ];
 

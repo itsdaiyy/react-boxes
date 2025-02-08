@@ -1,3 +1,4 @@
+// 基本樣式表格
 import DataTable from 'react-data-table-component';
 
 // 假資料
