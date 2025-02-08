@@ -17,14 +17,7 @@ import AdmitInfo from "./components/AdmitInfo";
 import BoxesTable from "./components/BoxesTable";
 import RecyclingTable from "./components/RecyclingTable";
 import AdmitTransactionRecords from "./components/AdmitTransactionRecords";
-import AdminBoxManageTable from "./components/table/AdminBoxManageTable";
-import AdminInfoBoxTable from "./components/table/AdminInfoTable";
-import StationInfoTable from "./components/table/StationInfoTable";
-import MemberInfoPointTable from "./components/table/MemberInfoPointTable";
-import MemberInfoHistoryTable from "./components/table/MemberInfoHistoryTable";
-import AdminDeprecatedTable from "./components/table/AdminDeprecatedTable";
-import AdminTradeHistoryTable from "./components/table/AdminTradeHistoryTable";
-import AdminTradeTable from "./components/table/AdminTradeTable";
+
 
 const queryClient = new QueryClient();
 
@@ -67,10 +60,6 @@ function App() {
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
           <Route path="*" element={<PageNotFound />} />
-
-          {/* 測試用 */}
-          <Route path="tableTest" element={<AdminTradeTable />} />
-
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
