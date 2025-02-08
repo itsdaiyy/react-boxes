@@ -1,6 +1,8 @@
 // 5-7 回收站點管理者後台 - 售出紙箱流程
 import { useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { StyleSheetManager } from 'styled-components'
+import isPropValid from '@emotion/is-prop-valid';
 
 // 假資料
 const tempData = [
@@ -272,24 +274,26 @@ const AdminTradeTable = () => {
   // );
 
   return (
-    <DataTable
-      columns={columns}
-      data={tempData}
-      customStyles={customStyles}
-      selectableRows
-      subHeader
-      subHeaderComponent={
-        <div className='flex justify-between w-full'>
-          <input
-            type="text"
-            placeholder="搜尋紙箱編號"
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-            className="p-2 border rounded "
-          />
-        </div>
-      }
-    />
+    <StyleSheetManager shouldForwardProp={isPropValid}>
+      <DataTable
+        columns={columns}
+        data={tempData}
+        customStyles={customStyles}
+        selectableRows
+        subHeader
+        subHeaderComponent={
+            <div className='flex justify-between w-full'>
+              <input
+                type="text"
+                placeholder="搜尋紙箱編號"
+                value={filterText}
+                onChange={(e) => setFilterText(e.target.value)}
+                className="p-2 border rounded"
+              />
+            </div>
+        }
+        />
+    </StyleSheetManager>
   );
 };
 

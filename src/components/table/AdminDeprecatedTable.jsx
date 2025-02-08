@@ -1,6 +1,8 @@
 // 5-4 待回收紙箱列表（報廢）
 import { useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { StyleSheetManager } from 'styled-components'
+import isPropValid from '@emotion/is-prop-valid';
 import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 
@@ -173,7 +175,8 @@ const AdminDeprecatedTable = () => {
   //   )
   // );
 
-  return (<>
+  return (
+    <StyleSheetManager shouldForwardProp={isPropValid}>
     <DataTable
       columns={columns}
       data={tempData}
@@ -196,7 +199,7 @@ const AdminDeprecatedTable = () => {
         </div>
       }
     />
-  </>
+  </StyleSheetManager>
     
   );
 };
