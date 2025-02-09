@@ -18,6 +18,7 @@ import BoxesTable from "./components/BoxesTable";
 import RecyclingTable from "./components/RecyclingTable";
 import AdmitTransactionRecords from "./components/AdmitTransactionRecords";
 
+
 const queryClient = new QueryClient();
 
 function App() {
