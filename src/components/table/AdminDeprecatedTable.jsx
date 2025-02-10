@@ -73,7 +73,7 @@ const AdminDeprecatedTable = () => {
   // 取得紙箱資廖
   const { boxes, isLoadingBoxes, boxesError } = useBoxesForScraping();
   if (isLoadingBoxes) return <Spinner />;
-  if (boxesError) return <ErrorMessage error={boxesError} />;
+  if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
   // 欄位
   const columns = [
