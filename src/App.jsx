@@ -14,10 +14,9 @@ import MemberInfo from "./components/MemberInfo";
 import PointRecords from "./components/PointRecords";
 import TransactionRecords from "./components/TransactionRecords";
 import AdmitInfo from "./components/AdmitInfo";
-import BoxesTable from "./components/BoxesTable";
-import RecyclingTable from "./components/RecyclingTable";
+import AdminBoxManageTable from "./components/table/AdminBoxManageTable";
+import AdminDeprecatedTable from "./components/table/AdminDeprecatedTable";
 import AdmitTransactionRecords from "./components/AdmitTransactionRecords";
-
 
 const queryClient = new QueryClient();
 
@@ -49,8 +48,8 @@ function App() {
             <Route path="admit">
               <Route index element={<Navigate replace to="admitInfo" />} />
               <Route path="admitInfo" element={<AdmitInfo />} />
-              <Route path="boxesTable" element={<BoxesTable />} />
-              <Route path="recyclingTable" element={<RecyclingTable />} />
+              <Route path="boxesTable" element={<AdminBoxManageTable />} />
+              <Route path="recyclingTable" element={<AdminDeprecatedTable />} />
               <Route
                 path="admitTransactionRecords"
                 element={<AdmitTransactionRecords />}
