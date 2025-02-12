@@ -19,6 +19,7 @@ const style = {
   leftBox:
     "hidden h-full items-center bg-signin bg-cover bg-center bg-no-repeat p-4 lg:flex lg:w-2/3",
 };
+
 function Signin() {
   return (
     <div>

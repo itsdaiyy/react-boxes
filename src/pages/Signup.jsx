@@ -27,7 +27,7 @@ function Signup() {
         <Card className={style.cardContainer}>
           <div className={style.leftBox}>
             <p className="fs-1 font-bold text-white">
-              登入帳號 <br />
+              註冊帳號 <br />
               加入返鄉大冒險
             </p>
           </div>
