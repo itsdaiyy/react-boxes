@@ -1,15 +1,15 @@
 // 5-3 回收站點管理者後台 - 待認領／自用紙箱列表
-import { useState } from "react";
 import DataTable from "react-data-table-component";
 import { StyleSheetManager } from "styled-components";
 import isPropValid from "@emotion/is-prop-valid";
-import { FaPen } from "react-icons/fa";
-import { FaTrashAlt } from "react-icons/fa";
-import { FaFolderPlus, FaCashRegister } from "react-icons/fa";
+import { useState } from "react";
 
+// react query
 import { useBoxesForAdminManaging } from "../..//hooks/useBoxes";
 import Spinner from "../../components/Spinner";
 import ErrorMessage from "../../components/ErrorMessage";
+
+// shadcn
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+// react icons
+import { FaPen } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
+import { FaFolderPlus, FaCashRegister } from "react-icons/fa";
 
 import UpdateBoxesForm from "../form/UpdateBoxesForm";
 
