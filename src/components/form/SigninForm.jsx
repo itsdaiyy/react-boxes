@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,8 +15,14 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 
 const formSchema = z.object({
-  email: z.string(),
-  password: z.string(),
+  email: z
+    .string()
+    .nonempty("請填寫會員信箱")
+    .email("請輸入有效的電子信箱格式，例如：user@example.com"),
+  password: z
+    .string()
+    .nonempty("請填寫密碼")
+    .min(8, { message: "密碼長度至少為 8 個字元。" }),
 });
 
 function SigninForm() {
@@ -45,7 +50,11 @@ function SigninForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-1.5"
+        noValidate
+      >
         <FormField
           control={form.control}
           name="email"
@@ -60,9 +69,6 @@ function SigninForm() {
                   className="bg-white focus-visible:border-none focus-visible:ring-main-500"
                 />
               </FormControl>
-              <FormDescription className="text-[12px]">
-                請輸入有效的電子信箱格式，例如：user@example.com
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -81,10 +87,6 @@ function SigninForm() {
                   className="bg-white focus-visible:border-none focus-visible:ring-main-500"
                 />
               </FormControl>
-              <FormDescription className="text-[12px]">
-                密碼長度至少為 8
-                個字元，建議使用包含大小寫字母、數字和符號的複雜密碼。
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
