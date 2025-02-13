@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
+// shadcn 元件
 import {
   Form,
   FormControl,
@@ -14,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 
+// zod驗證規則
 const formSchema = z.object({
   username: z.string().nonempty("請填寫會員名稱"),
   email: z
@@ -35,7 +38,10 @@ function SigninForm() {
       password: "",
     },
   });
+  const { reset, formState } = form;
+  const { isSubmitSuccessful } = formState;
 
+  // 表單提交
   function onSubmit(values) {
     try {
       console.log(values);
@@ -49,6 +55,12 @@ function SigninForm() {
       // toast.error("Failed to submit the form. Please try again.");
     }
   }
+  // 表單重置
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <Form {...form}>
