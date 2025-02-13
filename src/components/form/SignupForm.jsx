@@ -23,7 +23,7 @@ const formSchema = z.object({
   password: z
     .string()
     .nonempty("請填寫密碼")
-    .min(8, { message: "密碼長度至少為 8 個字元。" }),
+    .min(8, { message: "密碼長度至少為 8 個字元" }),
 });
 
 function SigninForm() {
