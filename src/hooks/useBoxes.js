@@ -5,9 +5,9 @@ import {
 } from "@/services/apiBoxes";
 import { useQuery } from "@tanstack/react-query";
 /**
- * 自訂 Hook：使用 React Query 來取得紙箱資料
+ * 自訂 Hook：使用 React Query 來取得紙箱狀態為可認領的紙箱資料
  *
- * 使用 `useQuery` 來向 API 請求紙箱資料，並處理資料加載與錯誤狀態。
+ * 使用 `useQuery` 來向 API 請求紙箱狀態為可認領的紙箱資料，並處理資料加載與錯誤狀態。
  *
  * @returns {Object} 返回包含三個屬性的物件：
  *   - `boxes` {Array|null} - 紙箱資料陣列，若尚未請求或發生錯誤則為 `null`
@@ -27,9 +27,9 @@ export function useBoxesForSelling() {
   return { boxes, isLoadingBoxes, boxesError };
 }
 /**
- * 自訂 Hook：使用 React Query 來取得紙箱資料
+ * 自訂 Hook：使用 React Query 來取得 5-3 可認領紙箱列表的紙箱資料
  *
- * 使用 `useQuery` 來向 API 請求紙箱資料，並處理資料加載與錯誤狀態。
+ * 使用 `useQuery` 來向 API 請求可認領紙箱列表的紙箱資料，並處理資料加載與錯誤狀態。
  *
  * @returns {Object} 返回包含三個屬性的物件：
  *   - `boxes` {Array|null} - 紙箱資料陣列，若尚未請求或發生錯誤則為 `null`
@@ -50,9 +50,9 @@ export function useBoxesForAdminManaging() {
 }
 
 /**
- * 自訂 Hook：使用 React Query 來取得紙箱資料
+ * 自訂 Hook：使用 React Query 來取得 5-4 待回收紙箱列表的紙箱資料
  *
- * 使用 `useQuery` 來向 API 請求紙箱資料，並處理資料加載與錯誤狀態。
+ * 使用 `useQuery` 來向 API 請求 5-4 待回收紙箱列表的紙箱資料，並處理資料加載與錯誤狀態。
  *
  * @returns {Object} 返回包含三個屬性的物件：
  *   - `boxes` {Array|null} - 紙箱資料陣列，若尚未請求或發生錯誤則為 `null`

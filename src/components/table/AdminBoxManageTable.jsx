@@ -1,14 +1,13 @@
 // 5-3 回收站點管理者後台 - 待認領／自用紙箱列表
+import { useState } from "react";
+// React Data Table Component
 import DataTable from "react-data-table-component";
 import { StyleSheetManager } from "styled-components";
 import isPropValid from "@emotion/is-prop-valid";
-import { useState } from "react";
-
 // react query
 import { useBoxesForAdminManaging } from "../..//hooks/useBoxes";
 import Spinner from "../../components/Spinner";
 import ErrorMessage from "../../components/ErrorMessage";
-
 // shadcn
 import {
   Dialog,
@@ -22,8 +21,8 @@ import {
 import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaFolderPlus, FaCashRegister } from "react-icons/fa";
-
-import UpdateBoxesForm from "../form/UpdateBoxesForm";
+// 更新紙箱資料表單元件
+import UpdateBoxForm from "../form/UpdateBoxForm";
 
 // 表格內客製化樣式 (或建立style.css覆蓋樣式)
 const customStyles = {
@@ -146,7 +145,7 @@ const AdminBoxManageTable = () => {
                   </p>
                 </div>
               </div>
-              <UpdateBoxesForm row={row} />
+              <UpdateBoxForm row={row} />
             </DialogContent>
           </Dialog>
           <button className="rounded-md bg-red-600 p-2 text-white hover:bg-red-500 focus-visible:outline-none">
