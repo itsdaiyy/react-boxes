@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 export function useUpdateStationInfo() {
   const {
-    mutate: updateInfo,
+    mutate: updateStation,
     data: updatedStation,
     error: updatedError,
     isPending: isUpdating,
@@ -15,5 +15,5 @@ export function useUpdateStationInfo() {
     onSuccess: () => toast.success("更新成功"),
   });
 
-  return { updateInfo, updatedStation, updatedError, isUpdating };
+  return { updateStation, updatedStation, updatedError, isUpdating };
 }

@@ -1,5 +1,40 @@
+import { apiUpdateStationInfo } from "@/services/apiStations";
+import { Button } from "./ui/button";
+import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
+import { useStation } from "@/hooks/useStation";
+import { getTimestamp } from "@/utils/helpers";
+
 function AdmitInfo() {
-  return <div>5-2 回收站點回收資訊總覽</div>;
+  const { station, isLoadingStation, stationError } = useStation(1);
+  const { updateStation, isUpdating } = useUpdateStationInfo();
+
+  return (
+    <div>
+      5-2 回收站點回收資訊總覽
+      <Button
+        onClick={() =>
+          updateStation({
+            id: 2,
+            address: "新北市三重區大同南路152號1樓",
+            phone: "+886-2-2975970",
+            station_daily_hours: [
+              {
+                id: 3,
+                open_time: `05:00:00+00`,
+                close_time: `21:00:00+00`,
+                updated_at: getTimestamp(),
+              },
+            ],
+          })
+        }
+        disabled={isUpdating}
+      >
+        Update station
+      </Button>
+      {station && <p>{station?.station_name}</p>}
+    </div>
+  );
 }
+``;
 
 export default AdmitInfo;
