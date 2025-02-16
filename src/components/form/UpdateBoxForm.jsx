@@ -30,7 +30,12 @@ const formSchema = z.object({
 export default function UpdateBoxForm({ row }) {
   const { mutate, status } = useMutation({
     mutationFn: apiUpdateBox,
-    onSuccess: (data) => console.log(`box updated to ${JSON.stringify(data)}`),
+    onSuccess: () => {
+      console.log("update successfully");
+    },
+    onError: (error) => {
+      console.error("更新失敗:", error);
+    },
   });
   const form = useForm({
     defaultValues: {
@@ -46,7 +51,7 @@ export default function UpdateBoxForm({ row }) {
   function onSubmit(values) {
     try {
       console.log(values);
-      mutate({ row, values });
+      mutate(row, values);
       reset();
     } catch (error) {
       console.error("Form submission error", error);

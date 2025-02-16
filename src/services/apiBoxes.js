@@ -99,7 +99,7 @@ export async function apiUpdateBox({ row, values }) {
   try {
     const { data: box, error } = await supabase
       .from("boxes")
-      .update({ ...values, updated_at: new Date() })
+      .update({ ...values, updated_at: Date.now() })
       .eq("id", row.id)
       .select();
 
