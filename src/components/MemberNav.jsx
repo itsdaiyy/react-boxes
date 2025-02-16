@@ -19,8 +19,8 @@ function MemberNav() {
   const getNavType = () => {
     if (location.pathname.startsWith("/member/normal")) {
       return "normal";
-    } else if (location.pathname.startsWith("/member/admit")) {
-      return "admit";
+    } else if (location.pathname.startsWith("/member/admin")) {
+      return "admin";
     } else {
       return "normal"; // 預設值
     }
@@ -42,7 +42,7 @@ function MemberNav() {
             <h4>會員頁面</h4>
           </NavLink>
           <NavLink
-            to="/member/admit"
+            to="/member/admin"
             className={({ isActive }) =>
               isActive ? style.mainNavActive : style.mainNav
             }
@@ -51,7 +51,7 @@ function MemberNav() {
           </NavLink>
         </div>
       </div>
-      {navType === "normal" ? <NormalNav /> : <AdmitNav />}
+      {navType === "normal" ? <NormalNav /> : <AdminNav />}
       <div className="container mx-auto">
         <Outlet />
       </div>
@@ -92,12 +92,12 @@ function NormalNav() {
   );
 }
 
-function AdmitNav() {
+function AdminNav() {
   return (
     <div className="bg-white">
       <div className={style.secondNavContainer}>
         <NavLink
-          to="admit/admitInfo"
+          to="admin/adminInfo"
           className={({ isActive }) =>
             isActive ? style.secondActive : style.secondNav
           }
@@ -105,7 +105,7 @@ function AdmitNav() {
           <h4>站點概況</h4>
         </NavLink>
         <NavLink
-          to="admit/boxesTable"
+          to="admin/boxesTable"
           className={({ isActive }) =>
             isActive ? style.secondActive : style.secondNav
           }
@@ -113,7 +113,7 @@ function AdmitNav() {
           <h4>可認領紙箱列表</h4>
         </NavLink>
         <NavLink
-          to="admit/recyclingTable"
+          to="admin/recyclingTable"
           className={({ isActive }) =>
             isActive ? style.secondActive : style.secondNav
           }
@@ -121,7 +121,7 @@ function AdmitNav() {
           <h4>待回收紙箱列表</h4>
         </NavLink>
         <NavLink
-          to="admit/admitTransactionRecords"
+          to="admin/adminTransactionRecords"
           className={({ isActive }) =>
             isActive ? style.secondActive : style.secondNav
           }

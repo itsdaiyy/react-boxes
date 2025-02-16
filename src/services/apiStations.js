@@ -33,16 +33,92 @@ export async function apiGetStationById(stationId) {
   try {
     let { data: station, error } = await supabase
       .from("stations")
-      .select(`*,station_daily_hours(id,open_time,close_time,day_of_week)`)
+      .select(
+        `*,station_daily_hours(id,open_time,close_time,day_of_week, updated_at)`,
+      )
       .eq("id", stationId)
       .single();
     if (error) throw error;
-
-    console.log(station);
 
     return station;
   } catch (error) {
     console.error(error);
     throw new Error(`無法取得 Station - id: ${stationId}  資料，請稍後再試`);
   }
+}
+
+// StationInfo 更新物件格式：
+// {
+//   id: 2,    // station_id
+//   address: "新北市三重區大同南路152號1樓",
+//   phone: "+886-2-2975970",
+//   station_daily_hours: [
+//     {
+//       id: 3,   //station_daily_hours id
+//       open_time: `05:00:00+00`,
+//       close_time: `21:00:00+00`,
+//       updated_at: getTimestamp(),
+//     },
+//   ],
+// }
+export async function apiUpdateStationInfo(newData) {
+  const { id, phone, address, station_daily_hours, updated_at } = newData;
+
+  const infoObj = { phone, address, updated_at };
+
+  // 更新基本資訊3
+  try {
+    const { data: station, error } = await supabase
+      .from("stations")
+      .update(infoObj)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    let updatedHours = [];
+
+    // 更新營業時間（如果有提供）
+    if (Array.isArray(station_daily_hours) && station_daily_hours.length > 0) {
+      const { data, error } = await updateStationHours(station_daily_hours);
+
+      if (error) {
+        console.log(error);
+        throw error;
+      }
+      updatedHours = data;
+    }
+
+    return { ...station, station_daily_hours: updatedHours };
+  } catch (error) {
+    console.error(error);
+    throw new Error(`無法更新 Station 資訊，請稍後再試`);
+  }
+}
+
+// Station Hours 更新物件格式：
+// [
+//   {
+// id: 3,   // 筆需要傳入時間 id
+//     open_time: `05:00:00+00`,
+//     close_time: `21:00:00+00`,
+//     updated_at: getTimestamp(),
+//   },
+// ];
+export async function updateStationHours(hoursData) {
+  const missingId = hoursData.find((el) => !el.id);
+
+  if (missingId) {
+    return { error: new Error(`更新站點營業時間時，每筆記錄都必須包含 id`) };
+  }
+
+  const { data, error } = await supabase
+    .from("station_daily_hours")
+    .upsert(hoursData, {
+      onConflict: "id",
+    })
+    .select();
+
+  return { data, error };
 }
