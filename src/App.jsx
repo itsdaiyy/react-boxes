@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
 
 import HomePage from "./pages/HomePage";
 import Map from "./components/Map";
@@ -13,11 +14,10 @@ import PageNotFound from "./pages/PageNotFound";
 import MemberInfo from "./components/MemberInfo";
 import PointRecords from "./components/PointRecords";
 import TransactionRecords from "./components/TransactionRecords";
-import AdmitInfo from "./components/AdmitInfo";
+import AdminInfo from "./components/AdminInfo";
 import AdminBoxManageTable from "./components/table/AdminBoxManageTable";
 import AdminDeprecatedTable from "./components/table/AdminDeprecatedTable";
-import AdmitTransactionRecords from "./components/AdmitTransactionRecords";
-import { Toaster } from "react-hot-toast";
+import AdminTransactionRecords from "./components/AdminTransactionRecords";
 
 const queryClient = new QueryClient();
 
@@ -47,13 +47,13 @@ function App() {
               />
             </Route>
             <Route path="admin">
-              <Route index element={<Navigate replace to="admitInfo" />} />
-              <Route path="admitInfo" element={<AdmitInfo />} />
+              <Route index element={<Navigate replace to="adminInfo" />} />
+              <Route path="adminInfo" element={<AdminInfo />} />
               <Route path="boxesTable" element={<AdminBoxManageTable />} />
               <Route path="recyclingTable" element={<AdminDeprecatedTable />} />
               <Route
-                path="admitTransactionRecords"
-                element={<AdmitTransactionRecords />}
+                path="adminTransactionRecords"
+                element={<AdminTransactionRecords />}
               />
             </Route>
           </Route>

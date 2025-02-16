@@ -3,7 +3,7 @@ import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
 import { useStation } from "@/hooks/useStation";
 import { getTimestamp } from "@/utils/helpers";
 
-function AdmitInfo() {
+function AdminInfo() {
   const { station, isLoadingStation, stationError } = useStation(1);
   const { updateStation, isUpdating } = useUpdateStationInfo();
 
@@ -37,4 +37,4 @@ function AdmitInfo() {
 }
 ``;
 
-export default AdmitInfo;
+export default AdminInfo;
