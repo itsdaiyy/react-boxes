@@ -1,4 +1,3 @@
-import { apiUpdateStationInfo } from "@/services/apiStations";
 import { Button } from "./ui/button";
 import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
 import { useStation } from "@/hooks/useStation";
@@ -14,13 +13,14 @@ function AdmitInfo() {
       <Button
         onClick={() =>
           updateStation({
-            id: 2,
+            id: 1,
             address: "新北市三重區大同南路152號1樓",
             phone: "+886-2-2975970",
+            updated_at: getTimestamp(),
             station_daily_hours: [
               {
                 id: 3,
-                open_time: `05:00:00+00`,
+                open_time: `07:00:00+00`,
                 close_time: `21:00:00+00`,
                 updated_at: getTimestamp(),
               },
