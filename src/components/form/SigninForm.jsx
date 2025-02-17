@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -16,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 
+import { useSignIn } from "@/hooks/useSignIn";
+
 // zod驗證規則
 const formSchema = z.object({
   email: z
@@ -28,37 +29,25 @@ const formSchema = z.object({
     .min(8, { message: "密碼長度至少為 8 個字元" }),
 });
 
+// storeOwner
+// test01@gmail.com
+// password1
 function SigninForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "test01@gmail.com",
+      password: "password1",
     },
   });
-  const { reset, formState } = form;
-  const { isSubmitSuccessful } = formState;
+  const { reset } = form;
+  const { signIn, isLoading } = useSignIn();
 
   // 表單提交
-  function onSubmit(values) {
-    try {
-      console.log(values);
-      // toast(
-      //   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-      //     <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-      //   </pre>,
-      // );
-    } catch (error) {
-      console.error("Form submission error", error);
-      // toast.error("Failed to submit the form. Please try again.");
-    }
-  }
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset();
-    }
-  }, [isSubmitSuccessful, reset]);
+  const onSubmit = (values) =>
+    signIn(values, {
+      onSettled: () => reset(),
+    });
 
   return (
     <Form {...form}>
@@ -103,8 +92,9 @@ function SigninForm() {
             </FormItem>
           )}
         />
-
-        <Button type="submit">登入</Button>
+        <Button type="submit" disabled={isLoading}>
+          登入
+        </Button>
       </form>
     </Form>
   );
