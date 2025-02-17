@@ -24,7 +24,7 @@ export function useSignIn() {
       toast.success(`登入成功`);
 
       // 4. 跳轉回資訊頁
-      navigate("/member", { replace: true });
+      navigate("/", { replace: true });
     },
     onError: (error) => {
       console.log(error.message);
