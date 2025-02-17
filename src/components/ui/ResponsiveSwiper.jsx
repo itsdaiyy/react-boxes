@@ -14,6 +14,7 @@ import guardian from "../../assets/guardian.svg";
 // import guardian_locked from '../../assets/guardian_locked.svg'
 import { IoIosArrowForward } from "react-icons/io";
 
+// 初始化顯示的Slide，用memberRanking判斷
 // { initialSlide = 0 }
 const ResponsiveSwiper = () => {
   const [slidesPerView, setSlidesPerView] = useState(4);
@@ -41,18 +42,14 @@ const ResponsiveSwiper = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // 用memberRanking判斷，meberRanking來自轉運紙箱數
+  // 用memberRanking判斷，meberRanking以轉運紙箱數判斷
   // const memberRanking = 1
   // const getReward = () => {
 
-  //   if (memberRanking = 1) {
-  //     return ""
-  //   }
-  // }
   const style = {
     cardContainer: "2xl:mx-5 md:mx-2",
-    card: "flex flex-col justify-center rounded-2xl border-4 border-main-500 bg-main-100 px-10 py-5 md:py-3 md:px-5",
-    cardTilte: "pt-4 text-2xl font-bold text-main-500 sm:text-xl",
+    card: "flex flex-col justify-center rounded-2xl border-4 border-main-500 bg-main-100 px-5 py-5 md:py-3",
+    cardTilte: "pt-4 text-xl font-bold text-main-500 md:text-xl",
     cardButton:
       "btn my-5 w-full md:text-sm lg:text-sm p-2 xl:text-base 2xl:text-xl",
     getRewardText: "hidden", //依照memberRanking判斷
