@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvent, } from "react-leaflet";
+import { NavLink } from 'react-router-dom';
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-// import "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=keyboard_arrow_down"
 
 import { Button } from "./ui/button";
 import { useStation } from "@/hooks/useStation";
@@ -43,6 +43,7 @@ function Map() {
 
   const [isAllOpenTime, setIsAllOpenTime] = useState(false); //開啟詳細營業時間
   const [isBoxSize, setIsBoxSize] = useState(false);//開啟查看紙箱尺寸
+  const [isSideBar, setIsSideBar] = useState(false);//開啟SideBar
 
   if (isLoadingStations) return <Spinner />;
   if (stationsError) return <ErrorMessage error={stationsError} />;
@@ -111,8 +112,8 @@ function Map() {
       <MapNav />
 
       <div className="mx-auto flex flex-col md:flex-row justify-between relative" style={{ height: '700px', width: "100%" }}>
-
-        <div className="w-[486px] overflow-auto flex-shrink-0">
+        {/* 側邊欄 */}
+        {isSideBar ? <div className="w-[486px] overflow-auto flex-shrink-0">
           {station ? (
             <div>
               <img src={station.image_url} alt={station.station_name} className="object-cover w-full" />
@@ -199,7 +200,7 @@ function Map() {
                       </button>
                     </div>
                     {isBoxSize ? (
-                      <ul className="text-[#6F6F6F]">
+                      <ul className="text-[#6F6F6F] list-disc list-inside">
                         <li>小紙箱：總長 50 公分以下</li>
                         <li>中紙箱：總長 50 ~ 120 公分</li>
                         <li>大紙箱：總長 120 公分以上</li>
@@ -209,14 +210,14 @@ function Map() {
 
                   </div>
                 </div>
-
-                <button className="btn">查看紙箱列表</button>
+                <NavLink className="btn" to={`/map/${station.id}`}>查看更多</NavLink>
 
               </div>
             </div>
           ) : '請選擇站點'}
 
-        </div>
+        </div> : <></>}
+
 
 
         {/* 地圖 */}
@@ -258,6 +259,15 @@ function Map() {
           }
 
           <UserLocation />
+
+          {/* 側邊欄開關 */}
+          <button className="absolute top-[273px] left-[0px] w-[40px] h-[72px] z-[999999999] bg-white border-t border-e border-b rounded-r-lg" onClick={() => setIsSideBar(!isSideBar)}>
+            {isSideBar ? <span className="material-symbols-outlined">
+              arrow_back_ios
+            </span> : <span className="material-symbols-outlined">
+              chevron_right
+            </span>}
+          </button>
         </MapContainer>
       </div>
     </>
