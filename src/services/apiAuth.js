@@ -39,3 +39,13 @@ export async function apiSignUp({ username, email, password }) {
     throw new Error(error.message);
   }
 }
+
+export async function apiSignOut() {
+  try {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) throw error;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
