@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -15,6 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+
+import { useSignUp } from "@/hooks/useSignUp";
 
 // zod驗證規則
 const formSchema = z.object({
@@ -33,34 +34,18 @@ function SigninForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-      email: "",
-      password: "",
+      username: "ollieeeee",
+      email: "1111@test.com",
+      password: "12345678",
     },
   });
-  const { reset, formState } = form;
-  const { isSubmitSuccessful } = formState;
+  const { reset } = form;
+  const { signUp, isLoading } = useSignUp();
 
   // 表單提交
-  function onSubmit(values) {
-    try {
-      console.log(values);
-      // toast(
-      //   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-      //     <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-      //   </pre>,
-      // );
-    } catch (error) {
-      console.error("Form submission error", error);
-      // toast.error("Failed to submit the form. Please try again.");
-    }
+  function onSubmit({ username, email, password }) {
+    signUp({ username, email, password }, { onSettled: () => reset() });
   }
-  // 表單重置
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset();
-    }
-  }, [isSubmitSuccessful, reset]);
 
   return (
     <Form {...form}>
@@ -124,7 +109,9 @@ function SigninForm() {
           )}
         />
 
-        <Button type="submit">註冊</Button>
+        <Button type="submit" disabled={isLoading}>
+          註冊
+        </Button>
       </form>
     </Form>
   );
