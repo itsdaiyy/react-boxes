@@ -2,7 +2,7 @@ import { Button } from "./ui/button";
 
 import { useStation } from "@/hooks/useStation";
 import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
-import { useUpdateRecyclableBoxes } from "@/hooks/useUpdateRecyclableBoxes";
+import { useUpdateAvailableSlots } from "@/hooks/useUpdateAvailableSlots";
 import { getTimestamp } from "@/utils/helpers";
 
 import Spinner from "./Spinner";
@@ -10,7 +10,7 @@ import Spinner from "./Spinner";
 function AdminInfo() {
   const { station, isLoadingStation, stationError } = useStation(1);
   const { updateStation, isUpdating } = useUpdateStationInfo();
-  const { updateRecyclableBoxes, isLoading } = useUpdateRecyclableBoxes();
+  const { updateAvailableSlots, isLoading } = useUpdateAvailableSlots();
 
   if (isLoadingStation) return <Spinner />;
 
@@ -56,11 +56,11 @@ function AdminInfo() {
         <Button
           className="ms-4"
           onClick={() => {
-            updateRecyclableBoxes({
+            updateAvailableSlots({
               stationId: station.id,
-              xlCounts: 1,
+              xlCounts: 0,
               lCounts: 0,
-              mCounts: 6,
+              mCounts: 0,
               sCounts: 10,
             });
           }}
@@ -72,7 +72,7 @@ function AdminInfo() {
         <p>店名：{station_name}</p>
         <p>地址：{address}</p>
         <p>電話：{phone}</p>
-        <p>
+        <div>
           營業時間：
           <ul className="ms-5 list-disc ps-5">
             {station_daily_hours.map((el) => (
@@ -82,17 +82,16 @@ function AdminInfo() {
               </li>
             ))}
           </ul>
-        </p>
+        </div>
         <p>可認領紙箱數量 XL：{pending_boxes_xl}</p>
         <p>可認領紙箱數量 L：{pending_boxes_l}</p>
         <p>可認領紙箱數量 M：{pending_boxes_m}</p>
         <p>可認領紙箱數量 S：{pending_boxes_s}</p>
-        <p>可回收紙箱數量 XL：{available_slots.XL}</p>
-        <p>可回收紙箱數量 L：{available_slots.L}</p>
-        <p>可回收紙箱數量 M：{available_slots.M}</p>
-        <p>可回收紙箱數量 S：{available_slots.S}</p>
+        <p>可回收紙箱空位數 XL：{available_slots.XL}</p>
+        <p>可回收紙箱空位數 L：{available_slots.L}</p>
+        <p>可回收紙箱空位數 M：{available_slots.M}</p>
+        <p>可回收紙箱空位數 S：{available_slots.S}</p>
       </div>
-      <div className="my-4"></div>
     </div>
   );
 }

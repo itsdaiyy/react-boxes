@@ -126,14 +126,13 @@ export async function updateStationHours(hoursData) {
   return { data, error };
 }
 
-export async function apiUpdateRecyclableBoxes({
+export async function apiUpdateAvailableSlots({
   stationId,
   xlCounts,
   lCounts,
   mCounts,
   sCounts,
 }) {
-  console.log({ stationId, xlCounts, lCounts, mCounts, sCounts });
   try {
     const { data, error } = await supabase
       .from("stations")
