@@ -2,7 +2,6 @@ import supabase from "./supabase";
 
 /**
  * 從 Supabase 取得所有站點資料
- *
  * 該函式向 Supabase 的 `stations` 表格請求資料，並處理錯誤。
  *
  * @async
@@ -34,8 +33,12 @@ export async function apiGetStationById(stationId) {
     let { data: station, error } = await supabase
       .from("stations")
       .select(
-        `*,station_daily_hours(id,open_time,close_time,day_of_week, updated_at)`,
+        `*,station_daily_hours(id, open_time, close_time, day_of_week, updated_at)`,
       )
+      .order("day_of_week", {
+        referencedTable: "station_daily_hours",
+        ascending: true,
+      })
       .eq("id", stationId)
       .single();
     if (error) throw error;
@@ -54,7 +57,7 @@ export async function apiGetStationById(stationId) {
 //   phone: "+886-2-2975970",
 //   station_daily_hours: [
 //     {
-//       id: 3,   //station_daily_hours id
+//       id: 3,   // 需要傳入時間 id
 //       open_time: `05:00:00+00`,
 //       close_time: `21:00:00+00`,
 //       updated_at: getTimestamp(),
@@ -100,7 +103,7 @@ export async function apiUpdateStationInfo(newData) {
 // Station Hours 更新物件格式：
 // [
 //   {
-// id: 3,   // 筆需要傳入時間 id
+//     id: 3,   // 需要傳入時間 id
 //     open_time: `05:00:00+00`,
 //     close_time: `21:00:00+00`,
 //     updated_at: getTimestamp(),
@@ -121,4 +124,31 @@ export async function updateStationHours(hoursData) {
     .select();
 
   return { data, error };
+}
+
+export async function apiUpdateRecyclableBoxes({
+  stationId,
+  xlCounts,
+  lCounts,
+  mCounts,
+  sCounts,
+}) {
+  console.log({ stationId, xlCounts, lCounts, mCounts, sCounts });
+  try {
+    const { data, error } = await supabase
+      .from("stations")
+      .update({
+        available_slots: { L: lCounts, M: mCounts, S: sCounts, XL: xlCounts },
+      })
+      .eq("id", stationId)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
 }
