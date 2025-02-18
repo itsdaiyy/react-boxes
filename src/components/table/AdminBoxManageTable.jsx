@@ -193,19 +193,3 @@ const AdminBoxManageTable = () => {
 };
 
 export default AdminBoxManageTable;
-
-{
-  /* <div className='flex justify-between w-full'>
-          <input
-            type="text"
-            placeholder="搜尋紙箱編號"
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-            className="p-2 border rounded "
-          />
-          <div className='flex gap-5'>
-            <button className="btn p-2 border flex items-center"><FaFolderPlus /> 新增紙箱</button>
-            <button className="btn p-2 border flex items-center"><FaCashRegister /> 交易紙箱</button>
-          </div>
-        </div> */
-}

@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import PropTypes from "prop-types";
 import * as z from "zod";
 import {
   Form,
@@ -16,10 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// react query: 更新單一筆紙箱紀錄
-import { useMutation } from "@tanstack/react-query";
-import { apiUpdateBox } from "@/services/apiBoxes";
 
+UpdateBoxForm.propTypes = { row: PropTypes.object };
 const formSchema = z.object({
   size: z.string().optional(),
   condition: z.string().optional(),
@@ -28,15 +27,6 @@ const formSchema = z.object({
 });
 
 export default function UpdateBoxForm({ row }) {
-  const { mutate, status } = useMutation({
-    mutationFn: apiUpdateBox,
-    onSuccess: () => {
-      console.log("update successfully");
-    },
-    onError: (error) => {
-      console.error("更新失敗:", error);
-    },
-  });
   const form = useForm({
     defaultValues: {
       size: row.size,
@@ -51,7 +41,6 @@ export default function UpdateBoxForm({ row }) {
   function onSubmit(values) {
     try {
       console.log(values);
-      mutate(row, values);
       reset();
     } catch (error) {
       console.error("Form submission error", error);
