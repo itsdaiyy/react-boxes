@@ -3,7 +3,8 @@ import {
   apiGetBoxesForAdminManaging,
   apiGetBoxesForScraping,
 } from "@/services/apiBoxes";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiUpdateBox } from "@/services/apiBoxes";
 /**
  * 自訂 Hook：使用 React Query 來取得紙箱狀態為可認領的紙箱資料
@@ -73,15 +74,22 @@ export function useBoxesForScraping() {
   return { boxes, isLoadingBoxes, boxesError };
 }
 
-export function updateBox() {
-  const { mutate: updateBox } = useMutation({
-    mutationFn: apiUpdateBox,
+// 更新單一筆紙箱資料
+export function useUpdateBox() {
+  const queryClient = useQueryClient();
+  const {
+    mutate: updateBox,
+    error: updatedError,
+    isPending: isUpdating,
+  } = useMutation({
+    mutationFn: ({ boxId, values }) => apiUpdateBox(boxId, values),
     onSuccess: () => {
-      console.log("update successfully");
+      toast.success("更新成功");
+      queryClient.invalidateQueries({ queryKey: ["boxes", "managing"] });
     },
     onError: (error) => {
-      console.error("更新失敗:", error);
+      toast.error(error.message);
     },
   });
-  return { updateBox };
+  return { updateBox, updatedError, isUpdating };
 }

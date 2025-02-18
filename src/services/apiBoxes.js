@@ -95,15 +95,15 @@ export async function apiGetBoxesForScraping() {
  * @throws {Error} 如果請求過程中發生錯誤，則會拋出錯誤
  */
 
-export async function apiUpdateBox({ row, values }) {
+export async function apiUpdateBox(boxId, values) {
   try {
     const { data: box, error } = await supabase
       .from("boxes")
-      .update({ ...values, updated_at: Date.now() })
-      .eq("id", row.id)
+      .update({ ...values, updated_at: new Date() })
+      .eq("id", boxId)
       .select();
-
     if (error) throw error;
+    if (!box) throw new Error("更新失敗，請檢查 ID 是否正確");
 
     return box;
   } catch (error) {

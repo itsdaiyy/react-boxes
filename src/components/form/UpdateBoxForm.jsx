@@ -17,31 +17,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useUpdateBox } from "@/hooks/useBoxes";
 
 UpdateBoxForm.propTypes = { row: PropTypes.object };
+
 const formSchema = z.object({
-  size: z.string().optional(),
-  condition: z.string().optional(),
-  retention_days: z.string().optional(),
-  status: z.string().optional(),
+  size: z.string(),
+  condition: z.string(),
+  retention_days: z.number(),
+  status: z.string(),
 });
 
 export default function UpdateBoxForm({ row }) {
+  const { updateBox, isUpdating } = useUpdateBox();
+
   const form = useForm({
     defaultValues: {
       size: row.size,
       condition: row.condition,
-      retention_days: row.retention_days?.toString(),
+      retention_days: Number(row.retention_days),
       status: row.status,
     },
     resolver: zodResolver(formSchema),
   });
-  const { reset } = form;
 
   function onSubmit(values) {
+    const formattedValues = {
+      ...values,
+      retention_days: Number(values.retention_days),
+    };
     try {
-      console.log(values);
-      reset();
+      updateBox({ boxId: row.id, values: formattedValues });
+      console.log(row.id, formattedValues);
     } catch (error) {
       console.error("Form submission error", error);
     }
@@ -110,8 +117,8 @@ export default function UpdateBoxForm({ row }) {
             <FormItem>
               <FormLabel>紙箱保留天數</FormLabel>
               <Select
-                onValueChange={field.onChange}
-                defaultValue={row.retention_days?.toString()}
+                onValueChange={(value) => field.onChange(Number(value))}
+                defaultValue={row.retention_days.toString()}
               >
                 <FormControl>
                   <SelectTrigger>
@@ -157,12 +164,8 @@ export default function UpdateBoxForm({ row }) {
           )}
         />
         <div className="flex">
-          <button
-            type="submit"
-            className="btn ml-auto"
-            disabled={status === "pending"}
-          >
-            {status === "pending" ? "更新中" : "確認送出"}
+          <button type="submit" className="btn ml-auto" disabled={isUpdating}>
+            {isUpdating ? "更新中" : "確認送出"}
           </button>
         </div>
       </form>
