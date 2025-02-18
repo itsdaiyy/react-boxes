@@ -1,17 +1,28 @@
 // 5-3 回收站點管理者後台 - 待認領／自用紙箱列表
 import { useState } from "react";
+// React Data Table Component
 import DataTable from "react-data-table-component";
 import { StyleSheetManager } from "styled-components";
 import isPropValid from "@emotion/is-prop-valid";
+// react query
+import { useBoxesForAdminManaging } from "../..//hooks/useBoxes";
+import Spinner from "../../components/Spinner";
+import ErrorMessage from "../../components/ErrorMessage";
+// shadcn
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+// react icons
 import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaFolderPlus, FaCashRegister } from "react-icons/fa";
-
-import { useBoxesForSelling } from "../..//hooks/useBoxes";
-import Spinner from "../../components/Spinner";
-import ErrorMessage from "../../components/ErrorMessage";
-
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+// 更新紙箱資料表單元件
+import UpdateBoxForm from "../form/UpdateBoxForm";
 
 // 表格內客製化樣式 (或建立style.css覆蓋樣式)
 const customStyles = {
@@ -56,12 +67,6 @@ const paginationComponentOptions = {
   selectAllRowsItemText: "全部",
 };
 
-const style = {
-  selectContainer: "mb-4 flex items-center justify-between",
-  select:
-    "fs-6 w-2/3 rounded-sm border p-1 text-black placeholder:text-[#B7B7B7] focus-visible:outline-none",
-};
-
 const AdminBoxManageTable = () => {
   // 篩選搜尋資料
   const [filterText, setFilterText] = useState("");
@@ -71,8 +76,8 @@ const AdminBoxManageTable = () => {
   //   )
   // );
 
-  // 取得紙箱資廖
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForSelling();
+  // 取得可認領紙箱資料
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging();
   if (isLoadingBoxes) return <Spinner />;
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
@@ -112,87 +117,38 @@ const AdminBoxManageTable = () => {
       selector: (row) => (
         <div className="flex gap-2">
           <Dialog>
-            <DialogTrigger className="rounded-md bg-main-600 p-2 text-white hover:bg-main-500 focus-visible:outline-none">
-              <FaPen />
+            <DialogTrigger asChild>
+              <button className="rounded-md bg-main-600 p-2 text-white hover:bg-main-500 focus-visible:outline-none">
+                <FaPen />
+              </button>
             </DialogTrigger>
-            <DialogContent>
-              <div className="flex gap-4">
-                <img
-                  src={row.image_url}
-                  alt="照片"
-                  className="h-[100px] w-[100px]"
-                />
-                <div>
+            <DialogContent className="sm:max-w-[500px]">
+              <DialogHeader>
+                <DialogTitle>編輯紙箱</DialogTitle>
+                <DialogDescription>編輯紙箱資訊</DialogDescription>
+              </DialogHeader>
+              <div className="flex gap-2">
+                <img src={row.image_url} alt="照片" className="w-1/4" />
+                <div className="flex flex-col">
+                  <p>紙箱編號：{row.id}</p>
                   <p>
-                    新增時間： {row.created_at.replace("T", " ").slice(0, 16)}
+                    新增時間：{row.created_at.replace("T", " ").slice(0, 16)}
                   </p>
-                  <p>回收會員： {row.user_id}</p>
-                  <p>紙箱編號： {row.id}</p>
+                  <p>
+                    更新時間：{row.updated_at.replace("T", " ").slice(0, 16)}
+                  </p>
+                  <p className="text-red-500">
+                    保存到期日：{row.updated_at.replace("T", " ").slice(0, 16)}
+                  </p>
+                  <p className="text-red-500">
+                    回收會員：{row.user_id.slice(0, 16)}
+                  </p>
                 </div>
               </div>
-              <form>
-                <div className={style.selectContainer}>
-                  <label htmlFor="size">紙箱大小</label>
-                  <select id="size" className={style.select} value={row.size}>
-                    <option value="特大">特大</option>
-                    <option value="大">大</option>
-                    <option value="中">中</option>
-                    <option value="小">小</option>
-                  </select>
-                </div>
-                <div className={style.selectContainer}>
-                  <label htmlFor="condition">紙箱保存等級</label>
-                  <select
-                    id="condition"
-                    className={style.select}
-                    value={row.condition}
-                  >
-                    <option value="全新">全新</option>
-                    <option value="優">優</option>
-                    <option value="普通">普通</option>
-                    <option value="差">差</option>
-                  </select>
-                </div>
-                <div className={style.selectContainer}>
-                  <label htmlFor="retention_days">紙箱保留天數</label>
-                  <select
-                    id="retention_days"
-                    className={style.select}
-                    value={row.retention_days}
-                  >
-                    <option value="7">7</option>
-                    <option value="30">30</option>
-                    <option value="60">60</option>
-                    <option value="90">90</option>
-                  </select>
-                </div>
-                <div className={style.selectContainer}>
-                  <p>保存到期日</p>
-                  <p className="text-left">2025/02/25</p>
-                </div>
-                <div className={style.selectContainer}>
-                  <label htmlFor="status">紙箱狀態</label>
-                  <select
-                    id="status"
-                    className={style.select}
-                    value={row.status}
-                  >
-                    <option value="可認領">可認領</option>
-                    <option value="自用">自用</option>
-                    <option value="售出">售出</option>
-                    <option value="報廢">被廢</option>
-                    <option value="保留到期">保留到期</option>
-                  </select>
-                </div>
-                <div className="text-right">
-                  <button className="btn" onClick={(e) => e.preventDefault()}>
-                    確認送出
-                  </button>
-                </div>
-              </form>
+              <UpdateBoxForm row={row} />
             </DialogContent>
           </Dialog>
-          <button className="rounded-md bg-red-600 p-2 text-white hover:bg-red-500">
+          <button className="rounded-md bg-red-600 p-2 text-white hover:bg-red-500 focus-visible:outline-none">
             <FaTrashAlt />
           </button>
         </div>
@@ -237,19 +193,3 @@ const AdminBoxManageTable = () => {
 };
 
 export default AdminBoxManageTable;
-
-{
-  /* <div className='flex justify-between w-full'>
-          <input
-            type="text"
-            placeholder="搜尋紙箱編號"
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-            className="p-2 border rounded "
-          />
-          <div className='flex gap-5'>
-            <button className="btn p-2 border flex items-center"><FaFolderPlus /> 新增紙箱</button>
-            <button className="btn p-2 border flex items-center"><FaCashRegister /> 交易紙箱</button>
-          </div>
-        </div> */
-}
