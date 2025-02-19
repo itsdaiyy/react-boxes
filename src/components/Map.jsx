@@ -168,7 +168,7 @@ function Map() {
                     </li>
                     <li className="flex items-start justify-start gap-[8px]">
                       <span className="material-symbols-outlined">call</span>
-                      {`電話:${formatPhoneNumber(station.phone)}`}
+                      {`電話:${station.phone?formatPhoneNumber(station.phone):'尚未填寫'}`}
                     </li>
                     <li className="flex items-start justify-start gap-[8px]">
                       <span className="material-symbols-outlined">
@@ -194,7 +194,7 @@ function Map() {
                     )}
                   </ul>
 
-                  <div className="mb-[12px] rounded-lg border border-solid border-[#B7B7B7] p-[16px]">
+                  <div className="mb-[24px] rounded-lg border border-solid border-[#B7B7B7] p-[16px]">
                     <h6 className="mb-[12px]">回收認領資訊</h6>
 
                     <div className="mb-[12px] flex justify-center gap-[25px]">
