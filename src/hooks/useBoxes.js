@@ -81,6 +81,7 @@ export function useUpdateBox() {
     mutate: updateBox,
     error: updatedError,
     isPending: isUpdating,
+    isError,
   } = useMutation({
     mutationFn: ({ boxId, values }) => apiUpdateBox(boxId, values),
     onSuccess: () => {
@@ -91,5 +92,5 @@ export function useUpdateBox() {
       toast.error(error.message);
     },
   });
-  return { updateBox, updatedError, isUpdating };
+  return { updateBox, updatedError, isUpdating, isError };
 }
