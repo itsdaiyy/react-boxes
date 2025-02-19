@@ -85,6 +85,35 @@ export async function apiGetBoxesForScraping() {
 }
 
 /**
+ * 從 Supabase 取得 5-2-3 待認領紙箱數量 的紙箱資料
+ *
+ * 該函式向 Supabase 的 `boxes` 表格請求 5-2-3 待認領紙箱數量的資料，並處理錯誤。
+ *
+ * @async
+ * @function apiGetBoxesForScraping
+ * @returns {Promise<Array>} 紙箱資料陣列，若請求成功返回資料，若失敗則會拋出錯誤
+ * @throws {Error} 如果請求過程中發生錯誤，則會拋出錯誤
+ */
+export async function apiGetBoxesTotalForSelling(stationId) {
+  try {
+    let { data: boxes, error } = await supabase
+      .from("boxes")
+      .select("size")
+      .in("status", ["可認領"])
+      .eq("station_id", stationId);
+
+    if (error) throw error;
+
+    return boxes;
+  } catch (error) {
+    // supabase 錯誤內容
+    console.error(error);
+    // UI 顯示的錯誤內容
+    throw new Error("無法取得 boxes 資料，請稍後再試");
+  }
+}
+
+/**
  * 從 Supabase 更新單一筆紙箱資料
  *
  * 該函式向 Supabase 的 `boxes` 表格更新單一筆的紙箱資料，並處理錯誤。

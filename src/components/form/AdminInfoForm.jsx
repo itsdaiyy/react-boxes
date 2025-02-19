@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import PropTypes from "prop-types";
 
 import {
   Form,
@@ -13,7 +14,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { FaPen, FaTimes } from "react-icons/fa";
-import { useState } from "react";
 import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
 
 const formSchema = z.object({
@@ -22,26 +22,28 @@ const formSchema = z.object({
   phone: z.string().nonempty("電話不得為空"),
 });
 
+import PropTypes from "prop-types";
 AdminInfoForm.propTypes = { station: PropTypes.object };
 
 function AdminInfoForm({ station }) {
   const [isEditing, setIsEditing] = useState(false);
-  const { updateStation } = useUpdateStationInfo();
+  const { updateStation, isUpdating } = useUpdateStationInfo();
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      station_name: station.station_name,
-      address: station.address,
-      phone: station.phone,
+      station_name: station.station_name || "",
+      address: station.address || "",
+      phone: station.phone || "",
     },
   });
 
   function onSubmit(values) {
     try {
       console.log(values);
-      updateStation(values);
+      updateStation({ ...values });
     } catch (error) {
-      console.error("Form submission error", error);
+      toast.error("Form submission error", error);
     }
   }
 
@@ -131,8 +133,8 @@ function AdminInfoForm({ station }) {
             )}
           />
           {isEditing && (
-            <button className="btn" type="submit">
-              確認修改
+            <button className="btn" type="submit" disabled={isUpdating}>
+              {isUpdating ? "更新中" : "確認修改"}
             </button>
           )}
         </form>
