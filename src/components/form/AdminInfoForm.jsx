@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import PropTypes from "prop-types";
 
 import {
   Form,
@@ -13,31 +14,32 @@ import {
 import { Input } from "@/components/ui/input";
 import { FaPen, FaTimes } from "react-icons/fa";
 import { useState } from "react";
-import { useStation } from "@/hooks/useStation";
+import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
 
 const formSchema = z.object({
   station_name: z.string().nonempty("站點名稱不得為空"),
   address: z.string().nonempty("地址不得為空"),
-  phone: z
-    .string()
-    .nonempty("電話不得為空")
-    .regex(/^09\d{8}$/, "請輸入正確的台灣手機號碼"),
+  phone: z.string().nonempty("電話不得為空"),
 });
 
-export default function MyForm() {
-  useStation();
+AdminInfoForm.propTypes = { station: PropTypes.object };
+
+function AdminInfoForm({ station }) {
   const [isEditing, setIsEditing] = useState(false);
+  const { updateStation } = useUpdateStationInfo();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      station_name: "",
-      address: "",
-      phone: "",
+      station_name: station.station_name,
+      address: station.address,
+      phone: station.phone,
     },
   });
+
   function onSubmit(values) {
     try {
       console.log(values);
+      updateStation(values);
     } catch (error) {
       console.error("Form submission error", error);
     }
@@ -71,6 +73,7 @@ export default function MyForm() {
                 <FormControl>
                   <Input
                     placeholder="請輸入站點名稱"
+                    value={station.station_name}
                     type="text"
                     {...field}
                     disabled={!isEditing}
@@ -93,6 +96,7 @@ export default function MyForm() {
                 <FormControl>
                   <Input
                     placeholder="請輸入站點地址"
+                    value={station.address}
                     type="text"
                     {...field}
                     disabled={!isEditing}
@@ -115,6 +119,7 @@ export default function MyForm() {
                 <FormControl>
                   <Input
                     placeholder="請輸入電話號碼"
+                    value={station.phone}
                     type="text"
                     {...field}
                     disabled={!isEditing}
@@ -135,3 +140,5 @@ export default function MyForm() {
     </>
   );
 }
+
+export default AdminInfoForm;
