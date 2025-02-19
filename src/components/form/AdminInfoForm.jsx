@@ -1,0 +1,137 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { FaPen, FaTimes } from "react-icons/fa";
+import { useState } from "react";
+import { useStation } from "@/hooks/useStation";
+
+const formSchema = z.object({
+  station_name: z.string().nonempty("站點名稱不得為空"),
+  address: z.string().nonempty("地址不得為空"),
+  phone: z
+    .string()
+    .nonempty("電話不得為空")
+    .regex(/^09\d{8}$/, "請輸入正確的台灣手機號碼"),
+});
+
+export default function MyForm() {
+  useStation();
+  const [isEditing, setIsEditing] = useState(false);
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      station_name: "",
+      address: "",
+      phone: "",
+    },
+  });
+  function onSubmit(values) {
+    try {
+      console.log(values);
+    } catch (error) {
+      console.error("Form submission error", error);
+    }
+  }
+
+  return (
+    <>
+      <div className="flex items-center justify-between">
+        <p className="text-2xl font-bold text-gray-700">轉運站長</p>
+        <button type="button" onClick={() => setIsEditing(!isEditing)}>
+          {isEditing ? (
+            <FaTimes size={20} />
+          ) : (
+            <FaPen className="text-main-600" size={20} />
+          )}
+        </button>
+      </div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="mx-auto max-w-3xl space-y-4 py-6"
+        >
+          <FormField
+            control={form.control}
+            name="station_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  <h6 className="text-gray-700">站點名稱</h6>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="請輸入站點名稱"
+                    type="text"
+                    {...field}
+                    disabled={!isEditing}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem className="mt-6">
+                <FormLabel>
+                  <h6 className="text-gray-700">地址</h6>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="請輸入站點地址"
+                    type="text"
+                    {...field}
+                    disabled={!isEditing}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem className="mt-6">
+                <FormLabel>
+                  <h6 className="text-gray-700">電話</h6>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="請輸入電話號碼"
+                    type="text"
+                    {...field}
+                    disabled={!isEditing}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {isEditing && (
+            <button className="btn" type="submit">
+              確認修改
+            </button>
+          )}
+        </form>
+      </Form>
+    </>
+  );
+}

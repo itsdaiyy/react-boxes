@@ -7,6 +7,15 @@ import { getTimestamp } from "@/utils/helpers";
 
 import Spinner from "./Spinner";
 
+import AdminInfoForm from "./form/AdminInfoForm";
+import MemberInfoForm from "./form/MemberInfoForm";
+
+const style = {
+  cardContainer: "flex items-center justify-around rounded-2xl bg-white p-10",
+  cardText: "text-2xl font-bold",
+  cardNumber: "text-6xl font-bold text-main-600",
+};
+
 function AdminInfo() {
   const { station, isLoadingStation, stationError } = useStation(1);
   const { updateStation, isUpdating } = useUpdateStationInfo();
@@ -29,70 +38,16 @@ function AdminInfo() {
   } = station;
 
   return (
-    <div>
-      5-2 回收站點回收資訊總覽
-      <div className="my-6">
-        <Button
-          onClick={() =>
-            updateStation({
-              id: 1,
-              address: "新北市三重區大同南路152號1樓",
-              phone: "+886-2-2975970",
-              updated_at: getTimestamp(),
-              station_daily_hours: [
-                {
-                  id: 7,
-                  open_time: `05:00:00+00`,
-                  close_time: `21:00:00+00`,
-                  updated_at: getTimestamp(),
-                },
-              ],
-            })
-          }
-          disabled={isUpdating}
-        >
-          更新站點基本資訊
-        </Button>
-        <Button
-          className="ms-4"
-          onClick={() => {
-            updateAvailableSlots({
-              stationId: station.id,
-              xlCounts: 0,
-              lCounts: 0,
-              mCounts: 0,
-              sCounts: 10,
-            });
-          }}
-        >
-          更新站點可回收紙箱數量
-        </Button>
-      </div>
-      <div>
-        <p>店名：{station_name}</p>
-        <p>地址：{address}</p>
-        <p>電話：{phone}</p>
-        <div>
-          營業時間：
-          <ul className="ms-5 list-disc ps-5">
-            {station_daily_hours.map((el) => (
-              <li key={el.id}>
-                id：{el.id} / 星期：
-                {el.day_of_week === 0 ? 7 : el.day_of_week}：{el.open_time}
-              </li>
-            ))}
-          </ul>
+    <>
+      <div className="my-20 bg-main-100 px-3 py-10 sm:rounded-3xl sm:px-10">
+        <div className="flex flex-col gap-6">
+          <div className="rounded-2xl bg-white p-4 md:w-1/2 lg:p-10">
+            <AdminInfoForm />
+          </div>
+          <div className="flex flex-col gap-6"></div>
         </div>
-        <p>可認領紙箱數量 XL：{pending_boxes_xl}</p>
-        <p>可認領紙箱數量 L：{pending_boxes_l}</p>
-        <p>可認領紙箱數量 M：{pending_boxes_m}</p>
-        <p>可認領紙箱數量 S：{pending_boxes_s}</p>
-        <p>可回收紙箱空位數 XL：{available_slots.XL}</p>
-        <p>可回收紙箱空位數 L：{available_slots.L}</p>
-        <p>可回收紙箱空位數 M：{available_slots.M}</p>
-        <p>可回收紙箱空位數 S：{available_slots.S}</p>
       </div>
-    </div>
+    </>
   );
 }
 ``;
