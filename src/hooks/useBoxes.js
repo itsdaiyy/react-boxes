@@ -81,15 +81,16 @@ export function useUpdateBox() {
     mutate: updateBox,
     error: updatedError,
     isPending: isUpdating,
+    isError,
   } = useMutation({
     mutationFn: ({ boxId, values }) => apiUpdateBox(boxId, values),
     onSuccess: () => {
       toast.success("更新成功");
-      queryClient.invalidateQueries({ queryKey: ["boxes", "managing"] });
+      queryClient.invalidateQueries({ queryKey: ["boxes"] });
     },
     onError: (error) => {
       toast.error(error.message);
     },
   });
-  return { updateBox, updatedError, isUpdating };
+  return { updateBox, updatedError, isUpdating, isError };
 }
