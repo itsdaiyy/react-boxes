@@ -17,7 +17,7 @@ import TransactionRecords from "./components/TransactionRecords";
 import AdminInfo from "./components/AdminInfo";
 import AdminBoxManageTable from "./components/table/AdminBoxManageTable";
 import AdminDeprecatedTable from "./components/table/AdminDeprecatedTable";
-import AdminTransactionRecords from "./components/AdminTransactionRecords";
+import AdminTradeHistoryTable from "./components/table/AdminTradeHistoryTable";
 
 const queryClient = new QueryClient();
 
@@ -53,7 +53,7 @@ function App() {
               <Route path="recyclingTable" element={<AdminDeprecatedTable />} />
               <Route
                 path="adminTransactionRecords"
-                element={<AdminTransactionRecords />}
+                element={<AdminTradeHistoryTable />}
               />
             </Route>
           </Route>

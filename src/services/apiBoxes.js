@@ -93,7 +93,7 @@ export async function apiGetBoxesForScraping(stationId) {
  * 該函式向 Supabase 的 `boxes` 表格請求 5-2-3 待認領紙箱數量的資料，並處理錯誤。
  *
  * @async
- * @function apiGetBoxesForScraping
+ * @function apiGetBoxesTotalForSelling
  * @returns {Promise<Array>} 紙箱資料陣列，若請求成功返回資料，若失敗則會拋出錯誤
  * @throws {Error} 如果請求過程中發生錯誤，則會拋出錯誤
  */
