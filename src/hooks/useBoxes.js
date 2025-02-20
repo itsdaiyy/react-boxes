@@ -32,7 +32,7 @@ export function useBoxesForSelling() {
 /**
  * 自訂 Hook：使用 React Query 來取得 5-3 可認領紙箱列表的紙箱資料
  *
- * 使用 `useQuery` 來向 API 請求可認領紙箱列表的紙箱資料，並處理資料加載與錯誤狀態。
+ * 使用 `useQuery` 來向 API 請求 5-3 可認領紙箱列表的紙箱資料，並處理資料加載與錯誤狀態。
  *
  * @returns {Object} 返回包含三個屬性的物件：
  *   - `boxes` {Array|null} - 紙箱資料陣列，若尚未請求或發生錯誤則為 `null`

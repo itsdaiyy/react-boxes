@@ -18,33 +18,42 @@ import DeleteBoxDialog from "../dialog/DeleteBoxDialog";
 const customStyles = {
   table: {
     style: {
-      borderRadius: "8px",
+      border: "1px solid #d9d9d9",
       boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
     },
   },
   headRow: {
     style: {
-      backgroundColor: "#f3f4f6",
-      borderBottomColor: "#e5e7eb",
+      backgroundColor: "#F5F1E8",
+      borderBottomColor: "#d9d9d9",
       fontWeight: "bold",
+      color: "#3d3d3d",
     },
   },
   rows: {
     style: {
       "&:hover": {
-        backgroundColor: "#f9fafb",
+        backgroundColor: "#F3F3F3",
       },
     },
   },
   pagination: {
     style: {
-      backgroundColor: "#f3f4f6",
-      borderTopColor: "#e5e7eb",
+      borderBottomLeftRadius: "8px",
+      borderBottomRightRadius: "8px",
+      backgroundColor: "#F5F1E8",
+      border: "1px solid #d9d9d9",
+      borderTop: "0px",
     },
   },
   subHeader: {
     style: {
-      flex: "flex",
+      border: "1px solid #d9d9d9",
+      borderBottom: "0px",
+      borderTopLeftRadius: "8px",
+      borderTopRightRadius: "8px",
+      backgroundColor: "#F5F1E8",
+      paddingTop: "24px",
     },
   },
 };
@@ -67,7 +76,7 @@ const AdminBoxManageTable = () => {
   // );
 
   // 取得可認領紙箱資料
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging(10);
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging(16);
   if (isLoadingBoxes) return <Spinner />;
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
@@ -116,8 +125,9 @@ const AdminBoxManageTable = () => {
   const data = [...boxes];
 
   return (
-    <StyleSheetManager shouldForwardProp={isPropValid}>
-      <div className="py-5">
+    <>
+      <h4 className="mb-4 text-main-600">可認領紙箱列表</h4>
+      <StyleSheetManager shouldForwardProp={isPropValid}>
         <DataTable
           columns={columns}
           data={data}
@@ -145,8 +155,8 @@ const AdminBoxManageTable = () => {
             </div>
           }
         />
-      </div>
-    </StyleSheetManager>
+      </StyleSheetManager>
+    </>
   );
 };
 

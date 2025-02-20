@@ -1,265 +1,128 @@
-// 5-5 回收站點管理者後台 - 紙箱交易紀錄
-import DataTable from 'react-data-table-component';
-
-// 假資料
-const tempData = [
-  {
-    time: "2024-02-01 10:30",
-    content: "回收 4 個紙箱",
-    site: "台南圖書館",
-    pointChange: "+50",
-    totalPoints: "1050"
-  },
-  {
-    time: "2024-02-02 15:45", 
-    content: "購買 1 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+10",
-    totalPoints: "1060"
-  },
-  {
-    time: "2024-02-03 09:15",
-    content: "回收 1 個紙箱",
-    site: "葉子小舖", 
-    pointChange: "+100",
-    totalPoints: "1160"
-  },
-  {
-    time: "2024-02-04 14:20",
-    content: "購買 1 個紙箱",
-    site: "台南圖書館",
-    pointChange: "-500",
-    totalPoints: "660"
-  },
-  {
-    time: "2024-02-05 11:45",
-    content: "回收 2 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+200",
-    totalPoints: "860"
-  },
-  {
-    time: "2024-02-01 10:30",
-    content: "回收 4 個紙箱",
-    site: "台南圖書館",
-    pointChange: "+50",
-    totalPoints: "1050"
-  },
-  {
-    time: "2024-02-02 15:45", 
-    content: "購買 1 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+10",
-    totalPoints: "1060"
-  },
-  {
-    time: "2024-02-03 09:15",
-    content: "回收 1 個紙箱",
-    site: "葉子小舖", 
-    pointChange: "+100",
-    totalPoints: "1160"
-  },
-  {
-    time: "2024-02-04 14:20",
-    content: "購買 1 個紙箱",
-    site: "台南圖書館",
-    pointChange: "-500",
-    totalPoints: "660"
-  },
-  {
-    time: "2024-02-05 11:45",
-    content: "回收 2 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+200",
-    totalPoints: "860"
-  },
-  {
-    time: "2024-02-01 10:30",
-    content: "回收 4 個紙箱",
-    site: "台南圖書館",
-    pointChange: "+50",
-    totalPoints: "1050"
-  },
-  {
-    time: "2024-02-02 15:45", 
-    content: "購買 1 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+10",
-    totalPoints: "1060"
-  },
-  {
-    time: "2024-02-03 09:15",
-    content: "回收 1 個紙箱",
-    site: "葉子小舖", 
-    pointChange: "+100",
-    totalPoints: "1160"
-  },
-  {
-    time: "2024-02-04 14:20",
-    content: "購買 1 個紙箱",
-    site: "台南圖書館",
-    pointChange: "-500",
-    totalPoints: "660"
-  },
-  {
-    time: "2024-02-05 11:45",
-    content: "回收 2 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+200",
-    totalPoints: "860"
-  },
-  {
-    time: "2024-02-01 10:30",
-    content: "回收 4 個紙箱",
-    site: "台南圖書館",
-    pointChange: "+50",
-    totalPoints: "1050"
-  },
-  {
-    time: "2024-02-02 15:45", 
-    content: "購買 1 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+10",
-    totalPoints: "1060"
-  },
-  {
-    time: "2024-02-03 09:15",
-    content: "回收 1 個紙箱",
-    site: "葉子小舖", 
-    pointChange: "+100",
-    totalPoints: "1160"
-  },
-  {
-    time: "2024-02-04 14:20",
-    content: "購買 1 個紙箱",
-    site: "台南圖書館",
-    pointChange: "-500",
-    totalPoints: "660"
-  },
-  {
-    time: "2024-02-05 11:45",
-    content: "回收 2 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+200",
-    totalPoints: "860"
-  },
-  {
-    time: "2024-02-01 10:30",
-    content: "回收 4 個紙箱",
-    site: "台南圖書館",
-    pointChange: "+50",
-    totalPoints: "1050"
-  },
-  {
-    time: "2024-02-02 15:45", 
-    content: "購買 1 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+10",
-    totalPoints: "1060"
-  },
-  {
-    time: "2024-02-03 09:15",
-    content: "回收 1 個紙箱",
-    site: "葉子小舖", 
-    pointChange: "+100",
-    totalPoints: "1160"
-  },
-  {
-    time: "2024-02-04 14:20",
-    content: "購買 1 個紙箱",
-    site: "台南圖書館",
-    pointChange: "-500",
-    totalPoints: "660"
-  },
-  {
-    time: "2024-02-05 11:45",
-    content: "回收 2 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+200",
-    totalPoints: "860"
-  },
-  
-];
-
+// 5-2-4 最新紙箱交易紀錄、5-5 回收站點管理者後台 - 紙箱交易紀錄
+// React Data Table Component
+import DataTable from "react-data-table-component";
+import { StyleSheetManager } from "styled-components";
+import isPropValid from "@emotion/is-prop-valid";
+// react query
+import { useTransactionRecords } from "@/hooks/useBoxTransactions";
+import Spinner from "../../components/Spinner";
+import ErrorMessage from "../../components/ErrorMessage";
 // 表格內客製化樣式 (或建立style.css覆蓋樣式)
 const customStyles = {
   table: {
     style: {
-      borderRadius: '8px',
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+      border: "1px solid #d9d9d9",
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
     },
   },
   headRow: {
     style: {
-      backgroundColor: '#f3f4f6',
-      borderBottomColor: '#e5e7eb',
-      fontWeight: 'bold',
+      backgroundColor: "#F5F1E8",
+      borderBottomColor: "#d9d9d9",
+      fontWeight: "bold",
+      color: "#3d3d3d",
     },
   },
   rows: {
     style: {
-      '&:hover': {
-        backgroundColor: '#f9fafb',
+      "&:hover": {
+        backgroundColor: "#F3F3F3",
       },
     },
   },
   pagination: {
     style: {
-      backgroundColor: '#f3f4f6',
-      borderTopColor: '#e5e7eb',
+      borderBottomLeftRadius: "8px",
+      borderBottomRightRadius: "8px",
+      backgroundColor: "#F5F1E8",
+      border: "1px solid #d9d9d9",
+      borderTop: "0px",
+    },
+  },
+  subHeader: {
+    style: {
+      border: "1px solid #d9d9d9",
+      borderBottom: "0px",
+      borderTopLeftRadius: "8px",
+      borderTopRightRadius: "8px",
+      backgroundColor: "#F5F1E8",
+      paddingTop: "24px",
     },
   },
 };
 
 // 客製化分頁元件
 const paginationComponentOptions = {
-  rowsPerPageText: '每頁顯示筆數',
-  rangeSeparatorText: '共',
+  rowsPerPageText: "每頁顯示筆數",
+  rangeSeparatorText: "共",
   selectAllRowsItem: true,
-  selectAllRowsItemText: '全部',
+  selectAllRowsItemText: "全部",
 };
 
 const AdminTradeHistoryTable = () => {
+  // 取得可認領紙箱資料
+  const { records, isLoadingRecords, recordsError } = useTransactionRecords(16);
+  if (isLoadingRecords) return <Spinner />;
+  if (recordsError) return <ErrorMessage errorMessage={recordsError.message} />;
   // 欄位
   const columns = [
     {
-      name: '交易時間',
-      selector: row => row.time,
+      name: "交易時間",
+      selector: (row) => row.created_at?.replace("T", " ").slice(0, 16),
+      sortable: true,
     },
     {
-      name: '紙箱編號',
-      selector: row => row.content,
+      name: "紙箱編號",
+      selector: (row) => row.id,
+      sortable: true,
+    },
+    { name: "紙箱大小", selector: (row) => row.size, sortable: true },
+    {
+      name: "紙箱保存等級",
+      selector: (row) => row.condition,
+      sortable: true,
     },
     {
-      name: '紙箱大小',
-      selector: row => row.site,
+      name: "會員編號",
+      selector: (row) => row.user_id,
     },
     {
-      name: '紙箱保存等級',
-      selector: row => row.site,
+      name: "交易方式",
+      selector: (row) => row.transaction_type,
     },
     {
-      name: '會員編號',
-      selector: row => row.site,
-    },
-    {
-      name: '交易方式',
-      selector: row => row.site,
-    },
-    {
-      name: '支付方式',
-      selector: row => row.totalPoints,
+      name: "支付方式",
+      selector: (row) =>
+        row.transaction_type === "回收" || row.transaction_type === "兌換"
+          ? "積分"
+          : "現金",
     },
   ];
+  const data = [...records];
 
   return (
-    <DataTable
-      columns={columns}
-      data={tempData}
-      pagination
-      customStyles={customStyles}
-      paginationComponentOptions={paginationComponentOptions}
-    />
+    <>
+      <h4 className="mb-4 text-main-600">紙箱交易紀錄</h4>
+      <StyleSheetManager shouldForwardProp={isPropValid}>
+        <DataTable
+          columns={columns}
+          data={data}
+          pagination
+          customStyles={customStyles}
+          paginationComponentOptions={paginationComponentOptions}
+          subHeader
+          subHeaderComponent={
+            <div className="mb-4 flex w-full justify-between">
+              <input
+                type="text"
+                placeholder="搜尋紙箱編號"
+                className="rounded border p-2 placeholder:text-[#B7B7B7] focus-within:border focus-within:border-main-500 focus-visible:outline-none"
+              />
+            </div>
+          }
+        />
+      </StyleSheetManager>
+    </>
   );
 };
 
