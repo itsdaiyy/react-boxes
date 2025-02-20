@@ -67,7 +67,7 @@ const AdminBoxManageTable = () => {
   // );
 
   // 取得可認領紙箱資料
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging();
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging(10);
   if (isLoadingBoxes) return <Spinner />;
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 

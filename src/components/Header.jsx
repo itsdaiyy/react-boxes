@@ -14,7 +14,7 @@ const style = {
 
 function Header() {
   return (
-    <div className="bg-[rgba(255,255,255,0.75)]">
+    <header className="bg-[rgba(255,255,255,0.75)]">
       <div className={style.container}>
         <Link to="/">
           <picture>
@@ -48,7 +48,7 @@ function Header() {
           </NavLink>
         </nav>
       </div>
-    </div>
+    </header>
   );
 }
 

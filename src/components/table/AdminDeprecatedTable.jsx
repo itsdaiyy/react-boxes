@@ -66,7 +66,7 @@ const AdminDeprecatedTable = () => {
   // );
 
   // 取得報廢紙箱資料
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForScraping();
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesForScraping(10);
   if (isLoadingBoxes) return <Spinner />;
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
@@ -75,13 +75,13 @@ const AdminDeprecatedTable = () => {
     { name: "紙箱編號", selector: (row) => row.id, sortable: true },
     {
       name: "新增時間",
-      selector: (row) => row.created_at.replace("T", " ").slice(0, 16),
+      selector: (row) => row.created_at?.replace("T", " ").slice(0, 16),
       sortable: true,
       width: "140px",
     },
     {
       name: "更新時間",
-      selector: (row) => row.updated_at.replace("T", " ").slice(0, 16),
+      selector: (row) => row.updated_at?.replace("T", " ").slice(0, 16),
       sortable: true,
       width: "140px",
     },
