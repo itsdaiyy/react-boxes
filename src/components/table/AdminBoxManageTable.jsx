@@ -8,21 +8,11 @@ import isPropValid from "@emotion/is-prop-valid";
 import { useBoxesForAdminManaging } from "../..//hooks/useBoxes";
 import Spinner from "../../components/Spinner";
 import ErrorMessage from "../../components/ErrorMessage";
-// shadcn
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 // react icons
-import { FaPen } from "react-icons/fa";
-import { FaTrashAlt } from "react-icons/fa";
 import { FaFolderPlus, FaCashRegister } from "react-icons/fa";
-// 更新紙箱資料表單元件
-import UpdateBoxForm from "../form/UpdateBoxForm";
+// 更新紙箱、刪除紙箱資料表單元件
+import UpdateBoxDialog from "../dialog/UpdateBoxDialog";
+import DeleteBoxDialog from "../dialog/DeleteBoxDialog";
 
 // 表格內客製化樣式 (或建立style.css覆蓋樣式)
 const customStyles = {
@@ -116,43 +106,13 @@ const AdminBoxManageTable = () => {
       name: "編輯",
       selector: (row) => (
         <div className="flex gap-2">
-          <Dialog>
-            <DialogTrigger asChild>
-              <button className="rounded-md bg-main-600 p-2 text-white hover:bg-main-500 focus-visible:outline-none">
-                <FaPen />
-              </button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
-              <DialogHeader>
-                <DialogTitle>編輯紙箱</DialogTitle>
-                <DialogDescription>編輯紙箱資訊</DialogDescription>
-              </DialogHeader>
-              <div className="flex gap-2">
-                <img src={row.image_url} alt="照片" className="w-1/4" />
-                <div className="flex flex-col">
-                  <p>紙箱編號：{row.id}</p>
-                  <p>
-                    新增時間：{row.created_at?.replace("T", " ").slice(0, 16)}
-                  </p>
-                  <p>
-                    更新時間：{row.updated_at?.replace("T", " ").slice(0, 16)}
-                  </p>
-                  <p className="text-red-500">
-                    保存到期日：{row.updated_at?.replace("T", " ").slice(0, 16)}
-                  </p>
-                  <p className="text-red-500">回收會員：{row.user_id}</p>
-                </div>
-              </div>
-              <UpdateBoxForm row={row} />
-            </DialogContent>
-          </Dialog>
-          <button className="rounded-md bg-red-600 p-2 text-white hover:bg-red-500 focus-visible:outline-none">
-            <FaTrashAlt />
-          </button>
+          <UpdateBoxDialog row={row} />
+          <DeleteBoxDialog row={row} />
         </div>
       ),
     },
   ];
+
   const data = [...boxes];
 
   return (
