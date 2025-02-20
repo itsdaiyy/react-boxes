@@ -1,4 +1,5 @@
 import supabase from "./supabase";
+import { getTimestamp } from "@/utils/helpers";
 
 /**
  * 從 Supabase 取得紙箱狀態為可認領的紙箱資料
@@ -128,7 +129,7 @@ export async function apiUpdateBox(boxId, values) {
   try {
     const { data: box, error } = await supabase
       .from("boxes")
-      .update({ ...values, updated_at: new Date() })
+      .update({ ...values, updated_at: getTimestamp() })
       .eq("id", boxId)
       .select();
     if (error) throw error;
