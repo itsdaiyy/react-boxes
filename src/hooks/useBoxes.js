@@ -108,7 +108,7 @@ export function useUpdateBox() {
     mutationFn: ({ boxId, values }) => apiUpdateBox(boxId, values),
     onSuccess: () => {
       toast.success("更新成功");
-      queryClient.invalidateQueries({ queryKey: ["boxes", "managing"] });
+      queryClient.invalidateQueries({ queryKey: ["boxes"] });
     },
     onError: (error) => {
       toast.error(error.message);
