@@ -21,8 +21,8 @@ const totalBoxes = function (boxes) {
 };
 
 function AdminInfo() {
-  const { station, isLoadingStation } = useStation(1);
-  const { boxes, isLoadingBoxes } = useBoxesTotalForSelling(1);
+  const { station, isLoadingStation } = useStation(10);
+  const { boxes, isLoadingBoxes } = useBoxesTotalForSelling(10);
   if (isLoadingStation) return <Spinner />;
   if (isLoadingBoxes) return <Spinner />;
   const result = totalBoxes(boxes);

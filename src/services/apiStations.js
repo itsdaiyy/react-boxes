@@ -126,18 +126,12 @@ export async function updateStationHours(hoursData) {
   return { data, error };
 }
 
-export async function apiUpdateAvailableSlots({
-  stationId,
-  xlCounts,
-  lCounts,
-  mCounts,
-  sCounts,
-}) {
+export async function apiUpdateAvailableSlots({ stationId, S, M, L, XL }) {
   try {
     const { data, error } = await supabase
       .from("stations")
       .update({
-        available_slots: { L: lCounts, M: mCounts, S: sCounts, XL: xlCounts },
+        available_slots: { S, M, L, XL },
       })
       .eq("id", stationId)
       .select()

@@ -2,28 +2,31 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaPen, FaTimes } from "react-icons/fa";
+import { useUpdateAvailableSlots } from "@/hooks/useUpdateAvailableSlots";
 
 import PropTypes from "prop-types";
 AdminRecyclingBoxForm.propTypes = { station: PropTypes.object };
 
 function AdminRecyclingBoxForm({ station }) {
+  const { updateAvailableSlots, isLoading } = useUpdateAvailableSlots();
   const [isEditing, setIsEditing] = useState(false);
   const form = useForm({
     defaultValues: {
-      小: station.pending_boxes_s || 0,
-      中: station.pending_boxes_m || 0,
-      大: station.pending_boxes_l || 0,
-      特大: station.pending_boxes_xl || 0,
+      S: station.available_slots?.S || 0,
+      M: station.available_slots?.M || 0,
+      L: station.available_slots?.L || 0,
+      XL: station.available_slots?.XL || 0,
     },
   });
   const { register, handleSubmit } = form;
 
-  function onSubmit(values) {
+  function onSubmit(available_slots) {
     try {
-      console.log(values);
-      toast.success("已更新紙箱數量");
+      console.log({ stationId: station.id, ...available_slots });
+      updateAvailableSlots({ stationId: station.id, ...available_slots });
+      toast.success("提交成功");
     } catch (error) {
-      toast.error("Form submission error", error);
+      toast.error("提交失敗", error);
     }
   }
   return (
@@ -49,10 +52,10 @@ function AdminRecyclingBoxForm({ station }) {
           <div className="flex w-1/4 flex-col flex-wrap gap-1 rounded-md bg-main-100 p-2 text-center text-main-600">
             <input
               type="text"
-              name="小"
+              name="S"
               defaultValue={20}
               disabled={!isEditing}
-              {...register("小", { valueAsNumber: true })}
+              {...register("S", { valueAsNumber: true })}
               className={`w-full bg-transparent text-center text-[24px] font-bold leading-[28.8px] focus:outline-none ${isEditing ? "rounded border-2 border-main-200 bg-white focus:border-main-400" : ""}`}
             />
             <label className="fs-7">小紙箱</label>
@@ -60,10 +63,10 @@ function AdminRecyclingBoxForm({ station }) {
           <div className="flex w-1/4 flex-col flex-wrap gap-1 rounded-md bg-main-100 p-2 text-center text-main-600">
             <input
               type="text"
-              name="中"
+              name="M"
               defaultValue={20}
               disabled={!isEditing}
-              {...register("中", { valueAsNumber: true })}
+              {...register("M", { valueAsNumber: true })}
               className={`w-full bg-transparent text-center text-[24px] font-bold leading-[28.8px] focus:outline-none ${isEditing ? "rounded border-2 border-main-200 bg-white focus:border-main-400" : ""}`}
             />
             <label className="fs-7">中紙箱</label>
@@ -71,10 +74,10 @@ function AdminRecyclingBoxForm({ station }) {
           <div className="flex w-1/4 flex-col flex-wrap gap-1 rounded-md bg-main-100 p-2 text-center text-main-600">
             <input
               type="text"
-              name="大"
+              name="L"
               defaultValue={20}
               disabled={!isEditing}
-              {...register("大", { valueAsNumber: true })}
+              {...register("L", { valueAsNumber: true })}
               className={`w-full bg-transparent text-center text-[24px] font-bold leading-[28.8px] focus:outline-none ${isEditing ? "rounded border-2 border-main-200 bg-white focus:border-main-400" : ""}`}
             />
             <label className="fs-7">大紙箱</label>
@@ -82,18 +85,18 @@ function AdminRecyclingBoxForm({ station }) {
           <div className="flex w-1/4 flex-col flex-wrap gap-1 rounded-md bg-main-100 p-2 text-center text-main-600">
             <input
               type="text"
-              name="特大"
+              name="XL"
               defaultValue={20}
               disabled={!isEditing}
-              {...register("特大", { valueAsNumber: true })}
+              {...register("XL", { valueAsNumber: true })}
               className={`w-full bg-transparent text-center text-[24px] font-bold leading-[28.8px] focus:outline-none ${isEditing ? "rounded border-2 border-main-200 bg-white focus:border-main-400" : ""}`}
             />
             <label className="fs-7">特大紙箱</label>
           </div>
         </div>
         {isEditing && (
-          <button className="btn" type="submit">
-            確認修改
+          <button className="btn" type="submit" disabled={isLoading}>
+            {isLoading ? "更新中" : "確認修改"}
           </button>
         )}
       </form>
