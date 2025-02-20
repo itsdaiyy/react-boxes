@@ -39,12 +39,13 @@ export async function apiGetBoxesForSelling() {
  * @returns {Promise<Array>} 紙箱資料陣列，若請求成功返回資料，若失敗則會拋出錯誤
  * @throws {Error} 如果請求過程中發生錯誤，則會拋出錯誤
  */
-export async function apiGetBoxesForAdminManaging() {
+export async function apiGetBoxesForAdminManaging(stationId) {
   try {
     let { data: boxes, error } = await supabase
       .from("boxes")
       .select("*")
-      .in("status", ["售出", "自用", "可認領"]);
+      .in("status", ["售出", "自用", "可認領"])
+      .eq("station_id", stationId);
 
     if (error) throw error;
 
@@ -67,12 +68,13 @@ export async function apiGetBoxesForAdminManaging() {
  * @returns {Promise<Array>} 紙箱資料陣列，若請求成功返回資料，若失敗則會拋出錯誤
  * @throws {Error} 如果請求過程中發生錯誤，則會拋出錯誤
  */
-export async function apiGetBoxesForScraping() {
+export async function apiGetBoxesForScraping(stationId) {
   try {
     let { data: boxes, error } = await supabase
       .from("boxes")
       .select("*")
-      .in("status", ["報廢", "保留到期"]);
+      .in("status", ["報廢", "保留到期"])
+      .eq("station_id", stationId);
 
     if (error) throw error;
 

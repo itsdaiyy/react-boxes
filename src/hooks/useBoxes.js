@@ -39,14 +39,14 @@ export function useBoxesForSelling() {
  *   - `isLoadingBoxes` {boolean} - 是否正在加載資料
  *   - `BoxesError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
  */
-export function useBoxesForAdminManaging() {
+export function useBoxesForAdminManaging(stationId) {
   const {
     data: boxes,
     isLoading: isLoadingBoxes,
     error: boxesError,
   } = useQuery({
-    queryKey: ["boxes", "managing"],
-    queryFn: apiGetBoxesForAdminManaging,
+    queryKey: ["boxes", "managing", stationId],
+    queryFn: () => apiGetBoxesForAdminManaging(stationId),
   });
 
   return { boxes, isLoadingBoxes, boxesError };
@@ -62,14 +62,14 @@ export function useBoxesForAdminManaging() {
  *   - `isLoadingBoxes` {boolean} - 是否正在加載資料
  *   - `BoxesError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
  */
-export function useBoxesForScraping() {
+export function useBoxesForScraping(stationId) {
   const {
     data: boxes,
     isLoading: isLoadingBoxes,
     error: boxesError,
   } = useQuery({
-    queryKey: ["boxes", "scrap"],
-    queryFn: apiGetBoxesForScraping,
+    queryKey: ["boxes", "scrap", stationId],
+    queryFn: () => apiGetBoxesForScraping(stationId),
   });
 
   return { boxes, isLoadingBoxes, boxesError };

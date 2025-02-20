@@ -77,7 +77,7 @@ const AdminBoxManageTable = () => {
   // );
 
   // 取得可認領紙箱資料
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging();
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging(10);
   if (isLoadingBoxes) return <Spinner />;
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
@@ -86,13 +86,13 @@ const AdminBoxManageTable = () => {
     { name: "紙箱編號", selector: (row) => row.id, sortable: true },
     {
       name: "新增時間",
-      selector: (row) => row.created_at.replace("T", " ").slice(0, 16),
+      selector: (row) => row.created_at?.replace("T", " ").slice(0, 16),
       sortable: true,
       width: "140px",
     },
     {
       name: "更新時間",
-      selector: (row) => row.updated_at.replace("T", " ").slice(0, 16),
+      selector: (row) => row.updated_at?.replace("T", " ").slice(0, 16),
       sortable: true,
       width: "140px",
     },
@@ -132,17 +132,15 @@ const AdminBoxManageTable = () => {
                 <div className="flex flex-col">
                   <p>紙箱編號：{row.id}</p>
                   <p>
-                    新增時間：{row.created_at.replace("T", " ").slice(0, 16)}
+                    新增時間：{row.created_at?.replace("T", " ").slice(0, 16)}
                   </p>
                   <p>
-                    更新時間：{row.updated_at.replace("T", " ").slice(0, 16)}
+                    更新時間：{row.updated_at?.replace("T", " ").slice(0, 16)}
                   </p>
                   <p className="text-red-500">
-                    保存到期日：{row.updated_at.replace("T", " ").slice(0, 16)}
+                    保存到期日：{row.updated_at?.replace("T", " ").slice(0, 16)}
                   </p>
-                  <p className="text-red-500">
-                    回收會員：{row.user_id.slice(0, 16)}
-                  </p>
+                  <p className="text-red-500">回收會員：{row.user_id}</p>
                 </div>
               </div>
               <UpdateBoxForm row={row} />
