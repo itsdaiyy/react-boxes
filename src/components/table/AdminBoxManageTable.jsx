@@ -25,10 +25,8 @@ const AdminBoxManageTable = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
-    console.log("Boxes:", boxes); // 觀察 boxes 是否為 undefined
-    console.log("Boxes length:", boxes?.length || 0); // 避免錯誤
-
-    if (boxes.length > 0) {
+    if (boxes?.length || 0 > 0) {
+      // 若boxes回傳為undefined則無法計算length會報錯，加?避免錯誤
       setOriginData(boxes);
       setFilteredData(boxes);
     }
@@ -40,6 +38,7 @@ const AdminBoxManageTable = () => {
     );
     setFilteredData(filtered);
   }, [filterText, originData]);
+  // 搜尋欄、原始資料變動時觸發
 
   // 欄位
   const columns = [
