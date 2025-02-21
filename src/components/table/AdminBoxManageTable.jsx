@@ -82,7 +82,6 @@ const AdminBoxManageTable = () => {
     },
   ];
 
-  // const data = [...boxes];
   if (isLoadingBoxes) return <Spinner />;
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
