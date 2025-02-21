@@ -19,7 +19,7 @@ import { apiUpdateBox } from "@/services/apiBoxes";
  */
 export function useBoxesForSelling() {
   const {
-    data: boxes,
+    data: boxes = [], //若回傳null，表單搜尋功能會報錯
     isLoading: isLoadingBoxes,
     error: boxesError,
   } = useQuery({

@@ -19,6 +19,7 @@ import AdminDeprecatedTable from "./components/table/AdminDeprecatedTable";
 import AdminTradeHistoryTable from "./components/table/AdminTradeHistoryTable";
 import MemberInfoHistoryTable from "./components/table/MemberInfoHistoryTable";
 import MemberInfoPointTable from "./components/table/MemberInfoPointTable";
+import AdminTrade from "./components/AdminTrade";
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,9 @@ function App() {
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
           <Route path="*" element={<PageNotFound />} />
+
+          {/* 測試用 */}
+          <Route path="adminTrade" element={<AdminTrade />} />
         </Routes>
       </BrowserRouter>
       <Toaster

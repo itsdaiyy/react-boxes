@@ -1,5 +1,5 @@
 // 5-4 待回收紙箱列表（報廢）
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // React Data Table Component
 import DataTable from "react-data-table-component";
 import { StyleSheetManager } from "styled-components";
@@ -15,18 +15,29 @@ import UpdateBoxDialog from "../dialog/UpdateBoxDialog";
 import DeleteBoxDialog from "../dialog/DeleteBoxDialog";
 
 const AdminDeprecatedTable = () => {
-  // 篩選搜尋資料
-  const [filterText, setFilterText] = useState("");
-  // const filteredData = pointsData.filter(
-  //   item => Object.values(item).some(
-  //     val => val.toString().toLowerCase().includes(filterText.toLowerCase())
-  //   )
-  // );
-
   // 取得報廢紙箱資料
   const { boxes, isLoadingBoxes, boxesError } = useBoxesForScraping(16);
-  if (isLoadingBoxes) return <Spinner />;
-  if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
+
+  // 篩選搜尋資料
+  const [originData, setOriginData] = useState([]);
+  const [filterText, setFilterText] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
+  useEffect(() => {
+    if (boxes?.length || 0 > 0) {
+      // 若boxes回傳為undefined則無法計算length會報錯，加?避免錯誤
+      setOriginData(boxes);
+      setFilteredData(boxes);
+    }
+  }, [boxes]);
+
+  useEffect(() => {
+    const filtered = originData.filter((item) =>
+      item.id.toString().includes(filterText),
+    );
+    setFilteredData(filtered);
+  }, [filterText, originData]);
+  // 搜尋欄、原始資料變動時觸發
 
   // 欄位
   const columns = [
@@ -69,7 +80,9 @@ const AdminDeprecatedTable = () => {
       ),
     },
   ];
-  const data = [...boxes];
+
+  if (isLoadingBoxes) return <Spinner />;
+  if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
   return (
     <>
@@ -77,7 +90,7 @@ const AdminDeprecatedTable = () => {
       <StyleSheetManager shouldForwardProp={isPropValid}>
         <DataTable
           columns={columns}
-          data={data}
+          data={filteredData}
           pagination
           customStyles={customStyles}
           paginationComponentOptions={paginationComponentOptions}
