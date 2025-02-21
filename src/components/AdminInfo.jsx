@@ -1,10 +1,12 @@
 import { useStation } from "@/hooks/useStation";
-import AdminInfoForm from "./form/AdminInfoForm";
-import Spinner from "./Spinner";
-import AdminRecyclingBoxForm from "./form/AdminRecyclingBoxForm";
 import { useBoxesTotalForSelling } from "@/hooks/useBoxes";
-import SellingBoxesCard from "./card/SellingBoxesCard";
+
+import AdminInfoForm from "./form/AdminInfoForm";
+import AdminRecyclingBoxForm from "./form/AdminRecyclingBoxForm";
 import AdminTradeHistoryTable from "./table/AdminTradeHistoryTable";
+import SellingBoxesCard from "./card/SellingBoxesCard";
+import Spinner from "./Spinner";
+
 const totalBoxes = function (boxes) {
   let small = 0;
   let medium = 0;

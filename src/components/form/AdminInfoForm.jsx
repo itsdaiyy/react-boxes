@@ -38,10 +38,46 @@ function AdminInfoForm({ station }) {
     },
   });
 
+  // 更新站點資訊格式：
+  // {
+  //   id: 1,   // station id
+  //   station_name: "多米葉漢堡",
+  //   address: "新北市樹林區佳園路2段104號",
+  //   phone: "+886-2-26802008",
+  //   station_daily_hours: [
+  //     {
+  //       id: 70,
+  //       open_time: "08:00:00+00",
+  //       close_time: "20:00:00+00",
+  //       day_of_week: 6,
+  //       is_business_day: true,
+  //     },
+  //   ],
+  // }
+
   function onSubmit(values) {
     try {
       console.log(values);
-      updateStation({ ...values });
+      updateStation({
+        ...values,
+        id: station.id,
+        station_daily_hours: [
+          {
+            id: 69,
+            open_time: "08:00:00+00",
+            close_time: "20:00:00+00",
+            day_of_week: 5,
+            is_business_day: true,
+          },
+          {
+            id: 70,
+            open_time: "08:00:00+00",
+            close_time: "20:00:00+00",
+            day_of_week: 6,
+            is_business_day: true,
+          },
+        ],
+      });
     } catch (error) {
       toast.error("Form submission error", error);
     }
