@@ -13,7 +13,7 @@ export async function apiGetStations() {
   try {
     let { data: stations, error } = await supabase
       .from("stations")
-      .select(`id, station_name, latitude, longitude`);
+      .select(`*`);
 
     if (error) throw error;
 

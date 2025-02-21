@@ -23,7 +23,7 @@ const style = {
     "after:content text-main-500 after:absolute after:mt-1 after:w-[64px] after:border-b-2 after:border-main-500",
 };
 
-function MapNav() {
+function MapNav({handleLocateUser}) {
   return (
     <div className="bg-[rgba(255,255,255,0.75)]">
       <div className={style.container}>
@@ -53,7 +53,7 @@ function MapNav() {
           </form>
           <button className={style.placeBtn}>
             <img src={place} alt="place" className="max-w-max" />
-            <p className="fs-7 lg:fs-6">定位</p>
+            <p className="fs-7 lg:fs-6" onClick={handleLocateUser}>定位</p>
           </button>
         </div>
         <div className={style.menu}>
