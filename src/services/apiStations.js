@@ -1,3 +1,4 @@
+import { getTimestamp } from "@/utils/helpers";
 import supabase from "./supabase";
 
 /**
@@ -33,7 +34,7 @@ export async function apiGetStationById(stationId) {
     let { data: station, error } = await supabase
       .from("stations")
       .select(
-        `*,station_daily_hours(id, open_time, close_time, day_of_week, updated_at)`,
+        `*,station_daily_hours(id, is_business_day, open_time, close_time, day_of_week, updated_at)`,
       )
       .order("day_of_week", {
         referencedTable: "station_daily_hours",
@@ -50,30 +51,42 @@ export async function apiGetStationById(stationId) {
   }
 }
 
-// StationInfo 更新物件格式：
+// StationInfo  更新站點資訊格式：
 // {
-//   id: 2,    // station_id
-//   address: "新北市三重區大同南路152號1樓",
-//   phone: "+886-2-2975970",
+//   id: 1,   // station id
+//   station_name: "多米葉漢堡",
+//   address: "新北市樹林區佳園路2段104號",
+//   phone: "+886-2-26802008",
 //   station_daily_hours: [
 //     {
-//       id: 3,   // 需要傳入時間 id
-//       open_time: `05:00:00+00`,
-//       close_time: `21:00:00+00`,
-//       updated_at: getTimestamp(),
+//       id: 70,
+//       open_time: "08:00:00+00",
+//       close_time: "20:00:00+00",
+//       day_of_week: 6,
+//       is_business_day: true,
 //     },
 //   ],
 // }
-export async function apiUpdateStationInfo(newData) {
-  const { id, phone, address, station_daily_hours, updated_at } = newData;
 
-  const infoObj = { phone, address, updated_at };
+export async function apiUpdateStationInfo({
+  id,
+  station_name,
+  phone,
+  address,
+  station_daily_hours,
+}) {
+  const updatedInfo = {
+    station_name,
+    phone,
+    address,
+    updated_at: getTimestamp(),
+  };
 
-  // 更新基本資訊3
+  // 更新基本資訊
   try {
     const { data: station, error } = await supabase
       .from("stations")
-      .update(infoObj)
+      .update(updatedInfo)
       .eq("id", id)
       .select()
       .single();
@@ -102,12 +115,13 @@ export async function apiUpdateStationInfo(newData) {
 
 // Station Hours 更新物件格式：
 // [
-//   {
-//     id: 3,   // 需要傳入時間 id
-//     open_time: `05:00:00+00`,
-//     close_time: `21:00:00+00`,
-//     updated_at: getTimestamp(),
-//   },
+//  {
+//     id: 70,
+//     open_time: "08:00:00+00",
+//     close_time: "20:00:00+00",
+//     day_of_week: 6,
+//     is_business_day: false,
+//  }
 // ];
 export async function updateStationHours(hoursData) {
   const missingId = hoursData.find((el) => !el.id);
@@ -116,9 +130,14 @@ export async function updateStationHours(hoursData) {
     return { error: new Error(`更新站點營業時間時，每筆記錄都必須包含 id`) };
   }
 
+  const updatedHoursData = hoursData.map((el) => ({
+    ...el,
+    updated_at: getTimestamp(),
+  }));
+
   const { data, error } = await supabase
     .from("station_daily_hours")
-    .upsert(hoursData, {
+    .upsert(updatedHoursData, {
       onConflict: "id",
     })
     .select();
