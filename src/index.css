@@ -151,6 +151,27 @@
   .btn {
     @apply rounded-[20px] border border-[#563B28] bg-main-600 px-5 py-2 text-main-200 shadow-[0_2px_0_#563B28] hover:bg-main-500;
   }
+  .btn-cancel {
+    @apply rounded-[20px] border border-[#D9D9D9] bg-neutral-600 px-5 py-2 text-neutral-200 shadow-[0_2px_0_#D9D9D9] hover:bg-neutral-500;
+  }
+  .btn-delete {
+    @apply rounded-[20px] border border-red-300 bg-red-600 px-5 py-2 text-neutral-200 shadow-[0_2px_0_#fca5a5] hover:bg-red-500;
+  }
+  .scrollbar {
+    &::-webkit-scrollbar {
+      height: 4px;
+      width: 12px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #f3f3f3;
+      border-radius: 10px;
+      margin: 10px 130px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: var(--chart-2);
+    }
+  }
 }
 
 @layer base {

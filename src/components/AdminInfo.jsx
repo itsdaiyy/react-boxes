@@ -1,100 +1,63 @@
-import { Button } from "./ui/button";
-
 import { useStation } from "@/hooks/useStation";
-import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
-import { useUpdateAvailableSlots } from "@/hooks/useUpdateAvailableSlots";
-import { getTimestamp } from "@/utils/helpers";
+import { useBoxesTotalForSelling } from "@/hooks/useBoxes";
 
+import AdminInfoForm from "./form/AdminInfoForm";
+import AdminRecyclingBoxForm from "./form/AdminRecyclingBoxForm";
+import AdminTradeHistoryTable from "./table/AdminTradeHistoryTable";
+import SellingBoxesCard from "./card/SellingBoxesCard";
 import Spinner from "./Spinner";
 
+const totalBoxes = function (boxes) {
+  let small = 0;
+  let medium = 0;
+  let large = 0;
+  let extraLarge = 0;
+  if (boxes.length === 0) return { small, medium, large, extraLarge };
+  for (let i = 0; i < boxes.length; i++) {
+    if (boxes[i].size === "小") small++;
+    if (boxes[i].size === "中") medium++;
+    if (boxes[i].size === "大") large++;
+    if (boxes[i].size === "特大") extraLarge++;
+  }
+  return { small, medium, large, extraLarge };
+};
+
 function AdminInfo() {
-  const { station, isLoadingStation, stationError } = useStation(1);
-  const { updateStation, isUpdating } = useUpdateStationInfo();
-  const { updateAvailableSlots, isLoading } = useUpdateAvailableSlots();
-
+  const { station, isLoadingStation } = useStation(10);
+  const { boxes, isLoadingBoxes } = useBoxesTotalForSelling(10);
   if (isLoadingStation) return <Spinner />;
-
-  const {
-    id,
-    station_name,
-    address,
-    phone,
-    image_url,
-    station_daily_hours,
-    pending_boxes_xl,
-    pending_boxes_l,
-    pending_boxes_m,
-    pending_boxes_s,
-    available_slots,
-  } = station;
+  if (isLoadingBoxes) return <Spinner />;
+  const result = totalBoxes(boxes);
 
   return (
-    <div>
-      5-2 回收站點回收資訊總覽
-      <div className="my-6">
-        <Button
-          onClick={() =>
-            updateStation({
-              id: 1,
-              address: "新北市三重區大同南路152號1樓",
-              phone: "+886-2-2975970",
-              updated_at: getTimestamp(),
-              station_daily_hours: [
-                {
-                  id: 7,
-                  open_time: `05:00:00+00`,
-                  close_time: `21:00:00+00`,
-                  updated_at: getTimestamp(),
-                },
-              ],
-            })
-          }
-          disabled={isUpdating}
-        >
-          更新站點基本資訊
-        </Button>
-        <Button
-          className="ms-4"
-          onClick={() => {
-            updateAvailableSlots({
-              stationId: station.id,
-              xlCounts: 0,
-              lCounts: 0,
-              mCounts: 0,
-              sCounts: 10,
-            });
-          }}
-        >
-          更新站點可回收紙箱數量
-        </Button>
-      </div>
-      <div>
-        <p>店名：{station_name}</p>
-        <p>地址：{address}</p>
-        <p>電話：{phone}</p>
-        <div>
-          營業時間：
-          <ul className="ms-5 list-disc ps-5">
-            {station_daily_hours.map((el) => (
-              <li key={el.id}>
-                id：{el.id} / 星期：
-                {el.day_of_week === 0 ? 7 : el.day_of_week}：{el.open_time}
-              </li>
-            ))}
-          </ul>
+    <>
+      <div className="bg-main-100 px-3 py-10 sm:rounded-3xl sm:px-10">
+        <div className="flex flex-col gap-6 md:flex-row">
+          <div className="rounded-2xl bg-white p-4 md:w-1/2 lg:p-10">
+            <AdminInfoForm station={station} />
+          </div>
+          <div className="flex flex-col gap-6 md:w-1/2">
+            <div className="rounded-[8px] bg-white p-4">
+              <AdminRecyclingBoxForm station={station} />
+            </div>
+            <div className="rounded-[8px] bg-white p-4">
+              <div className="mb-2 rounded-md bg-second-100 py-1">
+                <p className="fs-6 text-center text-second-400">可認領紙箱</p>
+              </div>
+              <div className="flex gap-2">
+                <SellingBoxesCard size="小" count={result.small} />
+                <SellingBoxesCard size="中" count={result.medium} />
+                <SellingBoxesCard size="大" count={result.large} />
+                <SellingBoxesCard size="特大" count={result.extraLarge} />
+              </div>
+            </div>
+          </div>
         </div>
-        <p>可認領紙箱數量 XL：{pending_boxes_xl}</p>
-        <p>可認領紙箱數量 L：{pending_boxes_l}</p>
-        <p>可認領紙箱數量 M：{pending_boxes_m}</p>
-        <p>可認領紙箱數量 S：{pending_boxes_s}</p>
-        <p>可回收紙箱空位數 XL：{available_slots.XL}</p>
-        <p>可回收紙箱空位數 L：{available_slots.L}</p>
-        <p>可回收紙箱空位數 M：{available_slots.M}</p>
-        <p>可回收紙箱空位數 S：{available_slots.S}</p>
       </div>
-    </div>
+      <div className="mt-10">
+        <AdminTradeHistoryTable />
+      </div>
+    </>
   );
 }
-``;
-
 export default AdminInfo;

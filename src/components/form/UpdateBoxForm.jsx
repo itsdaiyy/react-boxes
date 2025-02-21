@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 import PropTypes from "prop-types";
 import * as z from "zod";
 import {
@@ -19,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { useUpdateBox } from "@/hooks/useBoxes";
 
-UpdateBoxForm.propTypes = { row: PropTypes.object };
+UpdateBoxForm.propTypes = { row: PropTypes.object, setOpen: PropTypes.func };
 
 const formSchema = z.object({
   size: z.string(),
@@ -28,14 +29,13 @@ const formSchema = z.object({
   status: z.string(),
 });
 
-export default function UpdateBoxForm({ row }) {
+export default function UpdateBoxForm({ row, setOpen }) {
   const { updateBox, isUpdating } = useUpdateBox();
-
   const form = useForm({
     defaultValues: {
       size: row.size,
       condition: row.condition,
-      retention_days: Number(row.retention_days),
+      retention_days: row.retention_days,
       status: row.status,
     },
     resolver: zodResolver(formSchema),
@@ -49,6 +49,7 @@ export default function UpdateBoxForm({ row }) {
     try {
       updateBox({ boxId: row.id, values: formattedValues });
       console.log(row.id, formattedValues);
+      setOpen(false);
     } catch (error) {
       console.error("Form submission error", error);
     }
@@ -118,7 +119,7 @@ export default function UpdateBoxForm({ row }) {
               <FormLabel>紙箱保留天數</FormLabel>
               <Select
                 onValueChange={(value) => field.onChange(Number(value))}
-                defaultValue={row.retention_days.toString()}
+                defaultValue={row.retention_days?.toString()}
               >
                 <FormControl>
                   <SelectTrigger>
@@ -163,9 +164,19 @@ export default function UpdateBoxForm({ row }) {
             </FormItem>
           )}
         />
-        <div className="flex">
-          <button type="submit" className="btn ml-auto" disabled={isUpdating}>
-            {isUpdating ? "更新中" : "確認送出"}
+        <div className="flex justify-end gap-2">
+          <button
+            type="button"
+            className="btn-cancel"
+            onClick={() => {
+              setOpen(false);
+              toast.error("取消更新");
+            }}
+          >
+            取消
+          </button>
+          <button type="submit" className="btn" disabled={isUpdating}>
+            {isUpdating ? "更新中" : "確認"}
           </button>
         </div>
       </form>

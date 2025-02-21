@@ -111,19 +111,19 @@ const StationDetailedInfo = ({station,countRecyclableBoxes,countPendingBoxes,for
       const closeTime = item.close_time.replace(/^(\d{2}:\d{2}):\d{2}.*/, "$1");
 
       if (index === 0) {
-        return <li key={index}>{`星期日 ${openTime}-${closeTime}`}</li>;
+        return <li key={index}>{item?`星期日 ${openTime}-${closeTime}`:'休息'}</li>;
       } else if (index === 1) {
-        return <li key={index}>{`星期一 ${openTime}-${closeTime}`}</li>;
+        return <li key={index}>{item?`星期一 ${openTime}-${closeTime}`:'休息'}</li>;
       } else if (index === 2) {
-        return <li key={index}>{`星期二 ${openTime}-${closeTime}`}</li>;
+        return <li key={index}>{item? `星期二 ${openTime}-${closeTime}`:'休息'}</li>;
       } else if (index === 3) {
-        return <li key={index}>{`星期三 ${openTime}-${closeTime}`}</li>;
+        return <li key={index}>{item? `星期三 ${openTime}-${closeTime}`:'休息'}</li>;
       } else if (index === 4) {
-        return <li key={index}>{`星期四 ${openTime}-${closeTime}`}</li>;
+        return <li key={index}>{item? `星期四 ${openTime}-${closeTime}`:'休息'}</li>;
       } else if (index === 5) {
-        return <li key={index}>{`星期五 ${openTime}-${closeTime}`}</li>;
+        return <li key={index}>{item? `星期五 ${openTime}-${closeTime}`:'休息'}</li>;
       } else {
-        return <li key={index}>{`星期六 ${openTime}-${closeTime}`}</li>;
+        return <li key={index}>{item? `星期六 ${openTime}-${closeTime}`:'休息'}</li>;
       }
     });
   };
@@ -296,7 +296,7 @@ const StationDetailedInfo = ({station,countRecyclableBoxes,countPendingBoxes,for
 }
 
 //Popup
-const PopupCard = ({station,countRecyclableBoxes,countPendingBoxes,setIsStationInfo,setIsSideBar})=>{
+const PopupCard = ({station,countRecyclableBoxes,countPendingBoxes,setIsStationInfo,setIsSideBar,setClickedId})=>{
   return (<div>
     <h6 className="mb-[12px] text-start font-semibold">
       {station.station_name}
@@ -307,6 +307,7 @@ const PopupCard = ({station,countRecyclableBoxes,countPendingBoxes,setIsStationI
     </div>
     <p className="mb-[12px]">{station.address}</p>
     <button className="btn" onClick={() => {
+      setClickedId(station.id);
       setIsStationInfo(true);
       setIsSideBar(true);
     }}>站點資訊</button>
@@ -326,6 +327,8 @@ function Map() {
   const [isStationInfo, setIsStationInfo] = useState(false);//開啟側邊欄站點資訊
   const [userLocation, setUserLocation] = useState([]); //儲存使用者定位
   const [nearestStations, setNearestStations] = useState([]); //儲存5筆鄰近站點
+  const [popupStation,setPopupStation] = useState({});//儲存Popup站點資訊
+
 
   // 取得5筆鄰近站點
   useEffect(() => {
@@ -406,7 +409,7 @@ function Map() {
       >
         {/* 側邊欄 */}
         {isSideBar ? (
-          <div className="w-[486px] flex-shrink-0 overflow-auto">
+          <div className="w-[486px] flex-shrink-0 overflow-auto scrollbar">
             {isStationInfo && station ? (
 
               <StationDetailedInfo
@@ -459,19 +462,20 @@ function Map() {
               key={item.id}
               eventHandlers={{
                 click: () => {
-                  setClickedId(item.id); // 設定選中的站點
+                  setPopupStation(item); // 設定選中的站點
                 },
               }}
             >
               <Popup>
-                {station ? (
+                {popupStation ? (
                   
                   <PopupCard
-                  station={station}
+                  station={popupStation}
                   countRecyclableBoxes={countRecyclableBoxes}
                   countPendingBoxes={countPendingBoxes}
                   setIsStationInfo={setIsStationInfo}
                   setIsSideBar={setIsSideBar}
+                  setClickedId={setClickedId}
                   ></PopupCard>
                   
                 ) : (

@@ -1,97 +1,56 @@
 // 5-4 待回收紙箱列表（報廢）
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // React Data Table Component
 import DataTable from "react-data-table-component";
 import { StyleSheetManager } from "styled-components";
 import isPropValid from "@emotion/is-prop-valid";
+import { customStyles, paginationComponentOptions } from "@/data/constants";
 // react query
 import { useBoxesForScraping } from "@/hooks/useBoxes";
 import Spinner from "@/components/Spinner";
 import ErrorMessage from "@/components/ErrorMessage";
-// shadcn
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-// react icons
-import { FaPen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
-// 更新紙箱資料表單元件
-import UpdateBoxForm from "../form/UpdateBoxForm";
-
-// 表格內客製化樣式 (或建立style.css覆蓋樣式)
-const customStyles = {
-  table: {
-    style: {
-      borderRadius: "8px",
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-    },
-  },
-  headRow: {
-    style: {
-      backgroundColor: "#f3f4f6",
-      borderBottomColor: "#e5e7eb",
-      fontWeight: "bold",
-    },
-  },
-  rows: {
-    style: {
-      "&:hover": {
-        backgroundColor: "#f9fafb",
-      },
-    },
-  },
-  pagination: {
-    style: {
-      backgroundColor: "#f3f4f6",
-      borderTopColor: "#e5e7eb",
-    },
-  },
-  subHeader: {
-    style: {
-      flex: "flex",
-    },
-  },
-};
-
-// 客製化分頁元件
-const paginationComponentOptions = {
-  rowsPerPageText: "每頁顯示筆數",
-  rangeSeparatorText: "共",
-  selectAllRowsItem: true,
-  selectAllRowsItemText: "全部",
-};
+// 更新紙箱、刪除紙箱資料表單元件
+import UpdateBoxDialog from "../dialog/UpdateBoxDialog";
+import DeleteBoxDialog from "../dialog/DeleteBoxDialog";
 
 const AdminDeprecatedTable = () => {
-  // 篩選搜尋資料
-  const [filterText, setFilterText] = useState("");
-  // const filteredData = pointsData.filter(
-  //   item => Object.values(item).some(
-  //     val => val.toString().toLowerCase().includes(filterText.toLowerCase())
-  //   )
-  // );
-
   // 取得報廢紙箱資料
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForScraping();
-  if (isLoadingBoxes) return <Spinner />;
-  if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesForScraping(16);
+
+  // 篩選搜尋資料
+  const [originData, setOriginData] = useState([]);
+  const [filterText, setFilterText] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
+  useEffect(() => {
+    if (boxes?.length || 0 > 0) {
+      // 若boxes回傳為undefined則無法計算length會報錯，加?避免錯誤
+      setOriginData(boxes);
+      setFilteredData(boxes);
+    }
+  }, [boxes]);
+
+  useEffect(() => {
+    const filtered = originData.filter((item) =>
+      item.id.toString().includes(filterText),
+    );
+    setFilteredData(filtered);
+  }, [filterText, originData]);
+  // 搜尋欄、原始資料變動時觸發
 
   // 欄位
   const columns = [
     { name: "紙箱編號", selector: (row) => row.id, sortable: true },
     {
       name: "新增時間",
-      selector: (row) => row.created_at.replace("T", " ").slice(0, 16),
+      selector: (row) => row.created_at?.replace("T", " ").slice(0, 16),
       sortable: true,
       width: "140px",
     },
     {
       name: "更新時間",
-      selector: (row) => row.updated_at.replace("T", " ").slice(0, 16),
+      selector: (row) => row.updated_at?.replace("T", " ").slice(0, 16),
       sortable: true,
       width: "140px",
     },
@@ -115,53 +74,23 @@ const AdminDeprecatedTable = () => {
       name: "編輯",
       selector: (row) => (
         <div className="flex gap-2">
-          <Dialog>
-            <DialogTrigger asChild>
-              <button className="rounded-md bg-main-600 p-2 text-white hover:bg-main-500 focus-visible:outline-none">
-                <FaPen />
-              </button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
-              <DialogHeader>
-                <DialogTitle>編輯紙箱</DialogTitle>
-                <DialogDescription>編輯紙箱資訊</DialogDescription>
-              </DialogHeader>
-              <div className="flex gap-2">
-                <img src={row.image_url} alt="照片" className="w-1/4" />
-                <div className="flex flex-col">
-                  <p>紙箱編號：{row.id}</p>
-                  <p>
-                    新增時間：{row.created_at.replace("T", " ").slice(0, 16)}
-                  </p>
-                  <p>
-                    更新時間：{row.updated_at.replace("T", " ").slice(0, 16)}
-                  </p>
-                  <p className="text-red-500">
-                    保存到期日：{row.updated_at.replace("T", " ").slice(0, 16)}
-                  </p>
-                  <p className="text-red-500">
-                    回收會員：{row.user_id.slice(0, 16)}
-                  </p>
-                </div>
-              </div>
-              <UpdateBoxForm row={row} />
-            </DialogContent>
-          </Dialog>
-          <button className="rounded-md bg-red-600 p-2 text-white hover:bg-red-500 focus-visible:outline-none">
-            <FaTrashAlt />
-          </button>
+          <UpdateBoxDialog row={row} />
+          <DeleteBoxDialog row={row} />
         </div>
       ),
     },
   ];
-  const data = [...boxes];
+
+  if (isLoadingBoxes) return <Spinner />;
+  if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
   return (
-    <StyleSheetManager shouldForwardProp={isPropValid}>
-      <div className="py-5">
+    <>
+      <h4 className="mb-4 text-main-600">待回收紙箱列表</h4>
+      <StyleSheetManager shouldForwardProp={isPropValid}>
         <DataTable
           columns={columns}
-          data={data}
+          data={filteredData}
           pagination
           customStyles={customStyles}
           paginationComponentOptions={paginationComponentOptions}
@@ -175,7 +104,7 @@ const AdminDeprecatedTable = () => {
                 onChange={(e) => setFilterText(e.target.value)}
                 className="rounded border p-2 placeholder:text-[#B7B7B7] focus-within:border focus-within:border-main-500 focus-visible:outline-none"
               />
-              <div className="">
+              <div>
                 <button className="btn flex items-center gap-1 border p-2">
                   <FaTrashAlt /> 清空表單
                 </button>
@@ -183,8 +112,8 @@ const AdminDeprecatedTable = () => {
             </div>
           }
         />
-      </div>
-    </StyleSheetManager>
+      </StyleSheetManager>
+    </>
   );
 };
 

@@ -29,8 +29,8 @@ function MemberNav() {
   const navType = getNavType();
 
   return (
-    <>
-      <div className="bg-[#F3F3F3]">
+    <main>
+      <nav className="bg-[#F3F3F3]">
         {/* TabTrigger */}
         <div className={style.mainNavContainer}>
           <NavLink
@@ -50,18 +50,18 @@ function MemberNav() {
             <h4>管理者頁面</h4>
           </NavLink>
         </div>
-      </div>
+      </nav>
       {navType === "normal" ? <NormalNav /> : <AdminNav />}
-      <div className="container mx-auto">
+      <section className="container mx-auto my-20">
         <Outlet />
-      </div>
-    </>
+      </section>
+    </main>
   );
 }
 
 function NormalNav() {
   return (
-    <div className="bg-white">
+    <nav className="bg-white">
       <div className={style.secondNavContainer}>
         <NavLink
           to="normal/memberInfo"
@@ -88,13 +88,13 @@ function NormalNav() {
           <h4>交易紀錄</h4>
         </NavLink>
       </div>
-    </div>
+    </nav>
   );
 }
 
 function AdminNav() {
   return (
-    <div className="bg-white">
+    <nav className="bg-white">
       <div className={style.secondNavContainer}>
         <NavLink
           to="admin/adminInfo"
@@ -129,7 +129,7 @@ function AdminNav() {
           <h4>交易紀錄</h4>
         </NavLink>
       </div>
-    </div>
+    </nav>
   );
 }
 export default MemberNav;
