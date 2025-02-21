@@ -4,6 +4,7 @@ import { useState } from "react";
 import DataTable from "react-data-table-component";
 import { StyleSheetManager } from "styled-components";
 import isPropValid from "@emotion/is-prop-valid";
+import { customStyles, paginationComponentOptions } from "@/data/constants";
 // react query
 import { useBoxesForAdminManaging } from "../..//hooks/useBoxes";
 import Spinner from "../../components/Spinner";
@@ -13,58 +14,6 @@ import { FaFolderPlus, FaCashRegister } from "react-icons/fa";
 // 更新紙箱、刪除紙箱資料表單元件
 import UpdateBoxDialog from "../dialog/UpdateBoxDialog";
 import DeleteBoxDialog from "../dialog/DeleteBoxDialog";
-
-// 表格內客製化樣式 (或建立style.css覆蓋樣式)
-const customStyles = {
-  table: {
-    style: {
-      border: "1px solid #d9d9d9",
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-    },
-  },
-  headRow: {
-    style: {
-      backgroundColor: "#F5F1E8",
-      borderBottomColor: "#d9d9d9",
-      fontWeight: "bold",
-      color: "#3d3d3d",
-    },
-  },
-  rows: {
-    style: {
-      "&:hover": {
-        backgroundColor: "#F3F3F3",
-      },
-    },
-  },
-  pagination: {
-    style: {
-      borderBottomLeftRadius: "8px",
-      borderBottomRightRadius: "8px",
-      backgroundColor: "#F5F1E8",
-      border: "1px solid #d9d9d9",
-      borderTop: "0px",
-    },
-  },
-  subHeader: {
-    style: {
-      border: "1px solid #d9d9d9",
-      borderBottom: "0px",
-      borderTopLeftRadius: "8px",
-      borderTopRightRadius: "8px",
-      backgroundColor: "#F5F1E8",
-      paddingTop: "24px",
-    },
-  },
-};
-
-// 客製化分頁元件
-const paginationComponentOptions = {
-  rowsPerPageText: "每頁顯示筆數",
-  rangeSeparatorText: "共",
-  selectAllRowsItem: true,
-  selectAllRowsItemText: "全部",
-};
 
 const AdminBoxManageTable = () => {
   // 篩選搜尋資料

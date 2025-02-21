@@ -12,12 +12,13 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import PageNotFound from "./pages/PageNotFound";
 import MemberInfo from "./components/MemberInfo";
-import PointRecords from "./components/PointRecords";
-import TransactionRecords from "./components/TransactionRecords";
+
 import AdminInfo from "./components/AdminInfo";
 import AdminBoxManageTable from "./components/table/AdminBoxManageTable";
 import AdminDeprecatedTable from "./components/table/AdminDeprecatedTable";
 import AdminTradeHistoryTable from "./components/table/AdminTradeHistoryTable";
+import MemberInfoHistoryTable from "./components/table/MemberInfoHistoryTable";
+import MemberInfoPointTable from "./components/table/MemberInfoPointTable";
 
 const queryClient = new QueryClient();
 
@@ -40,10 +41,10 @@ function App() {
             <Route path="normal">
               <Route index element={<Navigate replace to="memberInfo" />} />
               <Route path="memberInfo" element={<MemberInfo />} />
-              <Route path="pointsRecords" element={<PointRecords />} />
+              <Route path="pointsRecords" element={<MemberInfoPointTable />} />
               <Route
                 path="transactionRecords"
-                element={<TransactionRecords />}
+                element={<MemberInfoHistoryTable />}
               />
             </Route>
             <Route path="admin">
