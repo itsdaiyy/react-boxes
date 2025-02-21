@@ -4,80 +4,66 @@ import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { FaPen, FaTimes } from "react-icons/fa";
-import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
+// import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
 
 const formSchema = z.object({
   station_name: z.string().nonempty("站點名稱不得為空"),
   address: z.string().nonempty("地址不得為空"),
   phone: z.string().nonempty("電話不得為空"),
+  station_daily_hours: z.array(
+    z.object({
+      id: z.number(),
+      open_time: z.string().optional(),
+      close_time: z.string().optional(),
+      is_business_day: z.boolean(),
+    }),
+  ),
 });
+import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
 
 import PropTypes from "prop-types";
 AdminInfoForm.propTypes = { station: PropTypes.object };
+
+const daysOfWeek = [
+  "星期日",
+  "星期一",
+  "星期二",
+  "星期三",
+  "星期四",
+  "星期五",
+  "星期六",
+];
 
 function AdminInfoForm({ station }) {
   const [isEditing, setIsEditing] = useState(false);
   const { updateStation, isUpdating } = useUpdateStationInfo();
 
-  const form = useForm({
+  const { handleSubmit, register } = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       station_name: station.station_name || "",
       address: station.address || "",
       phone: station.phone || "",
+      station_daily_hours: Array.from({ length: 7 }, (_, index) => {
+        const dayData = station.station_daily_hours.find(
+          (item) => item.day_of_week === index,
+        );
+
+        return {
+          id: dayData ? dayData.id : "",
+          open_time: dayData ? dayData.open_time.substring(0, 5) : "",
+          close_time: dayData ? dayData.close_time.substring(0, 5) : "",
+          is_business_day: dayData ? dayData.is_business_day : false,
+        };
+      }),
     },
   });
-
-  // 更新站點資訊格式：
-  // {
-  //   id: 1,   // station id
-  //   station_name: "多米葉漢堡",
-  //   address: "新北市樹林區佳園路2段104號",
-  //   phone: "+886-2-26802008",
-  //   station_daily_hours: [
-  //     {
-  //       id: 70,
-  //       open_time: "08:00:00+00",
-  //       close_time: "20:00:00+00",
-  //       day_of_week: 6,
-  //       is_business_day: true,
-  //     },
-  //   ],
-  // }
 
   function onSubmit(values) {
     try {
       console.log(values);
-      updateStation({
-        ...values,
-        id: station.id,
-        station_daily_hours: [
-          {
-            id: 69,
-            open_time: "08:00:00+00",
-            close_time: "20:00:00+00",
-            day_of_week: 5,
-            is_business_day: true,
-          },
-          {
-            id: 70,
-            open_time: "08:00:00+00",
-            close_time: "20:00:00+00",
-            day_of_week: 6,
-            is_business_day: true,
-          },
-        ],
-      });
+      updateStation({ ...values, id: station.id });
     } catch (error) {
       toast.error("Form submission error", error);
     }
@@ -95,86 +81,82 @@ function AdminInfoForm({ station }) {
           )}
         </button>
       </div>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="mx-auto max-w-3xl space-y-4 py-6"
-        >
-          <FormField
-            control={form.control}
-            name="station_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <h6 className="text-gray-700">站點名稱</h6>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="請輸入站點名稱"
-                    value={station.station_name}
-                    type="text"
-                    {...field}
-                    disabled={!isEditing}
-                  />
-                </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mx-auto max-w-3xl space-y-4 py-6"
+      >
+        <div className="flex items-center">
+          <label className="w-1/5">
+            <h6 className="text-main-600">站點名稱</h6>
+          </label>
+          <input
+            {...register("station_name")}
+            placeholder="輸入店名"
+            className="w-3/5 rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+            disabled={!isEditing}
           />
+        </div>
 
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem className="mt-6">
-                <FormLabel>
-                  <h6 className="text-gray-700">地址</h6>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="請輸入站點地址"
-                    value={station.address}
-                    type="text"
-                    {...field}
-                    disabled={!isEditing}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
+        <div className="flex items-center">
+          <label className="w-1/5">
+            <h6 className="text-main-600">地址</h6>
+          </label>
+          <input
+            {...register("address")}
+            placeholder="輸入地址"
+            className="w-3/5 rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+            disabled={!isEditing}
           />
+        </div>
 
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem className="mt-6">
-                <FormLabel>
-                  <h6 className="text-gray-700">電話</h6>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="請輸入電話號碼"
-                    value={station.phone}
-                    type="text"
-                    {...field}
-                    disabled={!isEditing}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
+        <div className="flex items-center">
+          <label className="w-1/5">
+            <h6 className="text-main-600">電話</h6>
+          </label>
+          <input
+            {...register("phone")}
+            placeholder="輸入電話"
+            className="w-3/5 rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+            disabled={!isEditing}
           />
-          {isEditing && (
-            <button className="btn" type="submit" disabled={isUpdating}>
-              {isUpdating ? "更新中" : "確認修改"}
-            </button>
-          )}
-        </form>
-      </Form>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="mb-2">
+            <h6 className="text-main-600">營業時間</h6>
+          </label>
+          {daysOfWeek.map((day, index) => (
+            <div key={index} className="flex items-center space-x-4">
+              <input
+                type="checkbox"
+                {...register(`station_daily_hours.${index}.is_business_day`)}
+                disabled={!isEditing}
+              />
+              <span>{day}</span>
+              <input
+                {...register(`station_daily_hours.${index}.open_time`)}
+                placeholder="開店時間"
+                type="time"
+                disabled={!isEditing}
+                className="w-1/3 rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+              />
+              <input
+                {...register(`station_daily_hours.${index}.close_time`)}
+                placeholder="關店時間"
+                type="time"
+                disabled={!isEditing}
+                className="w-1/3 rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+              />
+            </div>
+          ))}
+        </div>
+        {isEditing && (
+          <button className="btn" type="submit" disabled={isUpdating}>
+            {isUpdating ? "更新中" : "確認修改"}
+          </button>
+        )}
+      </form>
     </>
   );
 }
