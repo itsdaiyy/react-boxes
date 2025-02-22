@@ -119,7 +119,9 @@ export default function UpdateBoxForm({ row, setOpen }) {
               <FormLabel>紙箱保留天數</FormLabel>
               <Select
                 onValueChange={(value) => field.onChange(Number(value))}
-                defaultValue={row.retention_days?.toString()}
+                defaultValue={
+                  row.retention_days ? row.retention_days.toString() : "0"
+                }
               >
                 <FormControl>
                   <SelectTrigger>
@@ -127,6 +129,9 @@ export default function UpdateBoxForm({ row, setOpen }) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
+                  <SelectItem value="0" disabled>
+                    0
+                  </SelectItem>
                   <SelectItem value="7">7</SelectItem>
                   <SelectItem value="30">30</SelectItem>
                   <SelectItem value="60">60</SelectItem>
