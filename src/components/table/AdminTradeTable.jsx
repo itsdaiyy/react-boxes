@@ -1,5 +1,5 @@
 // 5-7 回收站點管理者後台 - 售出紙箱流程
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { StyleSheetManager } from "styled-components";
 import isPropValid from "@emotion/is-prop-valid";
@@ -48,7 +48,27 @@ const customStyles = {
 const AdminTradeTable = () => {
   // 資料
   const { boxes, isLoadingBoxes, boxesError } = useBoxesForSelling(16);
-  const data = boxes;
+
+  // 篩選搜尋資料
+  const [originData, setOriginData] = useState([]);
+  const [filterText, setFilterText] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
+  useEffect(() => {
+    if (boxes?.length || 0 > 0) {
+      // 若boxes回傳為undefined則無法計算length會報錯，加?避免錯誤
+      setOriginData(boxes);
+      setFilteredData(boxes);
+    }
+  }, [boxes]);
+
+  useEffect(() => {
+    const filtered = originData.filter((item) =>
+      item.id.toString().includes(filterText),
+    );
+    setFilteredData(filtered);
+  }, [filterText, originData]);
+  // 搜尋欄、原始資料變動時觸發
 
   // 欄位
   const columns = [
@@ -99,17 +119,24 @@ const AdminTradeTable = () => {
     },
   ];
 
-  // 篩選搜尋資料
-  // const [filterText, setFilterText] = useState("");
-
   if (isLoadingBoxes) return <Spinner />;
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
   return (
     <StyleSheetManager shouldForwardProp={isPropValid}>
+      {/* 搜尋框 */}
+      <div className="mb-3 flex w-full justify-start">
+        <input
+          type="text"
+          placeholder="搜尋紙箱編號"
+          value={filterText}
+          onChange={(e) => setFilterText(e.target.value)}
+          className="rounded border p-2"
+        />
+      </div>
       <DataTable
         columns={columns}
-        data={data}
+        data={filteredData}
         customStyles={customStyles}
         selectableRows
         fixedHeader

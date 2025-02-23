@@ -6,10 +6,8 @@ import { Label } from "@/components/ui/label";
 import memberBannerBg01 from "@/assets/memberBanner-bg1.svg";
 import Header from "./Header";
 import Footer from "./Footer";
-import { useState } from "react";
 
 function AdminTrade() {
-  const [filterText, setFilterText] = useState("");
   return (
     <>
       <Header />
@@ -49,16 +47,6 @@ function AdminTrade() {
               </Label>
               <Input className="w-full" type="text"></Input>
             </div>
-          </div>
-          {/* 搜尋框 */}
-          <div className="mb-3 flex w-full justify-start">
-            <input
-              type="text"
-              placeholder="搜尋紙箱編號"
-              value={filterText}
-              onChange={(e) => setFilterText(e.target.value)}
-              className="rounded border p-2"
-            />
           </div>
           <AdminTradeTable />
           <div className="flex w-full justify-end gap-5">
