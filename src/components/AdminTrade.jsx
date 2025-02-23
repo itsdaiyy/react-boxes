@@ -1,25 +1,105 @@
 // 5-7 回收站點管理者後台 - 售出紙箱流程
-
 import AdminTradeTable from "./table/AdminTradeTable";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+import memberBannerBg01 from "@/assets/memberBanner-bg1.svg";
+import Header from "./Header";
+import Footer from "./Footer";
+import { useState } from "react";
 
 function AdminTrade() {
+  const [filterText, setFilterText] = useState("");
   return (
-    <div className="container flex flex-col items-center">
-      <div>
-        <p>交易紙箱</p>
-      </div>
-      <div>
-        <div className="flex">
-          <p className="mr-3">交易時間</p>
-          <p>2024/11/28 15:32</p>
+    <>
+      <Header />
+      <section className="bg-[#F3F3F3] bg-top bg-no-repeat md:bg-[url('@/assets/memberBanner-bg2.svg')]">
+        <div className="container relative mx-auto flex flex-col items-center gap-10 py-20 text-center md:flex-row md:justify-between md:text-left">
+          <div className="relative h-[201px] w-[200px]">
+            <img
+              src={memberBannerBg01}
+              alt="背景圖"
+              className="absolute -bottom-3 -left-14 hidden md:flex"
+            />
+          </div>
+          <div className="relative h-60 w-80 md:w-[500px]"></div>
         </div>
-        <div className="flex">
-          <p className="mr-3">會員編號</p>
-          <input className="border" type="number" />
+      </section>
+      <div className="mb-[500px]"></div>
+
+      <div className="z-100 container absolute left-0 right-0 top-16 mx-auto my-5 flex flex-col items-center justify-center">
+        <div className="mb-3 flex w-1/3 justify-center">
+          <p className="my-5 w-full border-b-4 border-b-main-600 pb-5 text-center text-4xl font-bold text-main-600">
+            交易紙箱
+          </p>
         </div>
-        <AdminTradeTable />
+        <div className="w-full rounded-xl bg-[#fafafa] p-5">
+          <div className="w-1/3">
+            <div className="mb-5 flex flex-1 items-center">
+              <Label className="w-1/3 text-2xl font-bold text-main-600">
+                交易時間
+              </Label>
+              <Label className="w-full text-2xl text-main-600">
+                {new Date().toLocaleString()}
+              </Label>
+            </div>
+            <div className="mb-5 flex flex-1 items-center">
+              <Label className="w-1/3 text-2xl font-bold text-main-600">
+                會員編號
+              </Label>
+              <Input className="w-full" type="text"></Input>
+            </div>
+          </div>
+          {/* 搜尋框 */}
+          <div className="mb-3 flex w-full justify-start">
+            <input
+              type="text"
+              placeholder="搜尋紙箱編號"
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+              className="rounded border p-2"
+            />
+          </div>
+          <AdminTradeTable />
+          <div className="flex w-full justify-end gap-5">
+            <div className="flex-1"></div>
+            <div className="flex-1"></div>
+            <div className="flex flex-1 justify-center">
+              <p className="p-5">
+                現金總計：<span>17</span>
+              </p>
+              <p className="p-5">
+                積分總計：<span>14</span>
+              </p>
+            </div>
+          </div>
+          <div className="my-5 flex items-center justify-between">
+            <div className="flex flex-1 flex-col items-start">
+              <div className="mb-3 flex w-1/2">
+                <p className="w-1/3 text-xl font-bold">交易紙箱數</p>
+                <p className="text-xl">{"3"} 個紙箱</p>
+              </div>
+              <div className="flex w-1/2 items-center">
+                <p className="w-1/3 text-xl font-bold">支付方式</p>
+                <select className="text-xl" name="" id="">
+                  <option value="cash">現金</option>
+                  <option value="creditCard">信用卡</option>
+                </select>
+              </div>
+            </div>
+            <div className="flex flex-1 gap-3">
+              <button className="btn w-1/2 text-xl" type="button">
+                確認送出
+              </button>
+              <button className="btn w-1/2 text-xl" type="button">
+                取消
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
 
