@@ -45,10 +45,9 @@ const customStyles = {
   },
 };
 
-const AdminTradeTable = () => {
+const AdminTradeTable = ({ handleSelectChange }) => {
   // 資料
   const { boxes, isLoadingBoxes, boxesError } = useBoxesForSelling(16);
-
   // 篩選搜尋資料
   const [originData, setOriginData] = useState([]);
   const [filterText, setFilterText] = useState("");
@@ -139,6 +138,7 @@ const AdminTradeTable = () => {
         data={filteredData}
         customStyles={customStyles}
         selectableRows
+        onSelectedRowsChange={handleSelectChange}
         fixedHeader
         fixedHeaderScrollHeight="350px"
       />

@@ -6,8 +6,32 @@ import { Label } from "@/components/ui/label";
 import memberBannerBg01 from "@/assets/memberBanner-bg1.svg";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useState } from "react";
 
 function AdminTrade() {
+  // 選取計算
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [totalCash, setTotalCash] = useState(0);
+  const [totalPoints, setTotalPoints] = useState(0);
+  const [selectedCounts, setSelectedCounts] = useState(0);
+  const handleSelectChange = ({ selectedRows }) => {
+    setSelectedRows(selectedRows);
+
+    const cashSum = selectedRows.reduce((sum, item) => {
+      return sum + item.cash_value;
+    }, 0);
+
+    const pointSum = selectedRows.reduce((sum, item) => {
+      return sum + item.point_value;
+    }, 0);
+
+    const counts = selectedRows.length;
+
+    setTotalCash(cashSum);
+    setTotalPoints(pointSum);
+    setSelectedCounts(counts);
+  };
+
   return (
     <>
       <Header />
@@ -48,16 +72,16 @@ function AdminTrade() {
               <Input className="w-full" type="text"></Input>
             </div>
           </div>
-          <AdminTradeTable />
+          <AdminTradeTable handleSelectChange={handleSelectChange} />
           <div className="flex w-full justify-end gap-5">
             <div className="flex-1"></div>
             <div className="flex-1"></div>
             <div className="flex flex-1 justify-center">
               <p className="p-5">
-                現金總計：<span>17</span>
+                現金總計：<span>{totalCash}</span>
               </p>
               <p className="p-5">
-                積分總計：<span>14</span>
+                積分總計：<span>{totalPoints}</span>
               </p>
             </div>
           </div>
@@ -65,7 +89,7 @@ function AdminTrade() {
             <div className="flex flex-1 flex-col items-start">
               <div className="mb-3 flex w-1/2">
                 <p className="w-1/3 text-xl font-bold">交易紙箱數</p>
-                <p className="text-xl">{"3"} 個紙箱</p>
+                <p className="text-xl">{selectedCounts} 個紙箱</p>
               </div>
               <div className="flex w-1/2 items-center">
                 <p className="w-1/3 text-xl font-bold">支付方式</p>
