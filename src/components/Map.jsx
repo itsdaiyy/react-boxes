@@ -326,8 +326,11 @@ function Map() {
   const [isSideBar, setIsSideBar] = useState(false); //開啟SideBar
   const [isStationInfo, setIsStationInfo] = useState(false);//開啟側邊欄站點資訊
   const [userLocation, setUserLocation] = useState([]); //儲存使用者定位
-  const [nearestStations, setNearestStations] = useState([]); //儲存5筆鄰近站點
+  const [suggestionStations, setSuggestionStations] = useState([]); //儲存5筆鄰近站點
   const [popupStation,setPopupStation] = useState({});//儲存Popup站點資訊
+  const [searchKeyWords,setSearchKeyWords] = useState('');//儲存使用者輸入的搜尋關鍵字
+  const [availableTags,setAvailableTags] = useState([]);//儲存搜尋建議tags
+  const [showSuggestedTags, setShowSuggestedTags] = useState(false);//顯示建議選項
 
 
   // 取得5筆鄰近站點
@@ -335,7 +338,14 @@ function Map() {
     if (userLocation.length > 0) {
       countDistance();
     }
-  }, [userLocation])
+  }, [userLocation]);
+
+  //取得搜尋建議tags
+  useEffect(()=>{
+    if(stations){
+      getAvailableTags();
+    }
+  },[stations])
 
 
   if (isLoadingStations) return <Spinner />;
@@ -387,7 +397,7 @@ function Map() {
     }
     ))
 
-    setNearestStations(allDistance.sort((a, b) => a.distance - b.distance).slice(0, 5));
+    setSuggestionStations(allDistance.sort((a, b) => a.distance - b.distance).slice(0, 5));
   }
 
   //返回建議站點列表
@@ -399,9 +409,35 @@ function Map() {
     }
   }
 
+  //執行搜尋
+  const handleSearchStations = (e)=>{
+    e.preventDefault();
+    const matchStations = stations.filter((item)=>item.station_name.includes(searchKeyWords) || item.address.includes(searchKeyWords));
+    setSuggestionStations(matchStations);
+    setSearchKeyWords('');
+    setIsSideBar(true);
+    setShowSuggestedTags(false);
+  }
+
+  //取得搜尋建議tags
+  const getAvailableTags = () => {
+    let stationsName = stations.map((item) => item.station_name); // 取得所有站點名稱
+    let stationsAddress = stations.map((item) => item.address); // 取得所有站點地址
+    let tags = [...stationsName, ...stationsAddress]; //合併陣列
+    setAvailableTags(tags); // 更新狀態
+  };
+
+  
+
   return (
     <>
-      <MapNav handleLocateUser={handleLocateUser} />
+      <MapNav handleLocateUser={handleLocateUser} 
+      searchKeyWords={searchKeyWords}
+      setSearchKeyWords={setSearchKeyWords} 
+      handleSearchStations={handleSearchStations}
+      availableTags={availableTags}
+      showSuggestedTags={showSuggestedTags}
+      setShowSuggestedTags={setShowSuggestedTags}/>
 
       <div
         className="relative mx-auto flex flex-col justify-between md:flex-row"
@@ -423,7 +459,7 @@ function Map() {
             ) : (
               <div className="p-[24px] flex flex-col gap-[8px]">
 
-                {nearestStations.map((item, index) => (
+                {suggestionStations.map((item, index) => (
                   <SuggestionStationCard station={item} key={index}
                     countRecyclableBoxes={countRecyclableBoxes}
                     countPendingBoxes={countPendingBoxes}
