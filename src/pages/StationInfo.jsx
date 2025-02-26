@@ -134,7 +134,7 @@ function StationInfo() {
                   </li>
                   <li className="flex items-start justify-start gap-[8px]">
                     <span className="material-symbols-outlined">call</span>
-                    {`電話:${formatPhoneNumber(station.phone)}`}
+                    {`電話:${station.phone?formatPhoneNumber(station.phone):'尚未填寫'}`}
                   </li>
                   <li className="flex items-start justify-start gap-[8px]">
                     <span className="material-symbols-outlined">schedule</span>
