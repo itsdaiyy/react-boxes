@@ -49,8 +49,6 @@ export async function apiGetBoxesForAdminManaging(stationId) {
 
     if (error) throw error;
 
-    console.log(boxes);
-
     return boxes;
   } catch (error) {
     // supabase 錯誤內容
