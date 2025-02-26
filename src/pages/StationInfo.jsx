@@ -1,9 +1,19 @@
+import { useState, useEffect } from "react";
+// 取得站點id
+import { NavLink, useParams } from "react-router-dom";
+// API
 import ErrorMessage from "@/components/ErrorMessage";
 import Header from "@/components/Header";
 import Spinner from "@/components/Spinner";
+import { useBoxesForAdminManaging } from "@/hooks/useBoxes";
 import { useStation } from "@/hooks/useStation";
-import { NavLink } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+
+// React Data Table Component
+import DataTable from "react-data-table-component";
+import { StyleSheetManager } from "styled-components";
+import isPropValid from "@emotion/is-prop-valid";
+import { customStyles, paginationComponentOptions } from "@/data/constants";
+
 // Map
 import {
   MapContainer,
@@ -80,16 +90,50 @@ const getTodayOpenTime = (station_daily_hours) => {
 };
 
 function StationInfo() {
+  const params = useParams();
   const { station, isLoadingStation, stationError } = useStation();
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging(params.stationId);
+  
+  const [availableBoxes,setAvailableBoxes] = useState();
+
+  useEffect(() => {
+    if (boxes?.length || 0 > 0) {
+      // 若boxes回傳為undefined則無法計算length會報錯，加?避免錯誤
+      const available = boxes.filter((item)=>item.status === '可認領');
+      setAvailableBoxes(available);
+    }
+  }, [boxes]);
 
   if (isLoadingStation) return <Spinner />;
   if (stationError) return <ErrorMessage errorMessage={stationError.message} />;
+  if (isLoadingBoxes) return <Spinner />;
+  if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
+
+
 
   // 設定icon
   const customIcon = new L.Icon({
     iconUrl: mapMark,
     iconSize: [40, 40],
   });
+
+  //欄位
+  const columns = [
+      {name:"紙箱照片",
+      selector: (row) => (
+      <div className="py-[16px]">
+        <img src={row.image_url} alt={`編號${row.id}：紙箱照片`}></img>
+        </div>)},
+      { name: "紙箱編號", selector: (row) => row.id, sortable: true },
+      { name: "紙箱大小", selector: (row) => row.size, sortable: true },
+      {
+        name: "紙箱保存等級",
+        selector: (row) => row.condition,
+        sortable: true,
+      },
+      { name: "兌換所需積分", selector: (row) => row.point_value, sortable: true },
+      { name: "金額", selector: (row) => `NT$ ${row.cash_value}`, sortable: true },
+    ];
 
   return (
     <>
@@ -134,7 +178,7 @@ function StationInfo() {
                   </li>
                   <li className="flex items-start justify-start gap-[8px]">
                     <span className="material-symbols-outlined">call</span>
-                    {`電話:${station.phone?formatPhoneNumber(station.phone):'尚未填寫'}`}
+                    {`電話:${station.phone ? formatPhoneNumber(station.phone) : '尚未填寫'}`}
                   </li>
                   <li className="flex items-start justify-start gap-[8px]">
                     <span className="material-symbols-outlined">schedule</span>
@@ -247,6 +291,15 @@ function StationInfo() {
         {/* Section3 */}
         <div className="container mx-auto py-[80px]">
           <h4 className="mb-[24px]">可認領紙箱列表</h4>
+          <StyleSheetManager shouldForwardProp={isPropValid}>
+        <DataTable
+          columns={columns}
+          data={availableBoxes}
+          customStyles={customStyles}
+          pagination
+          paginationComponentOptions={paginationComponentOptions}
+        />
+      </StyleSheetManager>
         </div>
       </main>
     </>
