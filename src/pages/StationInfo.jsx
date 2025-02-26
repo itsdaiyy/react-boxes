@@ -289,7 +289,7 @@ function StationInfo() {
           </div>
         </div>
         {/* Section3 */}
-        <div className="container mx-auto py-[80px]">
+        <div className="container mx-auto pb-[80px]">
           <h4 className="mb-[24px]">可認領紙箱列表</h4>
           <StyleSheetManager shouldForwardProp={isPropValid}>
         <DataTable
