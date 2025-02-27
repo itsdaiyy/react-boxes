@@ -52,6 +52,7 @@ export async function apiSignOut() {
 
 export async function apiGetMember() {
   try {
+    // 測試使用，先登入後取得資料。
     const signInUser = { email: "test01@gmail.com", password: "password1" };
 
     await apiSignIn(signInUser);
@@ -61,6 +62,29 @@ export async function apiGetMember() {
     } = await supabase.auth.getUser();
 
     return user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// update 物件格式：
+// const obj = {
+//   data: {
+//     avatar_url: "https://fakeimg.pl/200/",
+//     display_name: "王志豪",
+//     phone: "+886956135395",
+//     points: 48,
+//     roles: ["users", "storeOwner"],
+//     transaction_nums: 121,
+//   },
+// };
+export async function apiUpdateMember(newInfoObj) {
+  try {
+    const { data, error } = await supabase.auth.updateUser(newInfoObj);
+
+    if (error) throw error;
+
+    return data;
   } catch (error) {
     throw new Error(error.message);
   }

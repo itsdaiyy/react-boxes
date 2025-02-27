@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 
 // Icon
 import { FaPen } from "react-icons/fa";
+import { useUpdateMember } from "@/hooks/useUpdateMember";
 
 // zod驗證規則
 const formSchema = z.object({
@@ -40,11 +41,26 @@ function MemberInfoForm() {
   const { reset, formState } = form;
   const { isSubmitSuccessful } = formState;
 
-  // 串接API後繼續完成
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  //   setIsEditing(false);
+  const { updateMember, updateMemberError, isUpdating } = useUpdateMember();
+
+  // update 物件格式：
+  // const obj = {
+  //   data: {
+  //     avatar_url: "https://fakeimg.pl/200/",
+  //     display_name: "王志豪",
+  //     phone: "+886956135395",
+  //     points: 48,
+  //     roles: ["users", "storeOwner"],
+  //     transaction_nums: 121,
+  //   },
   // };
+
+  // 串接API後繼續完成
+  const onSubmit = (data) => {
+    console.log(data);
+    // setIsEditing(false);
+  };
+
   return (
     <div className="order-2 rounded-3xl bg-white p-10 md:order-1 md:w-1/2">
       <div className="mb-6 flex items-center justify-between">
@@ -57,7 +73,7 @@ function MemberInfoForm() {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit()} noValidate>
+        <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
           <FormField
             control={form.control}
             name="name"
