@@ -49,3 +49,19 @@ export async function apiSignOut() {
     throw new Error(error.message);
   }
 }
+
+export async function apiGetMember() {
+  try {
+    const signInUser = { email: "test01@gmail.com", password: "password1" };
+
+    await apiSignIn(signInUser);
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    return user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
