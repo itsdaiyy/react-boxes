@@ -5,7 +5,7 @@ import MenuLogin from "./MenuLogin";
 
 const style = {
   container:
-    "container mx-auto flex items-center justify-between px-5 py-2 shadow-[0px_1px_1px_0px_rgba(0,0,0,0.1)] backdrop-blur-[5px] lg:px-0 lg:shadow-none lg:backdrop-blur-none",
+    "container mx-auto flex items-center justify-between px-5 py-2 shadow-[0px_1px_1px_0px_rgba(0,0,0,0.1)] backdrop-blur-[5px] lg:shadow-none lg:backdrop-blur-none",
   menu: "hidden cursor-pointer md:block lg:hidden",
   nav: "hidden items-center justify-between gap-6 lg:flex text-nowrap",
   mapAfter:

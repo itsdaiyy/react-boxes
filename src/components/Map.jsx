@@ -19,6 +19,7 @@ import MapNav from "./MapNav";
 import Spinner from "@/components/Spinner";
 import ErrorMessage from "./ErrorMessage";
 import mapMark from "../assets/mapMark.png";
+import SellingBoxesCard from "./card/SellingBoxesCard";
 
 // 取得使用者定位
 const UserLocation = ({ setUserLocation }) => {
@@ -45,20 +46,31 @@ const UserLocation = ({ setUserLocation }) => {
 };
 
 // 建議站點卡
-const SuggestionStationCard = ({ station, countRecyclableBoxes, countPendingBoxes, formatPhoneNumber, setClickedId, mapRef, setIsStationInfo }) => {
+const SuggestionStationCard = ({ station, countRecyclableBoxes, countPendingBoxes, formatPhoneNumber, setClickedId, mapRef, setIsStationInfo, isLg, setIsSideBar, markerRefs, setPopupStation }) => {
   const { latitude, longitude } = station; //取得經緯度
 
   //前往選擇站點定位
-  const handleCheckStation = ({ station }) => {
-    if (mapRef.current) {
+  const handleCheckStation = () => {
+    setPopupStation(station); // 設定選中的站點
+
+    if (mapRef.current && isLg) {
       const map = mapRef.current;
       map.setView([latitude, longitude], 15);
+    } else if (mapRef.current) {
+      const map = mapRef.current;
+      map.setView([latitude, longitude], 15);
+      setIsSideBar(false);
+    }
+
+    // 開啟對應站點的 Popup
+    if (markerRefs.current[station.id]) {
+      markerRefs.current[station.id].openPopup();
     }
   };
 
   return (
     <div className="p-[24px] border rounded-lg">
-      <button onClick={() => handleCheckStation(station)}>
+      <button onClick={() => handleCheckStation()}>
         <h5 className="mb-[12px]">{station.station_name}</h5>
       </button>
       <h5 className="mb-[12px] flex gap-[8px] text-base">
@@ -99,7 +111,7 @@ const SuggestionStationCard = ({ station, countRecyclableBoxes, countPendingBoxe
 }
 
 //側邊欄站點詳細資訊
-const StationDetailedInfo = ({station,countRecyclableBoxes,countPendingBoxes,formatPhoneNumber,handleBackSuggestaion}) =>{
+const StationDetailedInfo = ({ station, countRecyclableBoxes, countPendingBoxes, formatPhoneNumber, handleBackSuggestaion }) => {
 
   const [isAllOpenTime, setIsAllOpenTime] = useState(false); //開啟詳細營業時間
   const [isBoxSize, setIsBoxSize] = useState(false); //開啟查看紙箱尺寸
@@ -111,19 +123,19 @@ const StationDetailedInfo = ({station,countRecyclableBoxes,countPendingBoxes,for
       const closeTime = item.close_time.replace(/^(\d{2}:\d{2}):\d{2}.*/, "$1");
 
       if (index === 0) {
-        return <li key={index}>{item?`星期日 ${openTime}-${closeTime}`:'休息'}</li>;
+        return <li key={index}>{item ? `星期日 ${openTime}-${closeTime}` : '休息'}</li>;
       } else if (index === 1) {
-        return <li key={index}>{item?`星期一 ${openTime}-${closeTime}`:'休息'}</li>;
+        return <li key={index}>{item ? `星期一 ${openTime}-${closeTime}` : '休息'}</li>;
       } else if (index === 2) {
-        return <li key={index}>{item? `星期二 ${openTime}-${closeTime}`:'休息'}</li>;
+        return <li key={index}>{item ? `星期二 ${openTime}-${closeTime}` : '休息'}</li>;
       } else if (index === 3) {
-        return <li key={index}>{item? `星期三 ${openTime}-${closeTime}`:'休息'}</li>;
+        return <li key={index}>{item ? `星期三 ${openTime}-${closeTime}` : '休息'}</li>;
       } else if (index === 4) {
-        return <li key={index}>{item? `星期四 ${openTime}-${closeTime}`:'休息'}</li>;
+        return <li key={index}>{item ? `星期四 ${openTime}-${closeTime}` : '休息'}</li>;
       } else if (index === 5) {
-        return <li key={index}>{item? `星期五 ${openTime}-${closeTime}`:'休息'}</li>;
+        return <li key={index}>{item ? `星期五 ${openTime}-${closeTime}` : '休息'}</li>;
       } else {
-        return <li key={index}>{item? `星期六 ${openTime}-${closeTime}`:'休息'}</li>;
+        return <li key={index}>{item ? `星期六 ${openTime}-${closeTime}` : '休息'}</li>;
       }
     });
   };
@@ -206,26 +218,27 @@ const StationDetailedInfo = ({station,countRecyclableBoxes,countPendingBoxes,for
       <div className="mb-[24px] rounded-lg border border-solid border-[#B7B7B7] p-[16px]">
         <h6 className="mb-[12px]">回收認領資訊</h6>
 
-        <div className="mb-[12px] flex justify-center gap-[25px]">
+        <div className="mb-[12px] flex flex-col lg:flex-row justify-center gap-[25px]">
           {/* 可回收 */}
           <div>
             <p className="mb-[8px] w-full rounded-lg bg-main-100 py-[4px] text-center text-main-600">
               可回收紙箱
             </p>
             <div className="flex gap-[8px]">
-              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[8px] text-main-600">
+
+              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[8px] text-main-600 w-full">
                 <h4>{station.available_slots.S}</h4>
                 <p>S</p>
               </div>
-              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[8px] text-main-600">
+              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[8px] text-main-600 w-full">
                 <h4>{station.available_slots.M}</h4>
                 <p>M</p>
               </div>
-              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[8px] text-main-600">
+              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[8px] text-main-600 w-full">
                 <h4>{station.available_slots.L}</h4>
                 <p>L</p>
               </div>
-              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[8px] text-main-600">
+              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[8px] text-main-600 w-full">
                 <h4>{station.available_slots.XL}</h4>
                 <p>XL</p>
               </div>
@@ -237,19 +250,19 @@ const StationDetailedInfo = ({station,countRecyclableBoxes,countPendingBoxes,for
               可認領紙箱
             </p>
             <div className="flex gap-[8px]">
-              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[8px]">
+              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[8px] w-full">
                 <h4>{station.pending_boxes_s}</h4>
                 <p>S</p>
               </div>
-              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[8px]">
+              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[8px] w-full">
                 <h4>{station.pending_boxes_m}</h4>
                 <p>M</p>
               </div>
-              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[8px]">
+              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[8px] w-full">
                 <h4>{station.pending_boxes_l}</h4>
                 <p>L</p>
               </div>
-              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[8px]">
+              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[8px] w-full">
                 <h4>{station.pending_boxes_xl}</h4>
                 <p>XL</p>
               </div>
@@ -283,12 +296,12 @@ const StationDetailedInfo = ({station,countRecyclableBoxes,countPendingBoxes,for
           )}
         </div>
       </div>
-      <div className="flex gap-[8px]">
+      <div className="flex gap-[8px] md:flex-row flex-col text-center">
         <NavLink className="btn" to={`/map/${station.id}`}>
-          查看更多
+          查看本站紙箱列表
         </NavLink>
         <button className="btn" onClick={() => handleBackSuggestaion()}>
-          返回建議站點列表
+          返回搜尋結果
         </button>
       </div>
     </div>
@@ -296,7 +309,7 @@ const StationDetailedInfo = ({station,countRecyclableBoxes,countPendingBoxes,for
 }
 
 //Popup
-const PopupCard = ({station,countRecyclableBoxes,countPendingBoxes,setIsStationInfo,setIsSideBar,setClickedId})=>{
+const PopupCardLg = ({ station, countRecyclableBoxes, countPendingBoxes, setIsStationInfo, setIsSideBar, setClickedId }) => {
   return (<div>
     <h6 className="mb-[12px] text-start font-semibold">
       {station.station_name}
@@ -314,6 +327,20 @@ const PopupCard = ({station,countRecyclableBoxes,countPendingBoxes,setIsStationI
   </div>)
 }
 
+const PopupCard = ({ station, countRecyclableBoxes, countPendingBoxes }) => {
+  return (<div>
+    <h6 className="mb-[12px] text-start font-semibold">
+      {station.station_name}
+    </h6>
+    <div className="flex justify-center gap-[8px]">
+      {countRecyclableBoxes(station) && (<span className="fs-7 rounded-full bg-main-200 px-[12px] py-[4px]">可回收</span>)}
+      {countPendingBoxes(station) && (<span className="fs-7 rounded-full bg-second-200 px-[12px] py-[4px]">可認領</span>)}
+      {/* <span className="fs-7 rounded-full bg-main-200 px-[12px] py-[4px]">{`可回收${countRecyclableBoxes(station)}個`}</span>
+      <span className="fs-7 rounded-full bg-second-200 px-[12px] py-[4px]">{`可認領${countPendingBoxes(station)}個`}</span> */}
+    </div>
+  </div>)
+}
+
 
 function Map() {
   const mapRef = useRef(null); //取得地圖實例
@@ -327,10 +354,12 @@ function Map() {
   const [isStationInfo, setIsStationInfo] = useState(false);//開啟側邊欄站點資訊
   const [userLocation, setUserLocation] = useState([]); //儲存使用者定位
   const [suggestionStations, setSuggestionStations] = useState([]); //儲存5筆鄰近站點
-  const [popupStation,setPopupStation] = useState({});//儲存Popup站點資訊
-  const [searchKeyWords,setSearchKeyWords] = useState('');//儲存使用者輸入的搜尋關鍵字
-  const [availableTags,setAvailableTags] = useState([]);//儲存搜尋建議tags
+  const [popupStation, setPopupStation] = useState({});//儲存Popup站點資訊
+  const [searchKeyWords, setSearchKeyWords] = useState('');//儲存使用者輸入的搜尋關鍵字
+  const [availableTags, setAvailableTags] = useState([]);//儲存搜尋建議tags
   const [showSuggestedTags, setShowSuggestedTags] = useState(false);//顯示建議選項
+  const [isLg, setIsLg] = useState(false); //畫面大小
+  const markerRefs = useRef({}); //儲存所有的marker
 
 
   // 取得5筆鄰近站點
@@ -341,11 +370,30 @@ function Map() {
   }, [userLocation]);
 
   //取得搜尋建議tags
-  useEffect(()=>{
-    if(stations){
+  useEffect(() => {
+    if (stations) {
       getAvailableTags();
     }
-  },[stations])
+  }, [stations])
+
+  // 畫面大小
+  useEffect(() => {
+    const checkSize = () => {
+      if (window.innerWidth >= 992) {
+        setIsLg(true);
+      } else {
+        setIsLg(false);
+      }
+
+      // console.log('Window width:', window.innerWidth >= 992);
+    };
+
+    checkSize(); // 初始化檢查
+
+    window.addEventListener('resize', checkSize); // 當螢幕大小改變時更新狀態
+
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
 
 
   if (isLoadingStations) return <Spinner />;
@@ -403,6 +451,7 @@ function Map() {
   //返回建議站點列表
   const handleBackSuggestaion = () => {
     setIsStationInfo(false);
+    setPopupStation(null); // 確保 popupStation 清空
     if (mapRef.current) {
       const map = mapRef.current;
       map.closePopup();
@@ -410,13 +459,14 @@ function Map() {
   }
 
   //執行搜尋
-  const handleSearchStations = (e)=>{
+  const handleSearchStations = (e) => {
     e.preventDefault();
-    const matchStations = stations.filter((item)=>item.station_name.includes(searchKeyWords) || item.address.includes(searchKeyWords));
+    const matchStations = stations.filter((item) => item.station_name.includes(searchKeyWords) || item.address.includes(searchKeyWords));
     setSuggestionStations(matchStations);
     setSearchKeyWords('');
     setIsSideBar(true);
     setShowSuggestedTags(false);
+    setIsStationInfo(false);
   }
 
   //取得搜尋建議tags
@@ -427,37 +477,49 @@ function Map() {
     setAvailableTags(tags); // 更新狀態
   };
 
-  
+  // Marker在不同螢幕下的執行動作
+  const handleMarkerClick = (item) => {
+    setPopupStation(item); // 設定選中的站點
+    if (!isLg) {
+      // 在小螢幕上直接開啟側邊欄
+      setClickedId(item.id)
+      setIsStationInfo(true);
+      setIsSideBar(true);
+    }
+  };
+
 
   return (
     <>
-      <MapNav handleLocateUser={handleLocateUser} 
-      searchKeyWords={searchKeyWords}
-      setSearchKeyWords={setSearchKeyWords} 
-      handleSearchStations={handleSearchStations}
-      availableTags={availableTags}
-      showSuggestedTags={showSuggestedTags}
-      setShowSuggestedTags={setShowSuggestedTags}/>
+      <MapNav handleLocateUser={handleLocateUser}
+        searchKeyWords={searchKeyWords}
+        setSearchKeyWords={setSearchKeyWords}
+        handleSearchStations={handleSearchStations}
+        availableTags={availableTags}
+        showSuggestedTags={showSuggestedTags}
+        setShowSuggestedTags={setShowSuggestedTags} />
 
       <div
-        className="relative mx-auto flex flex-col justify-between md:flex-row"
-        style={{ height: "700px", width: "100%" }}
+        className="relative mx-auto flex justify-between lg:flex-row lg:h-[700px] "
       >
         {/* 側邊欄 */}
         {isSideBar ? (
-          <div className="w-[486px] flex-shrink-0 overflow-auto scrollbar">
+          <div className="lg:w-[486px] w-full flex-shrink-0 overflow-auto scrollbar">
+            <button className="lg:hidden flex gap-[12px] py-[24px] px-[24px]" onClick={() => setIsSideBar(false)}><span className="material-symbols-outlined">
+              arrow_back
+            </span><h5>回到地圖</h5></button>
             {isStationInfo && station ? (
 
               <StationDetailedInfo
-              station={station}
-              countRecyclableBoxes={countRecyclableBoxes}
-              countPendingBoxes={countPendingBoxes}
-              formatPhoneNumber={formatPhoneNumber}
-              handleBackSuggestaion={handleBackSuggestaion}
+                station={station}
+                countRecyclableBoxes={countRecyclableBoxes}
+                countPendingBoxes={countPendingBoxes}
+                formatPhoneNumber={formatPhoneNumber}
+                handleBackSuggestaion={handleBackSuggestaion}
               ></StationDetailedInfo>
 
             ) : (
-              <div className="p-[24px] flex flex-col gap-[8px]">
+              <div className="lg:p-[24px] flex flex-col gap-[8px] pt-0 p-[24px]">
 
                 {suggestionStations.map((item, index) => (
                   <SuggestionStationCard station={item} key={index}
@@ -466,8 +528,12 @@ function Map() {
                     formatPhoneNumber={formatPhoneNumber}
                     setClickedId={setClickedId}
                     mapRef={mapRef}
-                    setIsStationInfo={setIsStationInfo} />))}
-
+                    setIsStationInfo={setIsStationInfo}
+                    setIsSideBar={setIsSideBar}
+                    isLg={isLg}
+                    markerRefs={markerRefs}
+                    setPopupStation={setPopupStation}
+                  />))}
               </div>
 
             )}
@@ -477,64 +543,87 @@ function Map() {
         )}
 
         {/* 地圖 */}
-        <MapContainer
-          className="relative z-0"
-          center={[stations[0].latitude, stations[0].longitude]} // 預設第一個站點
-          zoom={15}
-          style={{ height: "100%", width: "100%" }}
-          ref={mapRef}
-        >
-          {/* 地圖圖層 */}
-          <TileLayer
-            url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-            attribution="Positron"
-          />
-
-          {/* 地圖上的標記 */}
-          {stations.map((item) => (
-            <Marker
-              icon={customIcon}
-              position={[item.latitude, item.longitude]}
-              key={item.id}
-              eventHandlers={{
-                click: () => {
-                  setPopupStation(item); // 設定選中的站點
-                },
-              }}
-            >
-              <Popup>
-                {popupStation ? (
-                  
-                  <PopupCard
-                  station={popupStation}
-                  countRecyclableBoxes={countRecyclableBoxes}
-                  countPendingBoxes={countPendingBoxes}
-                  setIsStationInfo={setIsStationInfo}
-                  setIsSideBar={setIsSideBar}
-                  setClickedId={setClickedId}
-                  ></PopupCard>
-                  
-                ) : (
-                  ""
-                )}
-              </Popup>
-            </Marker>
-          ))}
-
-          <UserLocation setUserLocation={setUserLocation} />
-
-          {/* 側邊欄開關 */}
-          <button
-            className="absolute left-[0px] top-[273px] z-[999999999] h-[72px] w-[40px] rounded-r-lg border-b border-e border-t bg-white"
-            onClick={() => setIsSideBar(!isSideBar)}
+        <div className="lg:h-[700px] md:h-[calc(100vh-264.2px)] w-full relative z-0 h-[calc(100vh-408.2px)]">
+          <MapContainer
+            // className="relative z-0"
+            center={[stations[0].latitude, stations[0].longitude]} // 預設第一個站點
+            zoom={15}
+            style={{ height: "100%", width: "100%" }}
+            ref={mapRef}
           >
-            {isSideBar ? (
-              <span className="material-symbols-outlined">arrow_back_ios</span>
-            ) : (
-              <span className="material-symbols-outlined">chevron_right</span>
-            )}
-          </button>
-        </MapContainer>
+            {/* 地圖圖層 */}
+            <TileLayer
+              url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+              attribution="Positron"
+            />
+
+            {/* 地圖上的標記 */}
+            {stations.map((item) => (
+              <Marker
+                icon={customIcon}
+                position={[item.latitude, item.longitude]}
+                key={item.id}
+                ref={(el) => (markerRefs.current[item.id] = el)} // 儲存 Marker 參照
+                eventHandlers={{
+                  click: () => {
+                    handleMarkerClick(item); // 設定選中的站點
+                  },
+                }}
+              >
+                {isLg ?
+
+                  <Popup>
+                    {popupStation ? (
+
+                      <PopupCardLg
+                        station={popupStation}
+                        countRecyclableBoxes={countRecyclableBoxes}
+                        countPendingBoxes={countPendingBoxes}
+                        setIsStationInfo={setIsStationInfo}
+                        setIsSideBar={setIsSideBar}
+                        setClickedId={setClickedId}
+                      ></PopupCardLg>
+
+                    ) : (
+                      <p>載入中...</p>
+                    )}
+                  </Popup>
+
+                  : <Popup>
+
+                    {popupStation ? (
+
+                      <PopupCard station={popupStation}
+                        countRecyclableBoxes={countRecyclableBoxes}
+                        countPendingBoxes={countPendingBoxes}>
+                      </PopupCard>
+
+                    ) : (
+                      <p>載入中...</p>
+                    )}
+
+                  </Popup>}
+
+
+
+              </Marker>
+            ))}
+
+            <UserLocation setUserLocation={setUserLocation} />
+
+            {/* 側邊欄開關 */}
+            <button
+              className="absolute left-[0px] top-[273px] z-[999999999] h-[72px] w-[40px] rounded-r-lg border-b border-e border-t bg-white lg:inline hidden"
+              onClick={() => setIsSideBar(!isSideBar)}
+            >
+              {isSideBar ? (
+                <span className="material-symbols-outlined">chevron_left</span>
+              ) : (
+                <span className="material-symbols-outlined">chevron_right</span>
+              )}
+            </button>
+          </MapContainer>
+        </div>
       </div>
     </>
   );
