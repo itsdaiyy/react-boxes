@@ -8,13 +8,13 @@ import { useEffect, useState } from "react";
 
 const style = {
   container:
-    "container mx-auto flex flex-col items-center justify-between py-2 md:flex-row",
+    "container mx-auto px-5 flex flex-col items-center justify-between py-2 md:flex-row",
   logoContainer:
     "flex w-full items-center justify-between px-5 pb-2 shadow-[0px_1px_1px_0px_rgba(0,0,0,0.1)] backdrop-blur-[5px] md:w-auto md:px-0 md:pb-0 md:shadow-none md:backdrop-blur-none",
   menu: "hidden cursor-pointer md:block lg:hidden",
   formContainer:
     "flex w-full items-center gap-2 px-5 py-3 md:w-auto md:px-0 md:py-0",
-  form: "flex h-10 lg:h-12 w-full items-center justify-between rounded-3xl border border-[#D9D9D9] py-1 pl-6 pr-1 focus-within:border focus-within:border-main-500 focus-visible:outline-none xl:w-[636px] ",
+  form: "relative flex h-10 lg:h-12 w-full items-center justify-between rounded-3xl border border-[#D9D9D9] py-1 pl-6 pr-1 focus-within:border focus-within:border-main-500 focus-visible:outline-none xl:w-[636px] ",
   input:
     "w-full text-black placeholder:text-[#B7B7B7] focus-visible:outline-none",
   searchIcons: "rounded-full bg-main-600 p-2",
@@ -32,7 +32,7 @@ const SuggestedTags = ({ filteredTags, handleSelect }) => {
         maxHeight: "150px",
         overflowY: "auto",
         scrollbarWidth: "none",
-      }} className="w-full xl:w-[636px] bg-white p-0 m-0 rounded-b-xl drop-shadow-lg"
+      }} className="w-full bg-white p-0 m-0 rounded-b-xl drop-shadow-lg"
     >
       {filteredTags.slice(0, 3).map((tag) => (
         <li
@@ -109,6 +109,14 @@ function MapNav({ handleLocateUser, searchKeyWords, setSearchKeyWords, handleSea
               <button type="submit">
                 <img src={search} alt="搜尋" className={style.searchIcons} />
               </button>
+{/* 搜尋建議 */}
+<div className="absolute z-[1000]  flex justify-center top-[135%] left-0 w-full">
+      {showSuggestedTags && filteredTags.length > 0 && (
+        <SuggestedTags filteredTags={filteredTags}
+          handleSelect={handleSelect}></SuggestedTags>)}
+      </div>
+
+
             </form>
             <button className={style.placeBtn}>
               <img src={place} alt="place" className="max-w-max" />
@@ -137,12 +145,7 @@ function MapNav({ handleLocateUser, searchKeyWords, setSearchKeyWords, handleSea
         </div>
       </div>
 
-      {/* 搜尋建議 */}
-      <div className="absolute z-[1000] flex justify-center top-full left-0 w-full">
-      {showSuggestedTags && filteredTags.length > 0 && (
-        <SuggestedTags filteredTags={filteredTags}
-          handleSelect={handleSelect}></SuggestedTags>)}
-      </div>
+      
 
 
     </div>
