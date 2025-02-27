@@ -11,9 +11,13 @@ import {
 } from "@/components/ui/dialog";
 import UpdateBoxForm from "../form/UpdateBoxForm";
 import { FaPen } from "react-icons/fa";
+import { getExpirationDate, isExpired } from "@/utils/helpers";
 
 function UpdateBoxDialog({ row }) {
   const [open, setOpen] = useState(false);
+  // 保存到期日
+  const retentionDate = getExpirationDate(row.updated_at, row.retention_days);
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -34,13 +38,15 @@ function UpdateBoxDialog({ row }) {
               <p>紙箱編號：{row.id}</p>
               <p>新增時間：{row.created_at?.replace("T", " ").slice(0, 16)}</p>
               <p>更新時間：{row.updated_at?.replace("T", " ").slice(0, 16)}</p>
-              <p className="text-red-500">
+              <p
+                className={
+                  isExpired(retentionDate) ? "text-red-500" : "text-black"
+                }
+              >
                 保存到期日：
-                {row.updated_at?.replace("T", " ").slice(0, 16)}
+                {retentionDate}
               </p>
-              <p className="text-red-500">
-                回收會員：{row.user_id?.slice(0, 16)}
-              </p>
+              <p>回收會員：{row.user_id?.slice(0, 18)}</p>
             </div>
           </div>
           <UpdateBoxForm row={row} setOpen={setOpen} />

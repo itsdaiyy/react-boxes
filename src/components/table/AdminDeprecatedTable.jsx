@@ -9,6 +9,7 @@ import { customStyles, paginationComponentOptions } from "@/data/constants";
 import { useBoxesForScraping } from "@/hooks/useBoxes";
 import Spinner from "@/components/Spinner";
 import ErrorMessage from "@/components/ErrorMessage";
+// react-icons
 import { FaTrashAlt } from "react-icons/fa";
 // 更新紙箱、刪除紙箱資料表單元件
 import UpdateBoxDialog from "../dialog/UpdateBoxDialog";
@@ -75,7 +76,7 @@ const AdminDeprecatedTable = () => {
       selector: (row) => (
         <div className="flex gap-2">
           <UpdateBoxDialog row={row} />
-          <DeleteBoxDialog row={row} />
+          <DeleteBoxDialog row={row} icons={<FaTrashAlt />} />
         </div>
       ),
     },
