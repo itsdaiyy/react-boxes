@@ -149,11 +149,11 @@ function AdminTrade() {
                     <Controller
                       name="paymentMethod"
                       control={methods.control}
-                      defaultValue="cash"
+                      defaultValue="選擇支付方式"
                       render={({ field }) => (
                         <select className="text-xl" {...field}>
                           <option value="cash">現金</option>
-                          <option value="creditCard">信用卡</option>
+                          <option value="points">積分</option>
                         </select>
                       )}
                     />
