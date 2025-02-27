@@ -154,6 +154,9 @@
   .btn-cancel {
     @apply rounded-[20px] border border-[#D9D9D9] bg-neutral-600 px-5 py-2 text-neutral-200 shadow-[0_2px_0_#D9D9D9] hover:bg-neutral-500;
   }
+  .btn-recycle {
+    @apply rounded-[20px] border border-green-300 bg-green-600 px-5 py-2 text-neutral-200 shadow-[0_2px_0_#bbf7d0] hover:bg-green-500;
+  }
   .btn-delete {
     @apply rounded-[20px] border border-red-300 bg-red-600 px-5 py-2 text-neutral-200 shadow-[0_2px_0_#fca5a5] hover:bg-red-500;
   }
@@ -182,8 +185,6 @@
     @apply bg-background text-foreground;
   }
 }
-
-
 
 @layer base {
   * {

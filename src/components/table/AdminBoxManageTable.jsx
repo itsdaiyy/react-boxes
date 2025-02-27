@@ -11,6 +11,7 @@ import Spinner from "../../components/Spinner";
 import ErrorMessage from "../../components/ErrorMessage";
 // react icons
 import { FaFolderPlus, FaCashRegister } from "react-icons/fa";
+import { FaRecycle } from "react-icons/fa";
 // 更新紙箱、刪除紙箱資料表單元件
 import UpdateBoxDialog from "../dialog/UpdateBoxDialog";
 import DeleteBoxDialog from "../dialog/DeleteBoxDialog";
@@ -76,7 +77,7 @@ const AdminBoxManageTable = () => {
       selector: (row) => (
         <div className="flex gap-2">
           <UpdateBoxDialog row={row} />
-          <DeleteBoxDialog row={row} />
+          <DeleteBoxDialog row={row} icons={<FaRecycle />} />
         </div>
       ),
     },
