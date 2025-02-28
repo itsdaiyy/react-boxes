@@ -20,7 +20,7 @@ import AdminTradeHistoryTable from "./components/table/AdminTradeHistoryTable";
 import MemberInfoHistoryTable from "./components/table/MemberInfoHistoryTable";
 import MemberInfoPointTable from "./components/table/MemberInfoPointTable";
 import AdminTrade from "./components/AdminTrade";
-import AdminAddBoxes from "./pages/AdminAddBoxes";
+import AdminAddBoxes from "./components/form/AdminAddBoxes";
 
 const queryClient = new QueryClient();
 
