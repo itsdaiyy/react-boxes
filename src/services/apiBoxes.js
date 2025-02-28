@@ -145,3 +145,42 @@ export async function apiUpdateBox(boxId, values) {
     throw new Error("無法更新資料，請確認網路狀態或稍後再試");
   }
 }
+
+/**
+ * 從 Supabase 更新多筆紙箱資料
+ *
+ * 該函式向 Supabase 的 `boxes` 表格更新多筆紙箱資料，並處理錯誤。
+ *
+ * @async
+ * @function apiUpdateMultipleBoxes
+ * @param {Array<number>} boxIds - 需要更新的紙箱 ID 陣列
+ * @param {Object} values - 需要更新的欄位值
+ * @returns {Promise<Array>} 紙箱資料陣列，若請求成功返回資料，若失敗則會拋出錯誤
+ * @throws {Error} 如果請求過程中發生錯誤，則會拋出錯誤
+ */
+
+export async function apiUpdateMultipleBoxes(boxIds, values) {
+  try {
+    // 確保 boxIds 是有效的陣列
+    if (!Array.isArray(boxIds) || boxIds.length === 0) {
+      throw new Error("無效的輸入，請提供需要更新的紙箱 ID 陣列");
+    }
+
+    // 使用 `.in()` 來批量更新符合條件的紙箱
+    const { data: updatedBoxes, error } = await supabase
+      .from("boxes")
+      .update({ ...values, updated_at: getTimestamp() })
+      .in("id", boxIds) // 更新所有符合 boxIds 陣列內的資料
+      .select();
+
+    if (error) {
+      console.error("批量更新失敗:", error);
+      throw error;
+    }
+
+    return updatedBoxes;
+  } catch (error) {
+    console.error("批量更新紙箱資料失敗:", error);
+    throw new Error("無法更新資料，請確認網路狀態或稍後再試");
+  }
+}
