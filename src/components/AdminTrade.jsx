@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 const formSchema = z.object({
   userId: z.string().min(1, { message: "會員編號為必填" }),
   selectedRows: z.array(z.any()).min(1, { message: "尚未選擇要交易的項目" }),
+  paymentMethod: z.enum(["cash", "points"]),
 });
 
 function AdminTrade() {
@@ -26,6 +27,7 @@ function AdminTrade() {
     defaultValues: {
       userId: "",
       selectedRows: [],
+      paymentMethod: "cash",
     },
   });
 
@@ -40,9 +42,6 @@ function AdminTrade() {
   const [totalCash, setTotalCash] = useState(0);
   const [totalPoints, setTotalPoints] = useState(0);
   const [selectedCounts, setSelectedCounts] = useState(0);
-
-  // 取得時間
-  const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
 
   // 當用戶選擇紙箱時，更新表單狀態
   const handleSelectChange = ({ selectedRows }) => {
@@ -64,11 +63,7 @@ function AdminTrade() {
   };
 
   const onSubmit = (data) => {
-    const formData = {
-      ...data,
-      currentTime: new Date().toLocaleString(), // 送出時取得最新時間
-    };
-    console.log("提交的資料:", formData);
+    console.log("提交的資料:", data);
     navigate("/member/admin/boxesTable"); // 轉向至 5-3
   };
 
@@ -105,7 +100,7 @@ function AdminTrade() {
                     交易時間
                   </Label>
                   <Label className="text-2xl text-main-600">
-                    {currentTime}
+                    {new Date().toLocaleString()}
                   </Label>
                 </div>
                 <div className="mb-5 flex flex-1 items-center">
@@ -149,7 +144,7 @@ function AdminTrade() {
                     <Controller
                       name="paymentMethod"
                       control={methods.control}
-                      defaultValue="選擇支付方式"
+                      defaultValue="cash"
                       render={({ field }) => (
                         <select className="text-xl" {...field}>
                           <option value="cash">現金</option>
