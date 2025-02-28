@@ -21,7 +21,6 @@ const formSchema = z.object({
 function AdminTrade() {
   const navigate = useNavigate();
 
-  // 使用 useForm 並確保 methods 正確傳遞
   const methods = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,7 +42,6 @@ function AdminTrade() {
   const [totalPoints, setTotalPoints] = useState(0);
   const [selectedCounts, setSelectedCounts] = useState(0);
 
-  // 當用戶選擇紙箱時，更新表單狀態
   const handleSelectChange = ({ selectedRows }) => {
     setValue("selectedRows", selectedRows); // 更新表單中的 selectedRows
 
@@ -84,7 +82,6 @@ function AdminTrade() {
       </section>
       <div className="mb-[500px]"></div>
 
-      {/* 確保 FormProvider 正確包裹住表單 */}
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="z-100 container absolute left-0 right-0 top-16 mx-auto my-5 flex flex-col items-center justify-center">
@@ -114,7 +111,6 @@ function AdminTrade() {
                 </div>
               </div>
 
-              {/* 確保 AdminTradeTable 被包裹在 FormProvider 內 */}
               <AdminTradeTable handleSelectChange={handleSelectChange} />
 
               {/* 顯示錯誤訊息 */}
