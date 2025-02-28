@@ -61,16 +61,6 @@ const AdminTradeHistoryTable = () => {
           pagination
           customStyles={customStyles}
           paginationComponentOptions={paginationComponentOptions}
-          subHeader
-          subHeaderComponent={
-            <div className="mb-4 flex w-full justify-between">
-              <input
-                type="text"
-                placeholder="搜尋紙箱編號"
-                className="rounded border p-2 placeholder:text-[#B7B7B7] focus-within:border focus-within:border-main-500 focus-visible:outline-none"
-              />
-            </div>
-          }
         />
       </StyleSheetManager>
     </>

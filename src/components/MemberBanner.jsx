@@ -4,6 +4,8 @@ import box from "@/assets/box.svg";
 import dialog from "@/assets/dialog.svg";
 import { FaStoreAlt } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
+import { useStation } from "@/hooks/useStation";
+import Spinner from "./Spinner";
 
 function MemberBanner() {
   const location = useLocation();
@@ -54,7 +56,7 @@ function NormalBanner() {
   return (
     <div className="grow">
       <h2 className="mb-4 text-black">Natasa</h2>
-      <div className="fs-6 mb-4 flex flex-col gap-1 text-[#6F6F6F]">
+      <div className="fs-6 mb-4 flex flex-col space-y-2 text-[#6F6F6F]">
         <p>會員編號：Natasa1234</p>
         <p>電子信箱：ntasa0101@gmail.com</p>
         <p>連絡電話：0934134165</p>
@@ -68,13 +70,16 @@ function NormalBanner() {
 }
 
 function AdminBanner() {
+  const { station, isLoadingStation } = useStation(10);
+  if (isLoadingStation) return <Spinner />;
+
   return (
     <div className="grow">
-      <h2 className="mb-4 text-black">塔塔拉的甜點工作室</h2>
-      <div className="fs-6 mb-4 flex flex-col gap-1 text-[#6F6F6F]">
-        <p>地址：741009台南市善化區陽光大道210號</p>
-        <p>連絡電話：0965566758</p>
-        <p>營業時間：周一至周五 10:00 - 20:00</p>
+      <h2 className="mb-4 text-black">{station.station_name}</h2>
+      <div className="fs-6 mb-4 flex flex-col space-y-2 text-[#6F6F6F]">
+        <p>站點編號：{station.id}</p>
+        <p>地址：{station.address}</p>
+        <p>連絡電話：{station.phone}</p>
       </div>
     </div>
   );
