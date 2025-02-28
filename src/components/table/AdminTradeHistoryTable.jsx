@@ -12,7 +12,7 @@ import ErrorMessage from "../../components/ErrorMessage";
 const AdminTradeHistoryTable = () => {
   // 取得可認領紙箱資料
   const { records, isLoadingRecords, recordsError } =
-    useAdminTransactionRecords(16);
+    useAdminTransactionRecords(10);
   if (isLoadingRecords) return <Spinner />;
   if (recordsError) return <ErrorMessage errorMessage={recordsError.message} />;
   // 欄位

@@ -17,7 +17,7 @@ import DeleteBoxDialog from "../dialog/DeleteBoxDialog";
 
 const AdminDeprecatedTable = () => {
   // 取得報廢紙箱資料
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForScraping(16);
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesForScraping(10);
 
   // 篩選搜尋資料
   const [originData, setOriginData] = useState([]);
