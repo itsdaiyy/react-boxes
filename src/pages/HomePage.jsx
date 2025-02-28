@@ -15,6 +15,7 @@ import homeSection3_6 from "@/assets/homeSection3_6.png";
 import homeSection4_1 from "@/assets/homeSection4_1.png";
 import homeSection4_2 from "@/assets/homeSection4_2.png";
 import homeSection4_3 from "@/assets/homeSection4_3.png";
+import homeSection5_lg from "@/assets/homeSection5_lg.png";
 
 // Section Card
 function Section2_Card({ imgUrl, title, content, bgColor, padding }) {
@@ -111,7 +112,7 @@ function HomePage() {
       border: 'relative z-10 lg:border-y-4 lg:border-s-4 lg:rounded-l-full lg:border-main-100',
       before: 'lg:before:absolute lg:before:content-[""] lg:before:w-1/2 lg:before:h-[10px] lg:before:bg-white lg:before:bottom-0 lg:before:right-0 lg:before:translate-y-1/2 ',
       after: '',
-      padding:'lg:py-[25px] py-[24px] lg:pe-[40px] lg:ps-[17%] px-[12px]'
+      padding: 'lg:py-[25px] py-[24px] lg:pe-[40px] lg:ps-[17%] px-[12px]'
     }, {
       imgUrl: homeSection3_5,
       content: '5. 至轉運站以積分兌換紙箱',
@@ -119,7 +120,7 @@ function HomePage() {
       border: 'relative z-20 lg:border-y-4 lg:border-e-4 lg:rounded-r-full lg:border-main-100',
       before: 'lg:before:absolute lg:before:content-[""] lg:before:w-1/2 lg:before:h-[10px] lg:before:bg-white lg:before:bottom-0 lg:before:left-0 lg:before:translate-y-1/2 ',
       after: 'lg:after:absolute lg:after:content-[""] lg:after:w-1/2 lg:after:h-[10px] lg:after:bg-white lg:after:top-0 lg:after:left-0 lg:after:-translate-y-1/2 ',
-      padding:'lg:py-[25px] py-[24px] lg:ps-[40px] lg:pe-[17%] px-[12px]'
+      padding: 'lg:py-[25px] py-[24px] lg:ps-[40px] lg:pe-[17%] px-[12px]'
     },
     {
       imgUrl: homeSection3_6,
@@ -128,7 +129,7 @@ function HomePage() {
       border: 'relative z-30 lg:border-y-4 lg:border-s-4 lg:rounded-l-full lg:border-main-100',
       before: 'lg:before:absolute lg:before:content-[""] lg:before:w-1/2 lg:before:h-[10px] lg:before:bg-white lg:before:top-0 lg:before:right-0 lg:before:-translate-y-1/2 ',
       after: '',
-      padding:'lg:py-[25px] py-[24px] lg:pe-[40px] lg:ps-[17%] px-[12px]'
+      padding: 'lg:py-[25px] py-[24px] lg:pe-[40px] lg:ps-[17%] px-[12px]'
     }
   ]
 
@@ -229,6 +230,13 @@ function HomePage() {
         </div>
       </div>
       {/* 區塊五 */}
+
+      <div className="relative">
+        <img src={homeSection5_lg} alt="地圖使用介紹" className="w-full lg:block hidden relative"/>
+        <NavLink to="/map" className='btn absolute left-1/2 -translate-x-1/2 z-10 xl:bottom-[20px] lg:bottom-[10px]'>
+            前往尋找理想紙箱
+          </NavLink>
+      </div>
 
       <Footer />
     </div>
