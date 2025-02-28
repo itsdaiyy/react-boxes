@@ -5,6 +5,8 @@ import box_count from "../assets/box_count.svg";
 import ResponsiveSwiper from "./ui/ResponsiveSwiper";
 import MemberInfoForm from "./form/MemberInfoForm";
 
+import { useMember } from "@/hooks/useMember";
+
 const style = {
   cardContainer: "flex items-center justify-around rounded-2xl bg-white p-10",
   cardText: "text-2xl font-bold",
@@ -12,6 +14,9 @@ const style = {
 };
 
 function MemberInfo() {
+  const { member, isLoadingMember, getMemberError } = useMember();
+  console.log(member);
+
   return (
     <div className="w-full text-center">
       <div className="my-20">
