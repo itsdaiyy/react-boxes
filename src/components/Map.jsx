@@ -48,6 +48,7 @@ const UserLocation = ({ setUserLocation }) => {
 // 建議站點卡
 const SuggestionStationCard = ({ station, countRecyclableBoxes, countPendingBoxes, formatPhoneNumber, setClickedId, mapRef, setIsStationInfo, isLg, setIsSideBar, markerRefs, setPopupStation }) => {
   const { latitude, longitude } = station; //取得經緯度
+  const [isBoxSize, setIsBoxSize] = useState(false); //開啟查看紙箱尺寸
 
   //前往選擇站點定位
   const handleCheckStation = () => {
@@ -102,10 +103,99 @@ const SuggestionStationCard = ({ station, countRecyclableBoxes, countPendingBoxe
           {`電話:${station.phone ? formatPhoneNumber(station.phone) : '尚未填寫'}`}
         </li>
       </ul>
-      <button className="btn" onClick={() => {
-        setClickedId(station.id)
-        setIsStationInfo(true)
-      }}>站點資訊</button>
+
+      <div className="mb-[24px] rounded-lg border border-solid border-[#B7B7B7] p-[16px]">
+        <h6 className="mb-[12px]">回收認領資訊</h6>
+
+        <div className="mb-[12px] flex flex-col lg:flex-row justify-center gap-[8px]">
+          {/* 可回收 */}
+          <div className="w-full">
+            <p className="mb-[8px] w-full rounded-lg bg-main-100 py-[4px] text-center text-main-600">
+              可回收紙箱
+            </p>
+            <div className="flex gap-[4px] w-full">
+
+              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[6px] text-main-600 w-full">
+                <h4>{station.available_slots.S}</h4>
+                <p>S</p>
+              </div>
+              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[6px] text-main-600 w-full">
+                <h4>{station.available_slots.M}</h4>
+                <p>M</p>
+              </div>
+              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[6px] text-main-600 w-full">
+                <h4>{station.available_slots.L}</h4>
+                <p>L</p>
+              </div>
+              <div className="flex flex-col items-center rounded-lg bg-main-100 p-[6px] text-main-600 w-full">
+                <h4>{station.available_slots.XL}</h4>
+                <p>XL</p>
+              </div>
+            </div>
+          </div>
+          {/* 可認領 */}
+          <div className="w-full">
+            <p className="text-second-600 mb-[8px] w-full rounded-lg bg-second-100 py-[4px] text-center">
+              可認領紙箱
+            </p>
+            <div className="flex gap-[4px] w-full">
+              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[6px] w-full">
+                <h4>{station.pending_boxes_s}</h4>
+                <p>S</p>
+              </div>
+              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[6px] w-full">
+                <h4>{station.pending_boxes_m}</h4>
+                <p>M</p>
+              </div>
+              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[6px] w-full">
+                <h4>{station.pending_boxes_l}</h4>
+                <p>L</p>
+              </div>
+              <div className="text-second-600 flex flex-col items-center rounded-lg bg-second-100 p-[6px] w-full">
+                <h4>{station.pending_boxes_xl}</h4>
+                <p>XL</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-[#B7B7B7] pt-[12px]">
+          <div className="flex justify-between">
+            <p>查看紙箱尺寸</p>
+            <button onClick={() => setIsBoxSize(!isBoxSize)}>
+              {isBoxSize ? (
+                <span className="material-symbols-outlined">
+                  keyboard_arrow_up
+                </span>
+              ) : (
+                <span className="material-symbols-outlined">
+                  keyboard_arrow_down
+                </span>
+              )}
+            </button>
+          </div>
+          {isBoxSize ? (
+            <ul className="list-inside list-disc text-[#6F6F6F]">
+              <li>小紙箱：總長 50 公分以下</li>
+              <li>中紙箱：總長 50 ~ 120 公分</li>
+              <li>大紙箱：總長 120 公分以上</li>
+            </ul>
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>
+
+      <div className="flex gap-[12px] md:flex-row flex-col text-center">
+        <button className="btn" onClick={() => {
+          setClickedId(station.id)
+          setIsStationInfo(true)
+        }}>站點資訊</button>
+        <NavLink className="btn" to={`/map/${station.id}`}>
+          查看本站紙箱列表
+        </NavLink>
+      </div>
+
     </div>
   )
 }
@@ -319,7 +409,7 @@ const PopupCardLg = ({ station, countRecyclableBoxes, countPendingBoxes, setIsSt
       <span className="fs-7 rounded-full bg-second-200 px-[12px] py-[4px]">{`可認領${countPendingBoxes(station)}個`}</span>
     </div>
     <p className="mb-[12px]">{station.address}</p>
-    <button className="btn" onClick={() => {
+    <button className="btn w-full" onClick={() => {
       setClickedId(station.id);
       setIsStationInfo(true);
       setIsSideBar(true);
@@ -424,10 +514,24 @@ function Map() {
   };
 
   // 設定icon
-  const customIcon = new L.Icon({
-    iconUrl: mapMark,
-    iconSize: [40, 40],
-  });
+  // const customIcon = new L.Icon({
+  //   iconUrl: mapMark,
+  //   iconSize: [40, 40],
+  // });
+
+  const createCustomIcon = (name) => {
+    return L.divIcon({
+      className: "custom-marker",
+      html: `<div style="text-align: center;width:max-content">
+                <img src=${mapMark} style='margin:0 auto' />
+                <h6 style="color: #9F815B; font-size: 14px;">${name}</h6>
+             </div>`,
+      iconSize: [40, 41], // 調整圖標大小
+      iconAnchor: [20, 41], // 調整圖標的錨點
+      popupAnchor: [0, -41] // 調整彈出視窗位置
+    });
+  };
+  
 
   // 回到使用者定位
   const handleLocateUser = () => {
@@ -508,6 +612,7 @@ function Map() {
             <button className="lg:hidden flex gap-[12px] py-[24px] px-[24px]" onClick={() => setIsSideBar(false)}><span className="material-symbols-outlined">
               arrow_back
             </span><h5>回到地圖</h5></button>
+
             {isStationInfo && station ? (
 
               <StationDetailedInfo
@@ -560,7 +665,7 @@ function Map() {
             {/* 地圖上的標記 */}
             {stations.map((item) => (
               <Marker
-                icon={customIcon}
+                icon={createCustomIcon(item.station_name)}
                 position={[item.latitude, item.longitude]}
                 key={item.id}
                 ref={(el) => (markerRefs.current[item.id] = el)} // 儲存 Marker 參照
