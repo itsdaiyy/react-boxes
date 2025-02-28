@@ -16,6 +16,8 @@ import homeSection4_1 from "@/assets/homeSection4_1.png";
 import homeSection4_2 from "@/assets/homeSection4_2.png";
 import homeSection4_3 from "@/assets/homeSection4_3.png";
 import homeSection5_lg from "@/assets/homeSection5_lg.png";
+import homeSection5_md from "@/assets/homeSection5_md.png";
+import homeSection5_sm from "@/assets/homeSection5_sm.png";
 
 // Section Card
 function Section2_Card({ imgUrl, title, content, bgColor, padding }) {
@@ -233,9 +235,12 @@ function HomePage() {
 
       <div className="relative">
         <img src={homeSection5_lg} alt="地圖使用介紹" className="w-full lg:block hidden relative"/>
-        <NavLink to="/map" className='btn absolute left-1/2 -translate-x-1/2 z-10 xl:bottom-[20px] lg:bottom-[10px]'>
+        <img src={homeSection5_md} alt="地圖使用介紹" className="w-full lg:hidden md:block hidden relative"/>
+        <img src={homeSection5_sm} alt="地圖使用介紹" className="w-full md:hidden block  relative"/>
+        <NavLink to="/map" className='btn absolute md:left-1/2 md:-translate-x-1/2 z-10 xl:bottom-[20px] lg:bottom-[10px] md:bottom-[15px] bottom-[30px] left-[60%]'>
             前往尋找理想紙箱
           </NavLink>
+        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white/20 to-transparent xl:h-[70px] h-[60px]"></div>
       </div>
 
       <Footer />
