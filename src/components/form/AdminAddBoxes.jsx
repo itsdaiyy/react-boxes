@@ -22,16 +22,18 @@ const conditionOptions = [
 const retentionDaysOptions = [0, 7, 30, 60, 90];
 
 const getPoints = (size, condition) => {
-  const sizePoints = sizeOptions.find((opt) => opt.value === size)?.points || 0;
-  const conditionPoints =
-    conditionOptions.find((opt) => opt.value === condition)?.points || 0;
+  const sizePoints = sizeOptions.find((opt) => opt.value === size)?.points;
+  const conditionPoints = conditionOptions.find(
+    (opt) => opt.value === condition,
+  )?.points;
   return sizePoints + conditionPoints;
 };
 
 const getCashValue = (size, condition) => {
-  const sizePoints = sizeOptions.find((opt) => opt.value === size)?.points || 0;
-  const conditionPoints =
-    conditionOptions.find((opt) => opt.value === condition)?.points || 0;
+  const sizePoints = sizeOptions.find((opt) => opt.value === size)?.points;
+  const conditionPoints = conditionOptions.find(
+    (opt) => opt.value === condition,
+  )?.points;
   return sizePoints * conditionPoints;
 };
 
@@ -82,10 +84,7 @@ function AdminAddBoxes() {
     });
   }, [watchBoxes, setValue]);
 
-  const totalPoints = watchBoxes.reduce(
-    (sum, box) => sum + (box.points || 0),
-    0,
-  );
+  const totalPoints = watchBoxes.reduce((sum, box) => sum + box.points, 0);
 
   const onSubmit = (data) => {
     console.log("提交的資料:", { ...data, station_id });
