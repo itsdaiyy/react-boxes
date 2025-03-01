@@ -254,7 +254,11 @@ function AdminAddBoxes() {
               ))}
             </tbody>
           </table>
-
+          {errors.boxes && (
+            <p className="inline text-sm text-red-500">
+              {errors.boxes.message}
+            </p>
+          )}
           <div className="mt-4 font-semibold text-[#3D3D3D]">
             積分總計:
             <span className="font-bold text-main-500">{totalPoints}</span>
