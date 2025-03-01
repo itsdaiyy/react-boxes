@@ -59,7 +59,7 @@ function AdminAddBoxes() {
     useForm({
       resolver: zodResolver(formSchema),
       defaultValues: {
-        created_at: getTimestamp(),
+        created_at: getTimestamp().replace("T", " ").slice(0, 16),
         userId: "",
         boxes: [],
       },
@@ -164,8 +164,7 @@ function AdminAddBoxes() {
                       {...register(`boxes.${index}.size`)}
                       onChange={(e) => {
                         const newSize = e.target.value;
-                        const condition =
-                          watchBoxes[index]?.condition || "全新";
+                        const condition = watchBoxes[index]?.condition;
                         setValue(
                           `boxes.${index}.points`,
                           getPoints(newSize, condition),
@@ -189,7 +188,7 @@ function AdminAddBoxes() {
                       {...register(`boxes.${index}.condition`)}
                       onChange={(e) => {
                         const newCondition = e.target.value;
-                        const size = watchBoxes[index]?.size || "小";
+                        const size = watchBoxes[index]?.size;
                         setValue(
                           `boxes.${index}.points`,
                           getPoints(size, newCondition),
@@ -210,7 +209,9 @@ function AdminAddBoxes() {
                   </td>
                   <td className="border p-2">
                     <select
-                      {...register(`boxes.${index}.retention_days`)}
+                      {...register(`boxes.${index}.retention_days`, {
+                        valueAsNumber: true,
+                      })}
                       className="w-full rounded-md border px-2 py-1"
                     >
                       {retentionDaysOptions.map((days) => (
@@ -221,10 +222,10 @@ function AdminAddBoxes() {
                     </select>
                   </td>
                   <td className="border p-2 text-center">
-                    {watchBoxes[index]?.points || 0}
+                    {watchBoxes[index]?.points}
                   </td>
                   <td className="border p-2 text-center">
-                    {watchBoxes[index]?.cash_value || 0}
+                    {watchBoxes[index]?.cash_value}
                   </td>
                   <td className="border p-2 text-center">
                     <button
