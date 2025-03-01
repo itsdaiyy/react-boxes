@@ -52,7 +52,7 @@ function MemberNav() {
         </div>
       </nav>
       {navType === "normal" ? <NormalNav /> : <AdminNav />}
-      <section className="container mx-auto my-20">
+      <section className="container mx-auto my-10">
         <Outlet />
       </section>
     </main>

@@ -184,3 +184,46 @@ export async function apiUpdateMultipleBoxes(boxIds, values) {
     throw new Error("無法更新資料，請確認網路狀態或稍後再試");
   }
 }
+
+/**
+ * 向 Supabase 新增多筆紙箱資料。
+ *
+ * @param {Object} formData - 前端表單提交的資料
+ * @param {string} formData.userId - 提交者的用戶 ID
+ * @param {Array} formData.boxes - 需要新增的紙箱資料陣列
+ * @returns {Promise<Array>} 新增的紙箱資料或錯誤
+ */
+export async function apiAddMultipleBoxes(formData) {
+  try {
+    // 格式化數據以符合 Supabase 的表格格式
+    const formattedBoxes = formData.boxes.map((box) => ({
+      created_at: getTimestamp(), // 設定當前時間
+      updated_at: getTimestamp(), // 預設與 `created_at` 相同
+      size: box.size,
+      condition: box.condition,
+      status: "可認領", // 預設狀態
+      image_url: "https://fakeimg.pl/300/", // 預設圖片
+      cash_value: Number(box.cash_value), // 確保為數字
+      point_value: Number(box.points), // 確保為數字
+      retention_days: Number(box.retention_days) || 0, // 轉換為數字
+      station_id: formData.station_id, // 站點 ID
+      user_id: formData.userId, // 來自前端的 userId
+    }));
+
+    // 批量插入數據
+    const { data: addBoxes, error } = await supabase
+      .from("boxes")
+      .insert(formattedBoxes)
+      .select();
+
+    if (error) {
+      console.error("批量新增失敗:", error);
+      throw error;
+    }
+
+    return addBoxes;
+  } catch (error) {
+    console.error("批量新增紙箱資料失敗:", error.message);
+    throw new Error("無法新增資料，請確認網路狀態或稍後再試");
+  }
+}

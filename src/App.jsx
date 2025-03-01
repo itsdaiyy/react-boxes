@@ -20,6 +20,7 @@ import AdminTradeHistoryTable from "./components/table/AdminTradeHistoryTable";
 import MemberInfoHistoryTable from "./components/table/MemberInfoHistoryTable";
 import MemberInfoPointTable from "./components/table/MemberInfoPointTable";
 import AdminTrade from "./components/AdminTrade";
+import AdminAddBoxes from "./components/form/AdminAddBoxes";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ function App() {
               <Route index element={<Navigate replace to="adminInfo" />} />
               <Route path="adminInfo" element={<AdminInfo />} />
               <Route path="boxesTable" element={<AdminBoxManageTable />} />
+              <Route path="addBoxes" element={<AdminAddBoxes />} />
               <Route path="recyclingTable" element={<AdminDeprecatedTable />} />
               <Route
                 path="adminTransactionRecords"

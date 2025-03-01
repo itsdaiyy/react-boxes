@@ -15,10 +15,12 @@ import { FaRecycle } from "react-icons/fa";
 // 更新紙箱、刪除紙箱資料表單元件
 import UpdateBoxDialog from "../dialog/UpdateBoxDialog";
 import DeleteBoxDialog from "../dialog/DeleteBoxDialog";
+import { useNavigate } from "react-router-dom";
 
 const AdminBoxManageTable = () => {
+  const navigate = useNavigate();
   // 取得可認領紙箱資料
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging(16);
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging(10);
 
   // 篩選搜尋資料
   const [originData, setOriginData] = useState([]);
@@ -107,7 +109,15 @@ const AdminBoxManageTable = () => {
                 className="rounded border p-2 placeholder:text-[#B7B7B7] focus-within:border focus-within:border-main-500 focus-visible:outline-none"
               />
               <div className="flex gap-5">
-                <button className="btn flex items-center gap-1 border p-2">
+                <button
+                  className="btn flex items-center gap-1 border p-2"
+                  onClick={() => {
+                    console.log(boxes.at(0).station_id);
+                    navigate("/member/admin/addBoxes", {
+                      state: { station_id: boxes.at(0).station_id },
+                    });
+                  }}
+                >
                   <FaFolderPlus /> 新增紙箱
                 </button>
                 <button className="btn flex items-center gap-1 border p-2">
