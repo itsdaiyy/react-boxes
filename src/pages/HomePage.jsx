@@ -5,7 +5,6 @@ import homeSection2_1 from "@/assets/homeSection2-1.png";
 import homeSection2_2 from "@/assets/homeSection2-2.png";
 import homeSection2_3 from "@/assets/homeSection2-3.png";
 import homeSection2_3_md from "@/assets/homeSection2-3_md.png";
-import homeSection2_3_lg from "@/assets/homeSection2-3_lg.png";
 import homeSection3_1 from "@/assets/homeSection3_1.png";
 import homeSection3_2 from "@/assets/homeSection3_2.png";
 import homeSection3_3 from "@/assets/homeSection3_3.png";
@@ -15,20 +14,17 @@ import homeSection3_6 from "@/assets/homeSection3_6.png";
 import homeSection4_1 from "@/assets/homeSection4_1.png";
 import homeSection4_2 from "@/assets/homeSection4_2.png";
 import homeSection4_3 from "@/assets/homeSection4_3.png";
-import homeSection5_lg from "@/assets/homeSection5_lg.png";
+import homeSection5_lg from "@/assets/homeSection5_lg2.png";
 import homeSection5_md from "@/assets/homeSection5_md.png";
 import homeSection5_sm from "@/assets/homeSection5_sm.png";
 
 // Section Card
-function Section2_Card({ imgUrl, title, content, bgColor, padding }) {
+function Section2_Card({ imgUrl, title, content, padding }) {
   return (
     <div className={`flex flex-col items-center lg:w-21 w-93 ${padding} relative`}>
       <img src={imgUrl} alt={title} className="mb-[24px] z-10" />
       <h3 className="mb-[16px] z-10">{title}</h3>
       <p className="z-10">{content[0]}<br></br>{content[1]}</p>
-      {/* <div className={`z-0 absolute inset-0 
-        before:absolute before:w-screen before:h-full before:bg-${bgColor} before:left-1/2 before:-translate-x-1/2 before:content-[''] lg:hidden`}>
-        </div> */}
     </div>
   )
 }
@@ -178,7 +174,11 @@ function HomePage() {
         <div className="text-center lg:py-[80px] py-[40px] relative z-10">
           <h2 className="lg:text-[40px] text-[28px] lg:leading-[48px] leading-[33.6px] mb-[40px]">你也有這種困擾嗎？</h2>
           <div className="flex lg:flex-row flex-col justify-center items-center">
-            <Section2_Card imgUrl={section2Data[0].imgUrl} title={section2Data[0].title} content={section2Data[0].content} padding={`lg:pe-[122px] ps-0 pb-[40px] lg:pb-0`} bgColor={`main-100`}></Section2_Card>
+            <div className="w-full relative 
+        before:absolute before:w-full before:h-full before:bg-main-100 before:left-0 before:top-0 before:content-[''] lg:hidden">
+              <Section2_Card imgUrl={section2Data[0].imgUrl} title={section2Data[0].title} content={section2Data[0].content} padding={`lg:pe-[122px] ps-0 pb-[40px] lg:pb-0`} bgColor={`main-100`}></Section2_Card>
+            </div>
+
             <Section2_Card imgUrl={section2Data[1].imgUrl} title={section2Data[1].title} content={section2Data[1].content} padding={`lg:ps-[122px] ps-0 pt-[40px] lg:pt-0`} bgColor={`second-100`}></Section2_Card>
           </div>
         </div>
@@ -234,12 +234,12 @@ function HomePage() {
       {/* 區塊五 */}
 
       <div className="relative">
-        <img src={homeSection5_lg} alt="地圖使用介紹" className="w-full lg:block hidden relative"/>
-        <img src={homeSection5_md} alt="地圖使用介紹" className="w-full lg:hidden md:block hidden relative"/>
-        <img src={homeSection5_sm} alt="地圖使用介紹" className="w-full md:hidden block  relative"/>
+        <img src={homeSection5_lg} alt="地圖使用介紹" className="w-full lg:block hidden relative" />
+        <img src={homeSection5_md} alt="地圖使用介紹" className="w-full lg:hidden md:block hidden relative" />
+        <img src={homeSection5_sm} alt="地圖使用介紹" className="w-full md:hidden block  relative" />
         <NavLink to="/map" className='btn absolute md:left-1/2 md:-translate-x-1/2 z-10 xl:bottom-[20px] lg:bottom-[10px] md:bottom-[15px] bottom-[30px] left-[60%]'>
-            前往尋找理想紙箱
-          </NavLink>
+          前往尋找理想紙箱
+        </NavLink>
         <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white/20 to-transparent xl:h-[70px] h-[60px]"></div>
       </div>
 
