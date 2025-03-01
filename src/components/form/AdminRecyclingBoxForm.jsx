@@ -25,6 +25,7 @@ function AdminRecyclingBoxForm({ station }) {
       console.log({ stationId: station.id, ...available_slots });
       updateAvailableSlots({ stationId: station.id, ...available_slots });
       toast.success("提交成功");
+      setIsEditing(false);
     } catch (error) {
       toast.error("提交失敗", error);
     }
