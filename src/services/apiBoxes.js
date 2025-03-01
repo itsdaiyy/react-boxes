@@ -207,7 +207,7 @@ export async function apiAddMultipleBoxes(formData) {
       point_value: Number(box.points), // 確保為數字
       retention_days: Number(box.retention_days) || 0, // 轉換為數字
       station_id: formData.station_id, // 站點 ID
-      user_id: formData.userId, // 來自前端的 userId
+      user_id: formData.user_id, // 來自前端的 userId
     }));
 
     // 批量插入數據

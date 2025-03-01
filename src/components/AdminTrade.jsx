@@ -2,14 +2,14 @@ import AdminTradeTable from "./table/AdminTradeTable";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import memberBannerBg01 from "@/assets/memberBanner-bg1.svg";
-import Header from "./Header";
-import Footer from "./Footer";
+// import memberBannerBg01 from "@/assets/memberBanner-bg1.svg";
+// import Header from "./Header";
+// import Footer from "./Footer";
 import { useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // 驗證 schema
 const formSchema = z.object({
@@ -20,7 +20,10 @@ const formSchema = z.object({
 
 function AdminTrade() {
   const navigate = useNavigate();
-
+  // 從 5-3 傳遞 station_id
+  const location = useLocation();
+  const { station_id } = location.state;
+  console.log("5-7收到站點編號", station_id);
   const methods = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -67,7 +70,7 @@ function AdminTrade() {
 
   return (
     <>
-      <Header />
+      {/* <Header />
       <section className="bg-[#F3F3F3] bg-top bg-no-repeat md:bg-[url('@/assets/memberBanner-bg2.svg')]">
         <div className="container relative mx-auto flex flex-col items-center gap-10 py-20 text-center md:flex-row md:justify-between md:text-left">
           <div className="relative h-[201px] w-[200px]">
@@ -79,12 +82,12 @@ function AdminTrade() {
           </div>
           <div className="relative h-60 w-80 md:w-[500px]"></div>
         </div>
-      </section>
-      <div className="mb-[500px]"></div>
+      </section> 
+      <div className="mb-[500px]"></div>*/}
 
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="z-100 container absolute left-0 right-0 top-16 mx-auto my-5 flex flex-col items-center justify-center">
+          <div className="z-100 container top-16 mx-auto my-5 flex flex-col items-center justify-center">
             <div className="mb-3 flex w-1/3 justify-center">
               <p className="my-5 w-full border-b-4 border-b-main-600 pb-5 text-center text-4xl font-bold text-main-600">
                 交易紙箱
@@ -164,7 +167,7 @@ function AdminTrade() {
           </div>
         </form>
       </FormProvider>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

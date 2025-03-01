@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useAddMultipleBoxes } from "@/hooks/useBoxes";
 
 const sizeOptions = [
   { label: "特大", value: "特大", points: 5 },
@@ -38,7 +39,7 @@ const getCashValue = (size, condition) => {
 };
 
 const formSchema = z.object({
-  userId: z.string().nonempty("會員編號不可為空"),
+  user_id: z.string().nonempty("會員編號不可為空"),
   boxes: z
     .array(
       z.object({
@@ -54,25 +55,27 @@ const formSchema = z.object({
 
 function AdminAddBoxes() {
   const navigate = useNavigate();
+  // 從 5-3 傳遞 station_id
   const location = useLocation();
-  const { station_id } = location.state || {};
-
+  const { station_id } = location.state;
+  console.log("5-6收到站點編號", station_id);
   const { control, handleSubmit, register, watch, setValue, formState } =
     useForm({
       resolver: zodResolver(formSchema),
       defaultValues: {
         created_at: getTimestamp().replace("T", " ").slice(0, 16),
-        userId: "",
+        user_id: "",
         boxes: [],
       },
     });
   const { errors } = formState;
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "boxes",
   });
   const watchBoxes = watch("boxes");
-
+  // 監聽紙箱大小與保存等級變化，更新對應現金與對應積分
   useEffect(() => {
     watchBoxes.forEach((box, index) => {
       const points = getPoints(box.size, box.condition);
@@ -83,11 +86,23 @@ function AdminAddBoxes() {
       );
     });
   }, [watchBoxes, setValue]);
-
+  // 計算積分總計
   const totalPoints = watchBoxes.reduce((sum, box) => sum + box.points, 0);
-
+  // 新增多比紙箱資料
+  const { addMultipleBoxes, isAdding } = useAddMultipleBoxes();
   const onSubmit = (data) => {
-    console.log("提交的資料:", { ...data, station_id });
+    const formData = {
+      station_id,
+      user_id: data.user_id,
+      boxes: data.boxes,
+    };
+    try {
+      addMultipleBoxes(formData);
+      console.log(formData);
+      navigate("/member/admin/boxesTable");
+    } catch (error) {
+      console.error("Form submission error", error);
+    }
   };
 
   return (
@@ -113,12 +128,12 @@ function AdminAddBoxes() {
             <input
               type="text"
               placeholder="請輸入會員編號"
-              {...register("userId")}
+              {...register("user_id")}
               className="rounded-md border border-main-400 px-2 py-1 focus-within:border focus-within:border-main-500 focus-visible:outline-none"
             />
-            {errors.userId && (
+            {errors.user_id && (
               <p className="inline text-sm text-red-500">
-                {errors.userId.message}
+                {errors.user_id.message}
               </p>
             )}
           </div>
@@ -253,8 +268,8 @@ function AdminAddBoxes() {
             >
               取消
             </button>
-            <button type="submit" className="btn">
-              確認送出
+            <button type="submit" className="btn" disabled={isAdding}>
+              {isAdding ? "新增中" : "確認"}
             </button>
           </div>
         </form>

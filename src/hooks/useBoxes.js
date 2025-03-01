@@ -5,6 +5,7 @@ import {
   apiGetBoxesTotalForSelling,
   apiUpdateBox,
   apiUpdateMultipleBoxes,
+  apiAddMultipleBoxes,
 } from "@/services/apiBoxes";
 import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -163,4 +164,35 @@ export function useUpdateMultipleBoxes() {
   });
 
   return { updateMultipleBoxes, isUpdating, updatedError, isError };
+}
+
+/**
+ * 自訂 Hook：使用 React Query 來批量新增紙箱資料
+ *
+ * @returns {Object} 返回包含四個屬性的物件：
+ *   - `addMultipleBoxes` {Function} - 用於觸發批量新增的函式，接收 `formData`
+ *   - `isAdding` {boolean} - 是否正在新增資料
+ *   - `addedError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
+ *   - `isError` {boolean} - 是否發生錯誤
+ */
+export function useAddMultipleBoxes() {
+  const queryClient = useQueryClient();
+
+  const {
+    mutate: addMultipleBoxes,
+    error: addedError,
+    isPending: isAdding,
+    isError,
+  } = useMutation({
+    mutationFn: (formData) => apiAddMultipleBoxes(formData),
+    onSuccess: () => {
+      toast.success("紙箱新增成功");
+      queryClient.invalidateQueries({ queryKey: ["boxes"] }); // 重新獲取最新數據
+    },
+    onError: (error) => {
+      toast.error(`新增失敗: ${error.message}`);
+    },
+  });
+
+  return { addMultipleBoxes, isAdding, addedError, isError };
 }
