@@ -3,7 +3,7 @@ import DataTable from "react-data-table-component";
 import { customStyles, paginationComponentOptions } from "@/data/constants";
 import { useMemberTransactionRecords } from "@/hooks/useBoxTransactions";
 
-// 假資料
+// 串接資料
 
 const MemberInfoHistoryTable = () => {
   // 欄位
