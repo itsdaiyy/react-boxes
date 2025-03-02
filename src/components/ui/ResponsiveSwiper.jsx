@@ -2,24 +2,23 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import beginer from "../../assets/beginer.svg";
-// import beginer_locked from '../assets/beginer_locked.svg'
+import beginer_locked from "../../assets/beginer_locked.svg";
 import young from "../../assets/young.svg";
-// import young_locked from '../../assets/young_locked.svg'
+import young_locked from "../../assets/young_locked.svg";
 import village_master from "../../assets/village_master.svg";
-// import village_master_locked from '../../assets/village_master_locked.svg'
+import village_master_locked from "../../assets/village_master_locked.svg";
 import guardian from "../../assets/guardian.svg";
-// import guardian_locked from '../../assets/guardian_locked.svg'
+import guardian_locked from "../../assets/guardian_locked.svg";
 import { IoIosArrowForward } from "react-icons/io";
 
-// 初始化顯示的Slide，用memberRanking判斷
-// { initialSlide = 0 }
-const ResponsiveSwiper = () => {
+function ResponsiveSwiper({ initialSlide, memberLevel }) {
   const [slidesPerView, setSlidesPerView] = useState(4);
   const [allowTouchMove, setAllowTouchMove] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
+  const swiperRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,9 +41,11 @@ const ResponsiveSwiper = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // 用memberRanking判斷，meberRanking以轉運紙箱數判斷
-  // const memberRanking = 1
-  // const getReward = () => {
+  useEffect(() => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideTo(initialSlide);
+    }
+  }, [slidesPerView, initialSlide]);
 
   const style = {
     cardContainer: "2xl:mx-5 md:mx-2",
@@ -52,17 +53,18 @@ const ResponsiveSwiper = () => {
     cardTilte: "pt-4 text-xl font-bold text-main-500 md:text-xl",
     cardButton:
       "btn my-5 w-full md:text-sm lg:text-sm p-2 xl:text-base 2xl:text-xl",
-    getRewardText: "hidden", //依照memberRanking判斷
   };
 
   return (
     <div className="w-full p-10 md:p-0">
       <Swiper
+        key={slidesPerView} // 強制 Swiper 重新初始化
+        ref={swiperRef}
         modules={[Navigation]}
         spaceBetween={30}
         slidesPerView={slidesPerView}
         navigation
-        // initialSlide={initialSlide} // 依照memberRanking判斷
+        initialSlide={initialSlide}
         allowTouchMove={allowTouchMove}
         className="w-full"
       >
@@ -72,10 +74,7 @@ const ResponsiveSwiper = () => {
               <img className="" src={beginer} alt="" />
               <p className={style.cardTilte}>相遇路人</p>
             </div>
-            <button className={style.cardButton}>
-              免費領3個紙箱
-              <span className={style.getRewardText}>(已領取)</span>
-            </button>
+            <button className={style.cardButton}>免費領3個紙箱</button>
           </div>
           {isDesktop && (
             <div className="absolute -right-3 top-1/2 z-10 -translate-y-1/2 translate-x-1/2">
@@ -89,10 +88,7 @@ const ResponsiveSwiper = () => {
               <img className="" src={young} alt="" />
               <p className={style.cardTilte}>返箱青年</p>
             </div>
-            <button className={style.cardButton}>
-              免費領10個紙箱
-              <span className={style.getRewardText}>(已領取)</span>
-            </button>
+            <button className={style.cardButton}>免費領10個紙箱</button>
           </div>
           {isDesktop && (
             <div className="absolute -right-3 top-1/2 z-10 -translate-y-1/2 translate-x-1/2">
@@ -126,6 +122,6 @@ const ResponsiveSwiper = () => {
       </Swiper>
     </div>
   );
-};
+}
 
 export default ResponsiveSwiper;

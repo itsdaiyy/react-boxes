@@ -49,17 +49,6 @@ function MemberInfoForm(data) {
   const { reset, formState } = form;
   const { isSubmitSuccessful } = formState;
 
-  // update 物件格式：
-  // const obj = {
-  //   data: {
-  //     avatar_url: "https://fakeimg.pl/200/",
-  //     display_name: "王志豪",
-  //     phone: "+886956135395",
-  //     points: 48,
-  //     roles: ["users", "storeOwner"],
-  //   },
-  // };
-
   // 串接API後繼續完成
   const onSubmit = (data) => {
     console.log(data);

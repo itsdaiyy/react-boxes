@@ -22,11 +22,9 @@ function MemberInfo() {
   const [transactionNums, setTransactionNums] = useState("");
 
   useEffect(() => {
-    if (member && member.user_metadata) {
-      // setData(member);
-      // console.log(data);
-      setPointNum(member.user_metadata.points);
-      setTransactionNums(member.user_metadata.transaction_nums);
+    if (member && member.user.user_metadata) {
+      setPointNum(member.user.user_metadata.points);
+      setTransactionNums(member.user.user_metadata.transaction_nums);
     }
   }, [member]);
 
@@ -44,21 +42,26 @@ function MemberInfo() {
   const [memberLevel, setMemberLevel] = useState(1);
   const [memberLevelTitle, setMemberLevelTitle] = useState("");
   const [levelUpNum, setLevelUpNum] = useState("");
+  const [initialSlide, setInitialSlide] = useState(0);
   useEffect(() => {
     if (transactionNums > 0 && transactionNums < 50) {
       setMemberLevel(1);
       setMemberLevelTitle(memberTitle.level_2);
       setLevelUpNum(50 - transactionNums);
+      setInitialSlide(0);
     } else if (transactionNums >= 50 && transactionNums < 100) {
       setMemberLevel(2);
       setMemberLevelTitle(memberTitle.level_3);
       setLevelUpNum(100 - transactionNums);
+      setInitialSlide(1);
     } else if (transactionNums >= 100 && transactionNums < 200) {
       setMemberLevel(3);
       setMemberLevelTitle(memberTitle.level_4);
       setLevelUpNum(200 - transactionNums);
+      setInitialSlide(2);
     } else if (transactionNums > 200) {
       setMemberLevel(4);
+      setInitialSlide(3);
     }
   }, [
     memberTitle.level_2,
@@ -85,7 +88,7 @@ function MemberInfo() {
             />
           )}
         </div>
-        <ResponsiveSwiper />
+        <ResponsiveSwiper initialSlide={initialSlide} />
       </div>
 
       <div className="container m-20 mx-auto rounded-3xl bg-main-100 p-4">
