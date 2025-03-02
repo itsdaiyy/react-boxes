@@ -19,7 +19,7 @@ const style = {
 function MemberInfo() {
   const { member, isLoadingMember, getMemberError } = useMember();
   const [pointNum, setPointNum] = useState("");
-  const [transactionNums, setTransactionNums] = useState("");
+  const [transactionNums, setTransactionNums] = useState(0);
 
   useEffect(() => {
     if (member && member.user.user_metadata) {

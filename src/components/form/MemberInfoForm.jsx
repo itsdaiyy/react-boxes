@@ -22,28 +22,21 @@ import { useUpdateMember } from "@/hooks/useUpdateMember";
 // zod驗證規則
 const formSchema = z.object({
   name: z.string().min(2, "姓名至少需要 2 個字"),
-  username: z.string().min(2, "會員暱稱至少需要 2 個字"),
   phone: z.string().regex(/^09\d{8}$/, "請輸入正確的台灣手機號碼"),
-  email: z.string().email("請輸入有效的電子郵件"),
 });
 
-function MemberInfoForm(data) {
+function MemberInfoForm({ data }) {
   const [isEditing, setIsEditing] = useState(false);
 
-  const { updateMember, updateMemberError, isUpdating } = useUpdateMember();
-  // console.log(data);
+  // const { updateMember, updateMemberError, isUpdating } = useUpdateMember();
 
-  // const [name, setName] = useState(data.user_metadata)
-
-  // useEffect(() =>{
-
-  // },[data])
+  useEffect(() => {}, [data]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      phone: "",
+      name: data.user.user_metadata.display_name,
+      phone: data.user.user_metadata.phone.toString().replace("+886", "0"),
     },
   });
   const { reset, formState } = form;
@@ -52,8 +45,8 @@ function MemberInfoForm(data) {
   // 串接API後繼續完成
   const onSubmit = (data) => {
     console.log(data);
-    console.log("上傳的圖片檔案:", data.avatar);
     setIsEditing(false);
+    reset();
   };
 
   return (
@@ -119,7 +112,7 @@ function MemberInfoForm(data) {
             control={form.control}
             name="avatar"
             render={({ field: { onChange, ...fieldProps } }) => (
-              <FormItem className="mb-6">
+              <FormItem className="mb-6 text-start">
                 <FormLabel className="block text-start text-gray-700">
                   上傳頭貼
                 </FormLabel>
@@ -129,11 +122,12 @@ function MemberInfoForm(data) {
                     accept="image/*"
                     onChange={(e) => {
                       const file = e.target.files?.[0]; // 取得選擇的檔案
-                      if (file) {
+                      if (file && file.size > 2 * 1024 * 1024) {
+                        alert("檔案大小不能超過 2MB");
+                      } else {
                         onChange(file); // 更新表單的值
                       }
                     }}
-                    className="bg-white py-4 focus-visible:border-none focus-visible:ring-main-500"
                     disabled={!isEditing}
                   />
                 </FormControl>
