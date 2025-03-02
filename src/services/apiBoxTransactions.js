@@ -15,7 +15,8 @@ export async function apiGetAdminTransactionRecords(stationId) {
     let { data: records, error } = await supabase
       .from("box-transactions")
       .select("*")
-      .eq("station_id", stationId);
+      .eq("station_id", stationId)
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
 
@@ -43,7 +44,8 @@ export async function apiGetMemberTransactionRecords(userId) {
     let { data: records, error } = await supabase
       .from("box-transactions")
       .select("*")
-      .eq("user_id", userId);
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
 
@@ -53,5 +55,22 @@ export async function apiGetMemberTransactionRecords(userId) {
     console.error("讀取 box-transactions 發生錯誤:", error);
     // UI 顯示的錯誤內容
     throw new Error("無法取得 box-transactions 資料，請稍後再試");
+  }
+}
+
+export async function apiGetTransactionsCounts(userId) {
+  try {
+    // 交易次數
+    let { data: boxTransactions, error } = await supabase
+      .from("box-transactions")
+      .select("id, user_id")
+      .eq("user_id", userId);
+
+    if (error) throw error;
+
+    const transactionsCounts = boxTransactions.length;
+    return transactionsCounts;
+  } catch (error) {
+    throw new Error(error.message);
   }
 }
