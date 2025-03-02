@@ -1,6 +1,6 @@
 import { apiGetTransactionsCounts } from "./apiBoxTransactions";
 import supabase from "./supabase";
-
+const { VITE_SUPABASE_URL } = import.meta.env;
 export async function apiSignIn({ email, password }) {
   try {
     let { data, error } = await supabase.auth.signInWithPassword({
@@ -71,7 +71,7 @@ export async function apiGetMember() {
 }
 
 // update 物件格式：
-// const obj = {
+// {
 //   data: {
 //     avatar_url: "https://fakeimg.pl/200/",
 //     display_name: "王志豪",
@@ -83,6 +83,23 @@ export async function apiGetMember() {
 export async function apiUpdateMember(newInfoObj) {
   try {
     const { data, error } = await supabase.auth.updateUser(newInfoObj);
+
+    if (error) throw error;
+
+    return data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+// https://zmxloeyrugpwhymnzped.supabase.co/storage/v1/object/public/avatars//my-notion-face-portrait.jpg
+
+export async function apiUploadImage(bucket, imageFile, userId) {
+  const fileName = `${Date.now()}-${imageFile.name}`.replaceAll("/", "");
+  try {
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .upload(`${userId}/${fileName}`, imageFile);
 
     if (error) throw error;
 
