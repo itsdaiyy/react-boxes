@@ -1,3 +1,4 @@
+import { apiGetTransactionsCounts } from "./apiBoxTransactions";
 import supabase from "./supabase";
 
 export async function apiSignIn({ email, password }) {
@@ -61,7 +62,9 @@ export async function apiGetMember() {
       data: { user },
     } = await supabase.auth.getUser();
 
-    return user;
+    const transactionsCounts = await apiGetTransactionsCounts(user.id);
+
+    return { user, transactionsCounts };
   } catch (error) {
     throw new Error(error.message);
   }
@@ -75,7 +78,6 @@ export async function apiGetMember() {
 //     phone: "+886956135395",
 //     points: 48,
 //     roles: ["users", "storeOwner"],
-//     transaction_nums: 121,
 //   },
 // };
 export async function apiUpdateMember(newInfoObj) {

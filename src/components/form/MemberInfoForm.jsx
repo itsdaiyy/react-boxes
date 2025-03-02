@@ -51,7 +51,6 @@ function MemberInfoForm() {
   //     phone: "+886956135395",
   //     points: 48,
   //     roles: ["users", "storeOwner"],
-  //     transaction_nums: 121,
   //   },
   // };
 

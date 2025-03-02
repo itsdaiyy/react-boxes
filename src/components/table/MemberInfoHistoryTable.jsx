@@ -1,6 +1,7 @@
 // 4-4 一般會員 - 歷史回收記錄列表
 import DataTable from "react-data-table-component";
 import { customStyles, paginationComponentOptions } from "@/data/constants";
+import { useMemberTransactionRecords } from "@/hooks/useBoxTransactions";
 
 // 假資料
 const tempData = [
@@ -218,7 +219,9 @@ const MemberInfoHistoryTable = () => {
       ),
     },
   ];
-
+  const { records, isLoadingRecords, recordsError } =
+    useMemberTransactionRecords("8b9acdef-b856-4c78-ac16-36d199737957");
+  console.log(records);
   return (
     <DataTable
       columns={columns}
