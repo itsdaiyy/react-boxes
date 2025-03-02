@@ -88,7 +88,10 @@ function MemberInfo() {
             />
           )}
         </div>
-        <ResponsiveSwiper initialSlide={initialSlide} />
+        <ResponsiveSwiper
+          initialSlide={initialSlide}
+          memberLevel={memberLevel}
+        />
       </div>
 
       <div className="container m-20 mx-auto rounded-3xl bg-main-100 p-4">
