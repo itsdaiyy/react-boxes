@@ -64,6 +64,7 @@ function AdminInfoForm({ station }) {
     try {
       console.log(values);
       updateStation({ ...values, id: station.id });
+      setIsEditing(false);
     } catch (error) {
       toast.error("Form submission error", error);
     }

@@ -54,6 +54,7 @@ function App() {
               <Route path="adminInfo" element={<AdminInfo />} />
               <Route path="boxesTable" element={<AdminBoxManageTable />} />
               <Route path="addBoxes" element={<AdminAddBoxes />} />
+              <Route path="tradeBoxes" element={<AdminTrade />} />
               <Route path="recyclingTable" element={<AdminDeprecatedTable />} />
               <Route
                 path="adminTransactionRecords"
