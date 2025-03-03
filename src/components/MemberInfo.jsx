@@ -21,10 +21,12 @@ function MemberInfo() {
   const [pointNum, setPointNum] = useState("");
   const [transactionNums, setTransactionNums] = useState(0);
 
+  console.log(member);
+
   useEffect(() => {
     if (member && member.user.user_metadata) {
       setPointNum(member.user.user_metadata.points);
-      setTransactionNums(member.user.user_metadata.transaction_nums);
+      setTransactionNums(member.transactionsCounts);
     }
   }, [member]);
 
