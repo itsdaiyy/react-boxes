@@ -175,11 +175,13 @@ function HomePage() {
           <h2 className="lg:text-[40px] text-[28px] lg:leading-[48px] leading-[33.6px] mb-[40px]">你也有這種困擾嗎？</h2>
           <div className="flex lg:flex-row flex-col justify-center items-center">
             <div className="w-full relative 
-        before:absolute before:w-full before:h-full before:bg-main-100 before:left-0 before:top-0 before:content-[''] lg:hidden">
-              <Section2_Card imgUrl={section2Data[0].imgUrl} title={section2Data[0].title} content={section2Data[0].content} padding={`lg:pe-[122px] ps-0 pb-[40px] lg:pb-0`} bgColor={`main-100`}></Section2_Card>
+        before:absolute before:w-full before:h-full before:bg-main-100 before:left-0 before:top-0 before:content-[''] lg:before:hidden">
+              <Section2_Card imgUrl={section2Data[0].imgUrl} title={section2Data[0].title} content={section2Data[0].content} padding={`pb-[40px] lg:pb-0`} bgColor={`main-100`}></Section2_Card>
             </div>
-
-            <Section2_Card imgUrl={section2Data[1].imgUrl} title={section2Data[1].title} content={section2Data[1].content} padding={`lg:ps-[122px] ps-0 pt-[40px] lg:pt-0`} bgColor={`second-100`}></Section2_Card>
+            <div className="w-full relative 
+        before:absolute before:w-full before:h-full before:bg-second-100 before:left-0 before:top-0 before:content-[''] lg:before:hidden">
+              <Section2_Card imgUrl={section2Data[1].imgUrl} title={section2Data[1].title} content={section2Data[1].content} padding={`pt-[40px] lg:pt-0`} bgColor={`second-100`}></Section2_Card>
+            </div>
           </div>
         </div>
         <img src={homeSection2_3} alt="有沒有更環保的選擇呢" className="relative z-10 w-full object-cover h-auto hidden xl:block" />
@@ -240,7 +242,7 @@ function HomePage() {
         <NavLink to="/map" className='btn absolute md:left-1/2 md:-translate-x-1/2 z-10 xl:bottom-[20px] lg:bottom-[10px] md:bottom-[15px] bottom-[30px] left-[60%]'>
           前往尋找理想紙箱
         </NavLink>
-        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white/20 to-transparent xl:h-[70px] h-[60px]"></div>
+        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white/20 to-transparent xl:h-[70px] h-[60px]"></div>
       </div>
 
       <Footer />
