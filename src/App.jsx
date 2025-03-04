@@ -65,9 +65,6 @@ function App() {
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
           <Route path="*" element={<PageNotFound />} />
-
-          {/* 測試用 */}
-          <Route path="adminTrade" element={<AdminTrade />} />
         </Routes>
       </HashRouter>
       <Toaster

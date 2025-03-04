@@ -6,6 +6,9 @@ import { FaStoreAlt } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useStation } from "@/hooks/useStation";
 import Spinner from "./Spinner";
+import { useMember } from "@/hooks/useMember";
+import { useEffect, useState } from "react";
+import ErrorMessage from "./ErrorMessage";
 
 function MemberBanner() {
   const location = useLocation();
@@ -21,6 +24,53 @@ function MemberBanner() {
   };
 
   const navType = getNavType();
+
+  // 會員稱號
+  const { member, isLoadingMember, getMemberError } = useMember();
+  const [transactionNums, setTransactionNums] = useState(0);
+  useEffect(() => {
+    if (member && member.user.user_metadata) {
+      setTransactionNums(member.user.user_metadata.transaction_nums);
+    }
+  }, [member]);
+  // 會員等級定義 => 轉運紙箱數為門檻
+  // transactionNums > 0 => 相遇路人
+  // transactionNums > 50 => 返箱青年
+  // transactionNums > 100 => 箱村村長
+  // transactionNums > 200 => 箱村守護者
+  const memberTitle = {
+    level_1: "相遇路人",
+    level_2: "返箱青年",
+    level_3: "箱村村長",
+    level_4: "箱村守護者",
+  };
+  const [memberLevel, setMemberLevel] = useState(1);
+  const [memberLevelTitle, setMemberLevelTitle] = useState("");
+  useEffect(() => {
+    if (transactionNums > 0 && transactionNums < 50) {
+      setMemberLevel(1);
+      setMemberLevelTitle(memberTitle.level_1);
+    } else if (transactionNums >= 50 && transactionNums < 100) {
+      setMemberLevel(2);
+      setMemberLevelTitle(memberTitle.level_2);
+    } else if (transactionNums >= 100 && transactionNums < 200) {
+      setMemberLevel(3);
+      setMemberLevelTitle(memberTitle.level_3);
+    } else if (transactionNums > 200) {
+      setMemberLevel(4);
+      setMemberLevelTitle(memberTitle.level_4);
+    }
+  }, [
+    memberTitle.level_1,
+    memberTitle.level_2,
+    memberTitle.level_3,
+    memberTitle.level_4,
+    transactionNums,
+  ]);
+
+  if (isLoadingMember) return <Spinner />;
+  if (getMemberError) return <ErrorMessage errorMessage={member.message} />;
+
   return (
     <section className="bg-[#F3F3F3] bg-top bg-no-repeat md:bg-[url('@/assets/memberBanner-bg2.svg')]">
       <div className="container relative mx-auto flex flex-col items-center gap-10 py-20 text-center md:flex-row md:justify-between md:text-left">
@@ -35,7 +85,7 @@ function MemberBanner() {
         {navType === "normal" ? <NormalBanner /> : <AdminBanner />}
         <div className="relative h-60 w-80 md:w-[500px]">
           <h4 className="absolute left-12 top-6 z-30 rotate-6 text-nowrap text-center text-main-100 lg:left-48 lg:top-16">
-            {navType === "normal" ? "箱村村長" : "站長"}午安，
+            {navType === "normal" ? memberLevelTitle : "站長"}午安，
             <br /> 歡迎{navType === "normal" ? "來到" : "回到"}返箱轉運站！
           </h4>
           <img

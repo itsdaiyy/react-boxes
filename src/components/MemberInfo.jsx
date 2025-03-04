@@ -1,11 +1,14 @@
 import village_master from "../assets/village_master.svg";
-import points from "../assets/points.svg";
+import points_icon from "../assets/points.svg";
 import box_count from "../assets/box_count.svg";
 
 import ResponsiveSwiper from "./ui/ResponsiveSwiper";
 import MemberInfoForm from "./form/MemberInfoForm";
 
 import { useMember } from "@/hooks/useMember";
+import { useEffect, useState } from "react";
+import Spinner from "./Spinner";
+import ErrorMessage from "./ErrorMessage";
 
 const style = {
   cardContainer: "flex items-center justify-around rounded-2xl bg-white p-10",
@@ -15,7 +18,62 @@ const style = {
 
 function MemberInfo() {
   const { member, isLoadingMember, getMemberError } = useMember();
+  const [pointNum, setPointNum] = useState("");
+  const [transactionNums, setTransactionNums] = useState(0);
+
   console.log(member);
+
+  useEffect(() => {
+    if (member && member.user.user_metadata) {
+      setPointNum(member.user.user_metadata.points);
+      setTransactionNums(member.transactionsCounts);
+    }
+  }, [member]);
+
+  // 會員等級定義 => 轉運紙箱數為門檻
+  // transactionNums > 0 => 相遇路人
+  // transactionNums > 50 => 返箱青年
+  // transactionNums > 100 => 箱村村長
+  // transactionNums > 200 => 箱村守護者
+  const memberTitle = {
+    level_1: "相遇路人",
+    level_2: "返箱青年",
+    level_3: "箱村村長",
+    level_4: "箱村守護者",
+  };
+  const [memberLevel, setMemberLevel] = useState(1);
+  const [memberLevelTitle, setMemberLevelTitle] = useState("");
+  const [levelUpNum, setLevelUpNum] = useState("");
+  const [initialSlide, setInitialSlide] = useState(0);
+  useEffect(() => {
+    if (transactionNums > 0 && transactionNums < 50) {
+      setMemberLevel(1);
+      setMemberLevelTitle(memberTitle.level_2);
+      setLevelUpNum(50 - transactionNums);
+      setInitialSlide(0);
+    } else if (transactionNums >= 50 && transactionNums < 100) {
+      setMemberLevel(2);
+      setMemberLevelTitle(memberTitle.level_3);
+      setLevelUpNum(100 - transactionNums);
+      setInitialSlide(1);
+    } else if (transactionNums >= 100 && transactionNums < 200) {
+      setMemberLevel(3);
+      setMemberLevelTitle(memberTitle.level_4);
+      setLevelUpNum(200 - transactionNums);
+      setInitialSlide(2);
+    } else if (transactionNums > 200) {
+      setMemberLevel(4);
+      setInitialSlide(3);
+    }
+  }, [
+    memberTitle.level_2,
+    memberTitle.level_3,
+    memberTitle.level_4,
+    transactionNums,
+  ]);
+
+  if (isLoadingMember) return <Spinner />;
+  if (getMemberError) return <ErrorMessage errorMessage={member.message} />;
 
   return (
     <div className="w-full text-center">
@@ -24,20 +82,18 @@ function MemberInfo() {
           <p className="mb-6 text-base md:text-2xl">
             幫助紙箱君順利搭上返箱專車，繼續旅行吧！
           </p>
-          <div className="md:flex md:items-center md:justify-center">
-            <p className="my-5 flex items-center justify-center text-base md:text-2xl">
-              再累積
-              <span className="mx-5 flex items-center text-[40px] font-bold text-main-500">
-                486
-              </span>
-              次
-            </p>
-            <p className="my-5 flex items-center justify-center text-base md:text-2xl">
-              轉運紙箱數，就可以解鎖箱村守護者稱號！
-            </p>
-          </div>
+
+          {memberLevel !== 4 && (
+            <NormalLevel
+              levelUpNum={levelUpNum}
+              memberLevelTitle={memberLevelTitle}
+            />
+          )}
         </div>
-        <ResponsiveSwiper />
+        <ResponsiveSwiper
+          initialSlide={initialSlide}
+          memberLevel={memberLevel}
+        />
       </div>
 
       <div className="container m-20 mx-auto rounded-3xl bg-main-100 p-4">
@@ -54,15 +110,19 @@ function MemberInfo() {
             {/* 2號 div - 手機版時在最下方 */}
             <div className="hidden gap-5 rounded md:flex md:flex-col">
               <div className={style.cardContainer}>
-                <img src={points} alt="" />
+                <img src={points_icon} alt="" />
                 <p className={style.cardText}>當前積分</p>
-                <p className={style.cardNumber}>35</p>
+                <p className={style.cardNumber}>
+                  {pointNum !== "" ? pointNum : "載入中..."}
+                </p>
                 <p className={style.cardText}>Points</p>
               </div>
               <div className={style.cardContainer}>
                 <img src={box_count} alt="" />
                 <p className={style.cardText}>轉運紙箱數</p>
-                <p className={style.cardNumber}>514</p>
+                <p className={style.cardNumber}>
+                  {transactionNums !== "" ? transactionNums : "載入中..."}
+                </p>
                 <p className={style.cardText}>次</p>
               </div>
             </div>
@@ -70,21 +130,25 @@ function MemberInfo() {
 
           {/* 會員資訊表單 */}
           {/* 3號 div - 左側容器，手機版時在中間 */}
-          <MemberInfoForm />
+          <MemberInfoForm data={member} />
 
           {/* 會員資訊 */}
           {/* 2號 div 的手機版位置 */}
           <div className="order-3 flex flex-col gap-5 rounded md:hidden">
             <div className={`${style.cardContainer} flex-col gap-4`}>
-              <img src={points} alt="" />
+              <img src={points_icon} alt="" />
               <p className={style.cardText}>當前積分</p>
-              <p className={style.cardNumber}>35</p>
+              <p className={style.cardNumber}>
+                {pointNum !== "" ? pointNum : "載入中..."}
+              </p>
               <p className={style.cardText}>Points</p>
             </div>
             <div className={`${style.cardContainer} flex-col gap-4`}>
               <img src={box_count} alt="" />
               <p className={style.cardText}>轉運紙箱數</p>
-              <p className={style.cardNumber}>514</p>
+              <p className={style.cardNumber}>
+                {transactionNums !== "" ? transactionNums : "載入中..."}
+              </p>
               <p className={style.cardText}>次</p>
             </div>
           </div>
@@ -95,3 +159,23 @@ function MemberInfo() {
 }
 
 export default MemberInfo;
+
+// 一般等級
+function NormalLevel({ levelUpNum, memberLevelTitle }) {
+  return (
+    <div className="md:flex md:items-center md:justify-center">
+      <p className="my-5 flex items-center justify-center text-base md:text-2xl">
+        再累積
+        <span className="mx-5 flex items-center text-[40px] font-bold text-main-500">
+          {levelUpNum}
+        </span>
+        次
+      </p>
+      <p className="my-5 flex items-center justify-center text-base md:text-2xl">
+        轉運紙箱數，就可以解鎖
+        <span className="px-1 font-bold text-main-500">{memberLevelTitle}</span>
+        稱號！
+      </p>
+    </div>
+  );
+}
