@@ -2,14 +2,12 @@ import AdminTradeTable from "./table/AdminTradeTable";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-// import memberBannerBg01 from "@/assets/memberBanner-bg1.svg";
-// import Header from "./Header";
-// import Footer from "./Footer";
 import { useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useUpdateMultipleBoxes } from "@/hooks/useBoxes";
 
 // 驗證 schema
 const formSchema = z.object({
@@ -45,6 +43,11 @@ function AdminTrade() {
   const [totalPoints, setTotalPoints] = useState(0);
   const [selectedCounts, setSelectedCounts] = useState(0);
 
+  // 更新紙箱狀態(status: 可認領 => 售出)
+  const { updateMultipleBoxes } = useUpdateMultipleBoxes();
+  const [boxIds, setBoxIds] = useState([]);
+  const [values, setValues] = useState({});
+
   const handleSelectChange = ({ selectedRows }) => {
     setValue("selectedRows", selectedRows); // 更新表單中的 selectedRows
 
@@ -58,33 +61,23 @@ function AdminTrade() {
     );
     const counts = selectedRows.length;
 
+    const selectedBoxIds = selectedRows.map((item) => item.id);
+
     setTotalCash(cashSum);
     setTotalPoints(pointSum);
     setSelectedCounts(counts);
+    setBoxIds(selectedBoxIds);
+    setValues({ status: "售出" });
   };
 
   const onSubmit = (data) => {
     console.log("提交的資料:", data);
+    updateMultipleBoxes({ boxIds, values });
     navigate("/member/admin/boxesTable"); // 轉向至 5-3
   };
 
   return (
     <>
-      {/* <Header />
-      <section className="bg-[#F3F3F3] bg-top bg-no-repeat md:bg-[url('@/assets/memberBanner-bg2.svg')]">
-        <div className="container relative mx-auto flex flex-col items-center gap-10 py-20 text-center md:flex-row md:justify-between md:text-left">
-          <div className="relative h-[201px] w-[200px]">
-            <img
-              src={memberBannerBg01}
-              alt="背景圖"
-              className="absolute -bottom-3 -left-14 hidden md:flex"
-            />
-          </div>
-          <div className="relative h-60 w-80 md:w-[500px]"></div>
-        </div>
-      </section> 
-      <div className="mb-[500px]"></div>*/}
-
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="z-100 container top-16 mx-auto my-5 flex flex-col items-center justify-center">
@@ -114,7 +107,11 @@ function AdminTrade() {
                 </div>
               </div>
 
-              <AdminTradeTable handleSelectChange={handleSelectChange} />
+              <AdminTradeTable
+                handleSelectChange={handleSelectChange}
+                setBoxId={setBoxIds}
+                setValues={setValues}
+              />
 
               {/* 顯示錯誤訊息 */}
               {errors.selectedRows && (
@@ -158,7 +155,11 @@ function AdminTrade() {
                   <button className="btn w-1/2 text-xl" type="submit">
                     確認送出
                   </button>
-                  <button className="btn w-1/2 text-xl" type="button">
+                  <button
+                    className="btn w-1/2 text-xl"
+                    type="button"
+                    onClick={() => navigate("/member/admin/boxesTable")}
+                  >
                     取消
                   </button>
                 </div>
@@ -167,7 +168,6 @@ function AdminTrade() {
           </div>
         </form>
       </FormProvider>
-      {/* <Footer /> */}
     </>
   );
 }
