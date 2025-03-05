@@ -45,7 +45,7 @@ const customStyles = {
   },
 };
 
-const AdminTradeTable = ({ handleSelectChange }) => {
+const AdminTradeTable = ({ handleSelectChange, setBoxIds, setValues }) => {
   // 資料
   const { boxes, isLoadingBoxes, boxesError } = useBoxesForSelling(16);
   // 篩選搜尋資料
