@@ -1,14 +1,12 @@
+import { useEffect, useState } from "react";
+import { useMember } from "@/hooks/useMember";
+
 import village_master from "../assets/village_master.svg";
 import points_icon from "../assets/points.svg";
 import box_count from "../assets/box_count.svg";
 
 import ResponsiveSwiper from "./ui/ResponsiveSwiper";
 import MemberInfoForm from "./form/MemberInfoForm";
-
-import { useMember } from "@/hooks/useMember";
-import { useEffect, useState } from "react";
-import Spinner from "./Spinner";
-import ErrorMessage from "./ErrorMessage";
 
 const style = {
   cardContainer: "flex items-center justify-around rounded-2xl bg-white p-10",
@@ -18,17 +16,18 @@ const style = {
 
 function MemberInfo() {
   const { member, isLoadingMember, getMemberError } = useMember();
-  const [pointNum, setPointNum] = useState("");
-  const [transactionNums, setTransactionNums] = useState(0);
+  const pointNum = member.user.user_metadata.points;
+  const transactionNums = member.transactionsCounts;
 
-  console.log(member);
+  // const [pointNum, setPointNum] = useState("");
+  // const [transactionNums, setTransactionNums] = useState(0);
 
-  useEffect(() => {
-    if (member && member.user.user_metadata) {
-      setPointNum(member.user.user_metadata.points);
-      setTransactionNums(member.transactionsCounts);
-    }
-  }, [member]);
+  // useEffect(() => {
+  //   if (member && member.user.user_metadata) {
+  //     setPointNum(member.user.user_metadata.points);
+  //     setTransactionNums(member.transactionsCounts);
+  //   }
+  // }, [member]);
 
   // 會員等級定義 => 轉運紙箱數為門檻
   // transactionNums > 0 => 相遇路人
@@ -71,9 +70,6 @@ function MemberInfo() {
     memberTitle.level_4,
     transactionNums,
   ]);
-
-  if (isLoadingMember) return <Spinner />;
-  if (getMemberError) return <ErrorMessage errorMessage={member.message} />;
 
   return (
     <div className="w-full text-center">
