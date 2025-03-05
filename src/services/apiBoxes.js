@@ -228,16 +228,26 @@ export async function apiAddMultipleBoxes(formData) {
   }
 }
 
+// 取得公開 URL
+function getImageUrl(bucket, path) {
+  return supabase.storage.from(bucket).getPublicUrl(path).data.publicUrl;
+}
+
 export async function apiUploadImage(bucket, imageFile, userId) {
   const fileName = `${Date.now()}-${imageFile.name}`.replaceAll("/", "");
+  const filePath = `${userId}/${fileName}`;
+
   try {
+    // 上傳圖片
     const { data, error } = await supabase.storage
       .from(bucket)
-      .upload(`${userId}/${fileName}`, imageFile);
+      .upload(filePath, imageFile);
 
     if (error) throw error;
 
-    return data;
+    // 取得公開 URL
+    const publicUrl = getImageUrl(bucket, filePath);
+    return { data, publicUrl, filePath };
   } catch (error) {
     throw new Error(error.message);
   }

@@ -50,7 +50,12 @@ const AdminBoxManageTable = () => {
       selector: (row) => row.id,
       sortable: true,
     },
-    { name: "紙箱照片", selector: (row) => <img src={row.image_url} alt="" /> },
+    {
+      name: "紙箱照片",
+      selector: (row) => (
+        <img src={row.image_url} alt="" className="h-[70px] w-[70px]" />
+      ),
+    },
     {
       name: "新增時間",
       selector: (row) => row.created_at?.replace("T", " ").slice(0, 16),

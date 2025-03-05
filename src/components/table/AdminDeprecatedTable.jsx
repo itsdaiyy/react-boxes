@@ -44,6 +44,12 @@ const AdminDeprecatedTable = () => {
   const columns = [
     { name: "紙箱編號", selector: (row) => row.id, sortable: true },
     {
+      name: "紙箱照片",
+      selector: (row) => (
+        <img src={row.image_url} alt="" className="h-[70px] w-[70px]" />
+      ),
+    },
+    {
       name: "新增時間",
       selector: (row) => row.created_at?.replace("T", " ").slice(0, 16),
       sortable: true,
@@ -57,16 +63,14 @@ const AdminDeprecatedTable = () => {
     },
     { name: "紙箱大小", selector: (row) => row.size, sortable: true },
     {
-      name: "紙箱保存等級",
+      name: "保存等級",
       selector: (row) => row.condition,
       sortable: true,
-      width: "130px",
     },
     {
-      name: "紙箱保留天數",
+      name: "保留天數",
       selector: (row) => row.retention_days,
       sortable: true,
-      width: "130px",
     },
     { name: "紙箱狀態", selector: (row) => row.status, sortable: true },
     { name: "對應現金", selector: (row) => row.cash_value, sortable: true },
