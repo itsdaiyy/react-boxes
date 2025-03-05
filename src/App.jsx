@@ -21,6 +21,8 @@ import MemberInfoHistoryTable from "./components/table/MemberInfoHistoryTable";
 import MemberInfoPointTable from "./components/table/MemberInfoPointTable";
 import AdminTrade from "./components/AdminTrade";
 import AdminAddBoxes from "./components/form/AdminAddBoxes";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -35,31 +37,41 @@ function App() {
             <Route index element={<Map />} />
             <Route path=":stationId" element={<StationInfo />} />
           </Route>
-          <Route path="member" element={<Member />}>
-            <Route
-              index
-              element={<Navigate replace to="normal/memberInfo" />}
-            />
-            <Route path="normal">
-              <Route index element={<Navigate replace to="memberInfo" />} />
-              <Route path="memberInfo" element={<MemberInfo />} />
-              <Route path="pointsRecords" element={<MemberInfoPointTable />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="member" element={<Member />}>
               <Route
-                path="transactionRecords"
-                element={<MemberInfoHistoryTable />}
+                index
+                element={<Navigate replace to="normal/memberInfo" />}
               />
-            </Route>
-            <Route path="admin">
-              <Route index element={<Navigate replace to="adminInfo" />} />
-              <Route path="adminInfo" element={<AdminInfo />} />
-              <Route path="boxesTable" element={<AdminBoxManageTable />} />
-              <Route path="addBoxes" element={<AdminAddBoxes />} />
-              <Route path="tradeBoxes" element={<AdminTrade />} />
-              <Route path="recyclingTable" element={<AdminDeprecatedTable />} />
-              <Route
-                path="adminTransactionRecords"
-                element={<AdminTradeHistoryTable />}
-              />
+              <Route path="normal">
+                <Route index element={<Navigate replace to="memberInfo" />} />
+                <Route path="memberInfo" element={<MemberInfo />} />
+                <Route
+                  path="pointsRecords"
+                  element={<MemberInfoPointTable />}
+                />
+                <Route
+                  path="transactionRecords"
+                  element={<MemberInfoHistoryTable />}
+                />
+              </Route>
+              <Route element={<AdminProtectedRoute />}>
+                <Route path="admin">
+                  <Route index element={<Navigate replace to="adminInfo" />} />
+                  <Route path="adminInfo" element={<AdminInfo />} />
+                  <Route path="boxesTable" element={<AdminBoxManageTable />} />
+                  <Route path="addBoxes" element={<AdminAddBoxes />} />
+                  <Route path="tradeBoxes" element={<AdminTrade />} />
+                  <Route
+                    path="recyclingTable"
+                    element={<AdminDeprecatedTable />}
+                  />
+                  <Route
+                    path="adminTransactionRecords"
+                    element={<AdminTradeHistoryTable />}
+                  />
+                </Route>
+              </Route>
             </Route>
           </Route>
           <Route path="signin" element={<Signin />} />

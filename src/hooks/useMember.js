@@ -11,5 +11,11 @@ export function useMember() {
     queryFn: () => apiGetMember(),
   });
 
-  return { member, isLoadingMember, getMemberError };
+  return {
+    member,
+    isLoadingMember,
+    isAuthenticated: member?.user.role === "authenticated",
+    role: member?.user.user_metadata.roles.length > 1 ? "storeOwner" : "normal",
+    getMemberError,
+  };
 }
