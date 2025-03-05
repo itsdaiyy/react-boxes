@@ -8,10 +8,10 @@ export function useUpdateAvailableSlots() {
   const { mutate: updateAvailableSlots, isPending: isLoading } = useMutation({
     mutationKey: ["updateAvailableSlots"],
     mutationFn: apiUpdateAvailableSlots,
-    onSuccess: (station) => {
+    onSuccess: () => {
       toast.success(`成功更新「可回收紙箱數量」`);
       queryClient.invalidateQueries({
-        queryKey: ["stationAdmin", station.user_id],
+        queryKey: ["stationAdmin"],
       });
     },
     onError: () => {

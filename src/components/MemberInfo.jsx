@@ -19,16 +19,6 @@ function MemberInfo() {
   const pointNum = member.user.user_metadata.points;
   const transactionNums = member.transactionsCounts;
 
-  // const [pointNum, setPointNum] = useState("");
-  // const [transactionNums, setTransactionNums] = useState(0);
-
-  // useEffect(() => {
-  //   if (member && member.user.user_metadata) {
-  //     setPointNum(member.user.user_metadata.points);
-  //     setTransactionNums(member.transactionsCounts);
-  //   }
-  // }, [member]);
-
   // 會員等級定義 => 轉運紙箱數為門檻
   // transactionNums > 0 => 相遇路人
   // transactionNums > 50 => 返箱青年

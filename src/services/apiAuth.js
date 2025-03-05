@@ -55,15 +55,23 @@ export async function apiSignOut() {
 //   password: "password1",
 // },
 
+// {
+//   email: "customer1@gmail.com",
+//   password: "customerPassword1",
+// },
+
 export async function apiGetMember() {
   try {
     // 測試使用，先登入後取得資料。
-    console.log("get member");
+    // const signInUser = {
+    //   email: "customer1@gmail.com",
+    //   password: "customerPassword1",
+    // };
+
     const signInUser = {
       email: "test01@gmail.com",
       password: "password1",
     };
-
     await apiSignIn(signInUser);
 
     const { data: session } = await supabase.auth.getSession();

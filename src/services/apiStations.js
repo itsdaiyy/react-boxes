@@ -29,7 +29,6 @@ export async function apiGetStations() {
 
 export async function apiGetStationById(id, idName) {
   const idColumn = idName === "stationId" ? "id" : "user_id";
-  console.log(idColumn);
   try {
     let { data: station, error } = await supabase
       .from("stations")

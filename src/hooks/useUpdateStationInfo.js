@@ -15,10 +15,10 @@ export function useUpdateStationInfo() {
     onError: (err) => {
       toast.error(err.message);
     },
-    onSuccess: (station) => {
+    onSuccess: () => {
       toast.success("更新成功");
       queryClient.invalidateQueries({
-        queryKey: ["stationAdmin", station.user_id],
+        queryKey: ["stationAdmin"],
       });
     },
   });
