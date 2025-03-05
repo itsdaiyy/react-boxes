@@ -227,3 +227,18 @@ export async function apiAddMultipleBoxes(formData) {
     throw new Error("無法新增資料，請確認網路狀態或稍後再試");
   }
 }
+
+export async function apiUploadImage(bucket, imageFile, userId) {
+  const fileName = `${Date.now()}-${imageFile.name}`.replaceAll("/", "");
+  try {
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .upload(`${userId}/${fileName}`, imageFile);
+
+    if (error) throw error;
+
+    return data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
