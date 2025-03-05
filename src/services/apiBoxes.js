@@ -227,3 +227,28 @@ export async function apiAddMultipleBoxes(formData) {
     throw new Error("無法新增資料，請確認網路狀態或稍後再試");
   }
 }
+
+// 取得公開 URL
+function getImageUrl(bucket, path) {
+  return supabase.storage.from(bucket).getPublicUrl(path).data.publicUrl;
+}
+
+export async function apiUploadImage(bucket, imageFile, userId) {
+  const fileName = `${Date.now()}-${imageFile.name}`.replaceAll("/", "");
+  const filePath = `${userId}/${fileName}`;
+
+  try {
+    // 上傳圖片
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .upload(filePath, imageFile);
+
+    if (error) throw error;
+
+    // 取得公開 URL
+    const publicUrl = getImageUrl(bucket, filePath);
+    return { data, publicUrl, filePath };
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
