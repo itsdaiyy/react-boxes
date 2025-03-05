@@ -12,7 +12,7 @@ export function useSignOut() {
     mutationKey: ["signOut"],
     mutationFn: apiSignOut,
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: ["user"], exact: true });
+      queryClient.setQueryData(['member'], null)
       document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
       toast.success(`您已登出`);
 

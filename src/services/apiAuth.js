@@ -1,6 +1,5 @@
 import { apiGetTransactionsCounts } from "./apiBoxTransactions";
 import supabase from "./supabase";
-const { VITE_SUPABASE_URL } = import.meta.env;
 export async function apiSignIn({ email, password }) {
   try {
     let { data, error } = await supabase.auth.signInWithPassword({
@@ -51,12 +50,24 @@ export async function apiSignOut() {
   }
 }
 
+// {
+//   email: "test01@gmail.com",
+//   password: "password1",
+// },
+
 export async function apiGetMember() {
   try {
     // 測試使用，先登入後取得資料。
-    const signInUser = { email: "test01@gmail.com", password: "password1" };
+    console.log("get member");
+    const signInUser = {
+      email: "test01@gmail.com",
+      password: "password1",
+    };
 
     await apiSignIn(signInUser);
+
+    const { data: session } = await supabase.auth.getSession();
+    if (!session.session) return null;
 
     const {
       data: { user },
