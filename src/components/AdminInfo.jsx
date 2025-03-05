@@ -1,4 +1,3 @@
-import { useStation } from "@/hooks/useStation";
 import { useBoxesTotalForSelling } from "@/hooks/useBoxes";
 
 import AdminInfoForm from "./form/AdminInfoForm";
@@ -7,6 +6,7 @@ import AdminTradeHistoryTable from "./table/AdminTradeHistoryTable";
 import SellingBoxesCard from "./card/SellingBoxesCard";
 import shop from "@/assets/shop.png";
 import Spinner from "./Spinner";
+import { useStationAdmin } from "@/hooks/useStationAdmin";
 
 const totalBoxes = function (boxes) {
   let small = 0;
@@ -24,7 +24,7 @@ const totalBoxes = function (boxes) {
 };
 
 function AdminInfo() {
-  const { station, isLoadingStation } = useStation(10);
+  const { station, isLoadingStation } = useStationAdmin();
   const { boxes, isLoadingBoxes } = useBoxesTotalForSelling(10);
   if (isLoadingStation) return <Spinner />;
   if (isLoadingBoxes) return <Spinner />;

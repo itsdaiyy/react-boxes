@@ -1,5 +1,5 @@
 import { apiGetStationById } from "@/services/apiStations";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 /**
  * 自訂 Hook：使用 React Query 來取得單一站點資料
@@ -26,7 +26,7 @@ export function useStation(clickedId) {
     error: stationError,
   } = useQuery({
     queryKey: ["station", stationId],
-    queryFn: () => apiGetStationById(stationId),
+    queryFn: () => apiGetStationById(stationId, "stationId"),
     enabled: !!stationId,
   });
 

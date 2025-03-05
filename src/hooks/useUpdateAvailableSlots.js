@@ -10,7 +10,9 @@ export function useUpdateAvailableSlots() {
     mutationFn: apiUpdateAvailableSlots,
     onSuccess: (station) => {
       toast.success(`成功更新「可回收紙箱數量」`);
-      queryClient.invalidateQueries({ queryKey: ["station", station.id] });
+      queryClient.invalidateQueries({
+        queryKey: ["stationAdmin", station.user_id],
+      });
     },
     onError: () => {
       toast.error(`更新「可回收紙箱數量」失敗`);
