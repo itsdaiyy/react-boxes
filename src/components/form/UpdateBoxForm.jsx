@@ -19,6 +19,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useUpdateBox } from "@/hooks/useBoxes";
+import { useState } from "react";
+import supabase from "@/services/supabase";
+import { apiUploadImage } from "@/services/apiBoxes";
 
 UpdateBoxForm.propTypes = { row: PropTypes.object, setOpen: PropTypes.func };
 
@@ -27,21 +30,24 @@ const formSchema = z.object({
   condition: z.string(),
   retention_days: z.number(),
   status: z.string(),
+  image_url: z.string().optional(),
 });
 
 export default function UpdateBoxForm({ row, setOpen }) {
   const { updateBox, isUpdating } = useUpdateBox();
+
   const form = useForm({
     defaultValues: {
       size: row.size,
       condition: row.condition,
       retention_days: row.retention_days,
       status: row.status,
+      image_url: row.image_url,
     },
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values) {
+  async function onSubmit(values) {
     const formattedValues = {
       ...values,
       retention_days: Number(values.retention_days),

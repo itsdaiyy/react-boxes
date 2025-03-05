@@ -4,9 +4,9 @@ const style = {
   mainNavContainer:
     "container mx-auto flex w-full justify-center gap-2 md:justify-start",
   mainNav:
-    "inline-flex h-[77px] grow md:grow-0 w-[168px] items-center justify-center rounded-2xl rounded-b-none border border-b-0 border-[#D9D9D9] bg-white text-[#6F6F6F]",
-  mainNavActive:
     "inline-flex h-[77px] grow md:grow-0 w-[168px] items-center justify-center rounded-2xl rounded-b-none border border-b-0 border-[#D9D9D9] bg-main-600 text-white",
+  mainNavActive:
+    "inline-flex h-[77px] grow md:grow-0 w-[168px] items-center justify-center rounded-2xl rounded-b-none border border-b-0 border-[#D9D9D9] bg-white text-[#6F6F6F]",
   secondNavContainer: "container mx-auto flex gap-2 overflow-x-auto",
   secondNav: "grow py-[23px] text-center text-[#6F6F6F] text-nowrap",
   secondActive:
@@ -39,7 +39,7 @@ function MemberNav() {
               isActive ? style.mainNavActive : style.mainNav
             }
           >
-            <h4>會員頁面</h4>
+            <p className="fs-4">會員頁面</p>
           </NavLink>
           <NavLink
             to="/member/admin"
@@ -47,7 +47,7 @@ function MemberNav() {
               isActive ? style.mainNavActive : style.mainNav
             }
           >
-            <h4>管理者頁面</h4>
+            <p className="fs-4">管理者頁面</p>
           </NavLink>
         </div>
       </nav>
