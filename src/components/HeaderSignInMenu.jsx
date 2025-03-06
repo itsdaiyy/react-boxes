@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useSignOut } from "@/hooks/useSignOut";
 
 import { Button } from "@/components/ui/button";
@@ -9,14 +8,21 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import { CiLogout } from "react-icons/ci";
+import { NavLink } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
+
 import HeaderAvatar from "./HeaderAvatar";
 
-function HeaderSignInMenu({ currentMember, setCurrentMember }) {
-  const { signOutAsync, isLoading } = useSignOut();
+const style = {
+  mapAfter:
+    "after:content text-main-500 after:absolute after:left-7 after:bottom-0 after:mt-1 after:w-[64px] after:border-b-2 after:border-main-500",
+};
+function HeaderSignInMenu({ currentMember, setCurrentMember, role, setRole }) {
+  const { signOutAsync } = useSignOut();
 
   return (
     <DropdownMenu>
@@ -25,7 +31,10 @@ function HeaderSignInMenu({ currentMember, setCurrentMember }) {
           <HeaderAvatar currentMember={currentMember} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="mt-4 w-[200px] sm:mr-14 sm:pr-4">
+      <DropdownMenuContent
+        className="mt-3 hidden w-56 text-[#6f6f6f] lg:block"
+        align="end"
+      >
         <DropdownMenuLabel>
           <div className="font-normal leading-[24px]">
             <p className="text-[#6f6f6f]">
@@ -34,32 +43,33 @@ function HeaderSignInMenu({ currentMember, setCurrentMember }) {
             <p>{currentMember?.email}</p>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link
-              to={{
-                pathname: "/member",
-              }}
+        <DropdownMenuSeparator className="h-0 border" />
+        <DropdownMenuGroup className="pt-3">
+          <DropdownMenuItem className="my-0 mb-3 p-0">
+            <NavLink
+              to="/member"
+              className={({ isActive }) =>
+                `${isActive ? style.mapAfter : "text-[#6F6F6F]"} flex w-full items-center gap-2 px-2 py-3 hover:text-main-500`
+              }
             >
-              會員資訊
-            </Link>
+              <FaUser />
+              {role === "storeOwner" ? "會員資訊 & 站點管理" : "會員資訊"}
+            </NavLink>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+
+          <DropdownMenuItem className="my-0 mb-3 p-0">
             <Button
               variant="ghost"
-              className="px-0"
+              className="w-full justify-start px-2 py-5 hover:text-main-500"
               onClick={async () => {
                 await signOutAsync();
                 setCurrentMember(null);
+                setRole("");
               }}
-              disabled={isLoading}
             >
+              <CiLogout />
               登出
             </Button>
-            <DropdownMenuShortcut>
-              <CiLogout />
-            </DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
