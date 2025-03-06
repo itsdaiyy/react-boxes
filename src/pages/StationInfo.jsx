@@ -12,7 +12,10 @@ import { useStation } from "@/hooks/useStation";
 import DataTable from "react-data-table-component";
 import { StyleSheetManager } from "styled-components";
 import isPropValid from "@emotion/is-prop-valid";
-import { stationInfoStyles, paginationComponentOptions } from "@/data/constants";
+import {
+  stationInfoStyles,
+  paginationComponentOptions,
+} from "@/data/constants";
 
 // Map
 import {
@@ -26,6 +29,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import mapMark from "../assets/mapMark.png";
+import { getPendingBoxes } from "@/utils/helpers";
 
 // 資料處理
 // 計算紙箱數量
@@ -89,10 +93,14 @@ const getTodayOpenTime = (station_daily_hours) => {
   return todayOpenTime;
 };
 
-
 // 排序下拉選單
-const Dropdown = ({setAvailableBoxes,availableBoxes }) => {
-  const sortOptions = ["紙箱尺寸：由大到小", "紙箱尺寸：由小到大", "保存等級：由新至舊", "保存等級：由舊至新"];
+const Dropdown = ({ setAvailableBoxes, availableBoxes }) => {
+  const sortOptions = [
+    "紙箱尺寸：由大到小",
+    "紙箱尺寸：由小到大",
+    "保存等級：由新至舊",
+    "保存等級：由舊至新",
+  ];
   const [isOpen, setIsOpen] = useState(false); //開啟選單
   const [selected, setSelected] = useState(sortOptions[0]); //當前選擇
   const dropdownRef = useRef(null); //監聽選單區域，用於關閉選單
@@ -121,19 +129,23 @@ const Dropdown = ({setAvailableBoxes,availableBoxes }) => {
   const handleSelect = (option) => {
     setSelected(option);
 
-    const sizeOrder = { "小": 1, "中": 2, "大": 3, "特大": 4 };
-    const conditionOrder = { "差": 1, "普通": 2, "優": 3, "全新": 4 };
+    const sizeOrder = { 小: 1, 中: 2, 大: 3, 特大: 4 };
+    const conditionOrder = { 差: 1, 普通: 2, 優: 3, 全新: 4 };
 
     let sortBoxes = [...availableBoxes];
 
-    if (option === '紙箱尺寸：由小到大') {
+    if (option === "紙箱尺寸：由小到大") {
       sortBoxes.sort((a, b) => sizeOrder[a.size] - sizeOrder[b.size]);
-    } else if (option === '紙箱尺寸：由大到小') {
+    } else if (option === "紙箱尺寸：由大到小") {
       sortBoxes.sort((a, b) => sizeOrder[b.size] - sizeOrder[a.size]);
-    } else if (option === '保存等級：由新至舊') {
-      sortBoxes.sort((a, b) => conditionOrder[b.condition] - conditionOrder[a.condition]);
-    } else if (option === '保存等級：由舊至新') {
-      sortBoxes.sort((a, b) => conditionOrder[a.condition] - conditionOrder[b.condition]);
+    } else if (option === "保存等級：由新至舊") {
+      sortBoxes.sort(
+        (a, b) => conditionOrder[b.condition] - conditionOrder[a.condition],
+      );
+    } else if (option === "保存等級：由舊至新") {
+      sortBoxes.sort(
+        (a, b) => conditionOrder[a.condition] - conditionOrder[b.condition],
+      );
     }
 
     setAvailableBoxes(sortBoxes);
@@ -145,22 +157,20 @@ const Dropdown = ({setAvailableBoxes,availableBoxes }) => {
       {/* 下拉按鈕 */}
       <button
         onClick={toggleDropdown}
-        className="bg-white border p-[12px] rounded-[8px] w-full flex justify-between gap-[114px] items-center"
+        className="flex w-full items-center justify-between gap-[114px] rounded-[8px] border bg-white p-[12px]"
       >
         {selected}
-        <span className="material-symbols-outlined">
-          keyboard_arrow_down
-        </span>
+        <span className="material-symbols-outlined">keyboard_arrow_down</span>
       </button>
 
       {/* 下拉選單 */}
       {isOpen && (
-        <div className="absolute left-0 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-[1000]">
+        <div className="absolute left-0 z-[1000] mt-1 w-full rounded-md border border-gray-300 bg-white shadow-lg">
           <div>
             {sortOptions.map((option, index) => (
               <div
                 key={index}
-                className="p-[12px] cursor-pointer hover:bg-main-100 text-[#6F6F6F] hover:text-black"
+                className="cursor-pointer p-[12px] text-[#6F6F6F] hover:bg-main-100 hover:text-black"
                 onClick={() => handleSelect(option)}
               >
                 {option}
@@ -171,29 +181,26 @@ const Dropdown = ({setAvailableBoxes,availableBoxes }) => {
       )}
     </div>
   );
-}
-
+};
 
 function StationInfo() {
-  const params = useParams();
   const { station, isLoadingStation, stationError } = useStation();
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging(params.stationId);
-
-  const [availableBoxes, setAvailableBoxes] = useState();//儲存可以供認領的紙箱列表
-  const [isAllOpenTime, setIsAllOpenTime] = useState(false); //開啟詳細營業時間
+  //儲存可以供認領的紙箱列表
+  const [availableBoxes, setAvailableBoxes] = useState([]);
+  //開啟詳細營業時間
+  const [isAllOpenTime, setIsAllOpenTime] = useState(false);
 
   useEffect(() => {
-    if (boxes?.length || 0 > 0) {
+    if (station?.boxes?.length > 0) {
       // 若boxes回傳為undefined則無法計算length會報錯，加?避免錯誤
-      const available = boxes.filter((item) => item.status === '可認領');
-      setAvailableBoxes(available);
+      setAvailableBoxes(station.boxes);
     }
-  }, [boxes]);
+  }, [station?.boxes]);
 
   if (isLoadingStation) return <Spinner />;
   if (stationError) return <ErrorMessage errorMessage={stationError.message} />;
-  if (isLoadingBoxes) return <Spinner />;
-  if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
+
+  const pendingBoxesCounts = getPendingBoxes(station.boxes);
 
   // 設定icon
   const customIcon = new L.Icon({
@@ -207,8 +214,13 @@ function StationInfo() {
       name: "紙箱照片",
       selector: (row) => (
         <div className="py-[16px]">
-          <img src={row.image_url} alt={`編號${row.id}：紙箱照片`} className="object-cover w-[100px] h-[100px]"></img>
-        </div>)
+          <img
+            src={row.image_url}
+            alt={`編號${row.id}：紙箱照片`}
+            className="h-[100px] w-[100px] object-cover"
+          ></img>
+        </div>
+      ),
     },
     { name: "紙箱編號", selector: (row) => row.id, sortable: false },
     { name: "紙箱大小", selector: (row) => row.size, sortable: false },
@@ -217,8 +229,16 @@ function StationInfo() {
       selector: (row) => row.condition,
       sortable: false,
     },
-    { name: "兌換所需積分", selector: (row) => row.point_value, sortable: false },
-    { name: "金額", selector: (row) => `NT$ ${row.cash_value}`, sortable: false },
+    {
+      name: "兌換所需積分",
+      selector: (row) => row.point_value,
+      sortable: false,
+    },
+    {
+      name: "金額",
+      selector: (row) => `NT$ ${row.cash_value}`,
+      sortable: false,
+    },
   ];
 
   return (
@@ -235,7 +255,7 @@ function StationInfo() {
               <span className="material-symbols-outlined">arrow_back</span>
               返回地圖
             </NavLink>
-            <div className="flex flex-col lg:flex-row justify-between">
+            <div className="flex flex-col justify-between lg:flex-row">
               {/* 站點資訊 */}
               <div>
                 <h2 className="mb-[24px]">{station.station_name}</h2>
@@ -264,25 +284,38 @@ function StationInfo() {
                   </li>
                   <li className="flex items-start justify-start gap-[8px]">
                     <span className="material-symbols-outlined">call</span>
-                    {`電話:${station.phone ? formatPhoneNumber(station.phone) : '尚未填寫'}`}
+                    {`電話:${station.phone ? formatPhoneNumber(station.phone) : "尚未填寫"}`}
                   </li>
                   <li className="flex items-start justify-start gap-[8px]">
                     <span className="material-symbols-outlined">schedule</span>
                     <p>{`營業時間:${getTodayOpenTime(station.station_daily_hours)}`}</p>
-                    <button onClick={() => setIsAllOpenTime(!isAllOpenTime)} className="lg:hidden inline">
-                      {isAllOpenTime ? <span className="material-symbols-outlined">keyboard_arrow_up</span> : <span className="material-symbols-outlined">keyboard_arrow_down</span>}
+                    <button
+                      onClick={() => setIsAllOpenTime(!isAllOpenTime)}
+                      className="inline lg:hidden"
+                    >
+                      {isAllOpenTime ? (
+                        <span className="material-symbols-outlined">
+                          keyboard_arrow_up
+                        </span>
+                      ) : (
+                        <span className="material-symbols-outlined">
+                          keyboard_arrow_down
+                        </span>
+                      )}
                     </button>
                   </li>
-                  {isAllOpenTime && <ul className="flex flex-col items-center w-full gap-[8px] lg:hidden flex">
-                    {formatOpenTime(station.station_daily_hours)}
-                  </ul>}
-                  <ul className="lg:flex w-full flex-col items-center gap-[8px] hidden">
+                  {isAllOpenTime && (
+                    <ul className="flex w-full flex-col items-center gap-[8px] lg:hidden">
+                      {formatOpenTime(station.station_daily_hours)}
+                    </ul>
+                  )}
+                  <ul className="hidden w-full flex-col items-center gap-[8px] lg:flex">
                     {formatOpenTime(station.station_daily_hours)}
                   </ul>
                 </ul>
               </div>
               {/* 地圖 */}
-              <div className="lg:w-3/4 w-full h-[207px] lg:h-auto">
+              <div className="h-[207px] w-full lg:h-auto lg:w-3/4">
                 <MapContainer
                   center={[station.latitude, station.longitude]}
                   zoom={15}
@@ -314,10 +347,10 @@ function StationInfo() {
           </div>
         </div>
         {/* Section2 */}
-        <div className="container mx-auto px-5 py-[80px] ">
+        <div className="container mx-auto px-5 py-[80px]">
           <h4 className="mb-[24px]">回收認領資訊</h4>
           <div className="rounded-lg border border-[#B7B7B7] p-[16px]">
-            <div className="mb-[12px] flex lg:flex-row flex-col justify-center gap-[25px]">
+            <div className="mb-[12px] flex flex-col justify-center gap-[25px] lg:flex-row">
               {/* 可回收 */}
               <div className="w-full">
                 <p className="mb-[8px] w-full rounded-lg bg-main-100 py-[4px] text-center text-main-600">
@@ -349,25 +382,25 @@ function StationInfo() {
                 </p>
                 <div className="flex w-full gap-[8px]">
                   <div className="text-second-600 flex w-full flex-col items-center rounded-lg bg-second-100 p-[8px]">
-                    <h4>{station.pending_boxes_s}</h4>
+                    <h4>{pendingBoxesCounts["小"] || 0}</h4>
                     <p>S</p>
                   </div>
                   <div className="text-second-600 flex w-full flex-col items-center rounded-lg bg-second-100 p-[8px]">
-                    <h4>{station.pending_boxes_m}</h4>
+                    <h4>{pendingBoxesCounts["中"] || 0}</h4>
                     <p>M</p>
                   </div>
                   <div className="text-second-600 flex w-full flex-col items-center rounded-lg bg-second-100 p-[8px]">
-                    <h4>{station.pending_boxes_l}</h4>
+                    <h4>{pendingBoxesCounts["大"] || 0}</h4>
                     <p>L</p>
                   </div>
                   <div className="text-second-600 flex w-full flex-col items-center rounded-lg bg-second-100 p-[8px]">
-                    <h4>{station.pending_boxes_xl}</h4>
+                    <h4>{pendingBoxesCounts["特大"] || 0}</h4>
                     <p>XL</p>
                   </div>
                 </div>
               </div>
             </div>
-            <ul className="flex lg:flex-row flex-col list-inside list-disc gap-[16px] border-t border-[#B7B7B7] pt-[12px] text-[#6F6F6F]">
+            <ul className="flex list-inside list-disc flex-col gap-[16px] border-t border-[#B7B7B7] pt-[12px] text-[#6F6F6F] lg:flex-row">
               <li>小紙箱：總長 50 公分以下</li>
               <li>中紙箱：總長 50 ~ 120 公分</li>
               <li>大紙箱：總長 120 公分以上</li>
@@ -376,36 +409,60 @@ function StationInfo() {
         </div>
         {/* Section3 */}
         <div className="container mx-auto px-5 pb-[80px]">
-          <div className="flex lg:flex-row flex-col justify-between mb-[24px]">
-            <h4 className="lg:mb-0 mb-[8px]">可認領紙箱列表</h4>
-            <Dropdown setAvailableBoxes={setAvailableBoxes} availableBoxes={availableBoxes} ></Dropdown>
+          <div className="mb-[24px] flex flex-col justify-between lg:flex-row">
+            <h4 className="mb-[8px] lg:mb-0">可認領紙箱列表</h4>
+            <Dropdown
+              setAvailableBoxes={setAvailableBoxes}
+              availableBoxes={availableBoxes}
+            ></Dropdown>
           </div>
           {/* lg以上顯示table */}
           <StyleSheetManager shouldForwardProp={isPropValid}>
-            <div className="lg:block hidden">
-            <DataTable
-              columns={columns}
-              data={availableBoxes}
-              customStyles={stationInfoStyles}
-              pagination
-              paginationComponentOptions={paginationComponentOptions}
-            />
+            <div className="hidden lg:block">
+              <DataTable
+                columns={columns}
+                data={availableBoxes}
+                customStyles={stationInfoStyles}
+                pagination
+                paginationComponentOptions={paginationComponentOptions}
+              />
             </div>
           </StyleSheetManager>
           {/* lg以下顯示card */}
           <div className="flex flex-col lg:hidden">
-          {availableBoxes && availableBoxes.map((item)=>(
-            <div key={item.id} className="border border-[#D9D9D9] py-[16px] px-[24px] flex gap-[16px] justify-start items-center">
-              <img src={item.image_url} alt={`編號${item.id}：紙箱照片`} className="object-cover w-[100px] h-[100px]"></img>
-              <div className="text-start">
-                <p className="text-[#6F6F6F]">編號: <span className="text-[#000000]">{item.id}</span></p>
-                <p className="text-[#6F6F6F]">尺寸: <span className="text-[#000000]">{item.size}</span></p>
-                <p className="text-[#6F6F6F]">等級: <span className="text-[#000000]">{item.condition}</span></p>
-                <p className="text-[#6F6F6F]">兌換積分: <span className="text-[#000000]">{item.point_value}</span></p>
-                <p className="text-[#6F6F6F]">金額: <span className="text-[#000000]">{item.cash_value}</span></p>
-              </div>
-            </div>
-          ))}
+            {availableBoxes &&
+              availableBoxes.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-center justify-start gap-[16px] border border-[#D9D9D9] px-[24px] py-[16px]"
+                >
+                  <img
+                    src={item.image_url}
+                    alt={`編號${item.id}：紙箱照片`}
+                    className="h-[100px] w-[100px] object-cover"
+                  ></img>
+                  <div className="text-start">
+                    <p className="text-[#6F6F6F]">
+                      編號: <span className="text-[#000000]">{item.id}</span>
+                    </p>
+                    <p className="text-[#6F6F6F]">
+                      尺寸: <span className="text-[#000000]">{item.size}</span>
+                    </p>
+                    <p className="text-[#6F6F6F]">
+                      等級:{" "}
+                      <span className="text-[#000000]">{item.condition}</span>
+                    </p>
+                    <p className="text-[#6F6F6F]">
+                      兌換積分:{" "}
+                      <span className="text-[#000000]">{item.point_value}</span>
+                    </p>
+                    <p className="text-[#6F6F6F]">
+                      金額:{" "}
+                      <span className="text-[#000000]">{item.cash_value}</span>
+                    </p>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </main>

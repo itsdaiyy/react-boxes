@@ -37,3 +37,15 @@ export function isExpired(expirationDate) {
   const currentDate = new Date();
   return expDate <= currentDate;
 }
+
+export function getPendingBoxes(boxes = []) {
+  const countsObj = {};
+  for (const box of boxes) {
+    if (countsObj[box.size] === undefined) {
+      countsObj[box.size] = 1;
+    } else {
+      countsObj[box.size] += 1;
+    }
+  }
+  return countsObj;
+}

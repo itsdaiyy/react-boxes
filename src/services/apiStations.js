@@ -12,11 +12,12 @@ import supabase from "./supabase";
  */
 export async function apiGetStations() {
   try {
-    let { data: stations, error } = await supabase.from("stations").select(`*`);
+    let { data: stations, error } = await supabase
+      .from("stations")
+      .select(`*, boxes(*)`)
+      .eq("boxes.status", "可認領");
 
     if (error) throw error;
-
-    console.log(stations);
 
     return stations;
   } catch (error) {
@@ -29,19 +30,46 @@ export async function apiGetStations() {
 
 export async function apiGetStationById(id, idName) {
   const idColumn = idName === "stationId" ? "id" : "user_id";
+  let getStationError;
+  let station;
+
   try {
-    let { data: station, error } = await supabase
-      .from("stations")
-      .select(
-        `*,station_daily_hours(id, is_business_day, open_time, close_time, day_of_week, updated_at)`,
-      )
-      .order("day_of_week", {
-        referencedTable: "station_daily_hours",
-        ascending: true,
-      })
-      .eq(idColumn, id)
-      .single();
-    if (error) throw error;
+    if (idName === "stationId") {
+      let { data, error } = await supabase
+        .from("stations")
+        .select(
+          `*,station_daily_hours(id, is_business_day, open_time, close_time, day_of_week, updated_at),boxes(*)`,
+        )
+        .order("day_of_week", {
+          referencedTable: "station_daily_hours",
+          ascending: true,
+        })
+        .eq(idColumn, id)
+        .single()
+        .eq("boxes.status", "可認領");
+
+      if (error) getStationError = error;
+      station = data;
+    }
+
+    if (idName === "userId") {
+      let { data, error } = await supabase
+        .from("stations")
+        .select(
+          `*,station_daily_hours(id, is_business_day, open_time, close_time, day_of_week, updated_at)`,
+        )
+        .order("day_of_week", {
+          referencedTable: "station_daily_hours",
+          ascending: true,
+        })
+        .eq(idColumn, id)
+        .single();
+
+      if (error) getStationError = error;
+      station = data;
+    }
+
+    if (getStationError) throw getStationError;
 
     return station;
   } catch (error) {

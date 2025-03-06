@@ -10,7 +10,6 @@ function NavMenu() {
   const member = queryClient.getQueryData(["member"])?.user;
   const [currentMember, setCurrentMember] = useState(null);
   const [role, setRole] = useState("");
-  console.log("Header", currentMember);
 
   useEffect(() => {
     if (member) {
