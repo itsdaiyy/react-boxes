@@ -18,20 +18,22 @@ import { CiLogin, CiLogout } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
 import { MdPlace } from "react-icons/md";
 
-import HeaderAvatar from "./HeaderAvatar";
 import { useSignOut } from "@/hooks/useSignOut";
+
+import HeaderAvatar from "./HeaderAvatar";
 
 const style = {
   mapAfter:
     "after:content text-main-500 after:absolute after:left-7 after:bottom-0 after:mt-1 after:w-[64px] after:border-b-2 after:border-main-500",
 };
-function MenuLogin({ currentMember, setCurrentMember }) {
+
+function NavMenuSm({ currentMember, setCurrentMember, role, setRole }) {
   const { signOutAsync } = useSignOut();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost">
-          <MenuIcon className="text-[#4767A2]" />
+        <Button variant="ghost" className="[&_svg]:size-5">
+          <MenuIcon className="flex-1 shrink-0 text-[#4767A2]" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -70,17 +72,19 @@ function MenuLogin({ currentMember, setCurrentMember }) {
               紙箱地圖
             </NavLink>
           </DropdownMenuItem>
-          <DropdownMenuItem className="my-0 mb-3 p-0">
-            <NavLink
-              to="/member"
-              className={({ isActive }) =>
-                `${isActive ? style.mapAfter : "text-[#6F6F6F]"} flex w-full items-center gap-2 px-2 py-3 hover:text-main-500`
-              }
-            >
-              <FaUser />
-              會員資訊
-            </NavLink>
-          </DropdownMenuItem>
+          {currentMember && (
+            <DropdownMenuItem className="my-0 mb-3 p-0">
+              <NavLink
+                to="/member"
+                className={({ isActive }) =>
+                  `${isActive ? style.mapAfter : "text-[#6F6F6F]"} flex w-full items-center gap-2 px-2 py-3 hover:text-main-500`
+                }
+              >
+                <FaUser />
+                {role === "storeOwner" ? "會員資訊 & 站點管理" : "會員資訊"}
+              </NavLink>
+            </DropdownMenuItem>
+          )}
           {currentMember && (
             <DropdownMenuItem className="my-0 mb-3 p-0">
               <Button
@@ -89,6 +93,7 @@ function MenuLogin({ currentMember, setCurrentMember }) {
                 onClick={async () => {
                   await signOutAsync();
                   setCurrentMember(null);
+                  setRole("");
                 }}
               >
                 <CiLogout />
@@ -116,4 +121,4 @@ function MenuLogin({ currentMember, setCurrentMember }) {
   );
 }
 
-export default MenuLogin;
+export default NavMenuSm;
