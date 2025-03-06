@@ -1,5 +1,6 @@
 import { apiGetTransactionsCounts } from "./apiBoxTransactions";
 import supabase from "./supabase";
+const { VITE_SUPABASE_URL } = import.meta.env;
 
 export async function apiSignIn({ email, password }) {
   try {
@@ -100,31 +101,47 @@ export async function apiGetMember() {
 //     roles: ["users", "storeOwner"],
 //   },
 // };
-export async function apiUpdateMember(newInfoObj) {
+export async function apiUpdateMember({ newInfoObj, avatar, userId }) {
+  console.log(newInfoObj);
+  let avatarPath;
   try {
-    const { data, error } = await supabase.auth.updateUser(newInfoObj);
+    if (avatar) {
+      console.log(avatar);
+      const { data, error } = await apiUploadImage("avatars", avatar, userId);
+      if (error) throw error;
+      avatarPath = `${VITE_SUPABASE_URL}/storage/v1/object/public/${data.fullPath}`;
+    }
+
+    const { data, error } = await supabase.auth.updateUser({
+      data: {
+        ...newInfoObj,
+        ...(avatarPath?.trim() ? { avatar_url: avatarPath } : {}),
+      },
+    });
 
     if (error) throw error;
-
     return data;
   } catch (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
+
+  // try {
+  //
+  //   if (error) throw error;
+  //   return data;
+  // } catch (error) {
+  //   throw new Error(error.message);
+  // }
 }
 
 // https://zmxloeyrugpwhymnzped.supabase.co/storage/v1/object/public/avatars//my-notion-face-portrait.jpg
 
 export async function apiUploadImage(bucket, imageFile, userId) {
   const fileName = `${Date.now()}-${imageFile.name}`.replaceAll("/", "");
-  try {
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .upload(`${userId}/${fileName}`, imageFile);
 
-    if (error) throw error;
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .upload(`${userId}/${fileName}`, imageFile);
 
-    return data;
-  } catch (error) {
-    throw new Error(error.message);
-  }
+  return { data, error };
 }

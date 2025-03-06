@@ -18,34 +18,42 @@ import { Input } from "@/components/ui/input";
 import { FaPen } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { useUpdateMember } from "@/hooks/useUpdateMember";
+import { useQueryClient } from "@tanstack/react-query";
 
 // zod驗證規則
 const formSchema = z.object({
-  name: z.string().min(2, "姓名至少需要 2 個字"),
+  display_name: z.string().min(2, "姓名至少需要 2 個字"),
   phone: z.string().regex(/^09\d{8}$/, "請輸入正確的台灣手機號碼"),
+  avatar: z.instanceof(FileList).optional(),
 });
 
 function MemberInfoForm({ data }) {
   const [isEditing, setIsEditing] = useState(false);
-
-  // const { updateMember, updateMemberError, isUpdating } = useUpdateMember();
-
-  useEffect(() => {}, [data]);
+  const { updateMember, updateMemberError, isUpdating } = useUpdateMember();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: data.user.user_metadata.display_name,
+      display_name: data.user.user_metadata.display_name,
       phone: data.user.user_metadata.phone.toString().replace("+886", "0"),
+      // avatar: new File(),
     },
   });
-  const { reset, formState } = form;
-  const { isSubmitSuccessful } = formState;
+  const { reset } = form;
+
+  const avatarRef = form.register("avatar");
 
   // 串接API後繼續完成
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = (values) => {
+    const { display_name, phone } = values;
+    const avatar = values.avatar[0];
+    const newInfoObj = {
+      display_name,
+      phone,
+    };
     setIsEditing(false);
+    updateMember({ newInfoObj, avatar, userId: data.user.id });
+
     reset();
   };
 
@@ -68,7 +76,7 @@ function MemberInfoForm({ data }) {
         <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
           <FormField
             control={form.control}
-            name="name"
+            name="display_name"
             render={({ field }) => (
               <FormItem className="mb-6">
                 <FormLabel className="block text-start text-gray-700">
@@ -76,7 +84,7 @@ function MemberInfoForm({ data }) {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="請輸入會員名稱"
+                    placeholder="請輸入姓名"
                     type="text"
                     {...field}
                     className="bg-white py-4 focus-visible:border-none focus-visible:ring-main-500"
@@ -93,11 +101,11 @@ function MemberInfoForm({ data }) {
             render={({ field }) => (
               <FormItem className="mb-6">
                 <FormLabel className="block text-start text-gray-700">
-                  連絡電話
+                  聯絡電話
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="請輸入連絡電話"
+                    placeholder="請輸入聯絡電話"
                     type="tel"
                     {...field}
                     className="bg-white py-4 focus-visible:border-none focus-visible:ring-main-500"
@@ -111,25 +119,13 @@ function MemberInfoForm({ data }) {
           <FormField
             control={form.control}
             name="avatar"
-            render={({ field: { onChange, ...fieldProps } }) => (
+            render={({ field }) => (
               <FormItem className="mb-6 text-start">
                 <FormLabel className="block text-start text-gray-700">
                   上傳頭貼
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0]; // 取得選擇的檔案
-                      if (file && file.size > 2 * 1024 * 1024) {
-                        alert("檔案大小不能超過 2MB");
-                      } else {
-                        onChange(file); // 更新表單的值
-                      }
-                    }}
-                    disabled={!isEditing}
-                  />
+                  <Input type="file" disabled={!isEditing} {...avatarRef} />
                 </FormControl>
                 <FormMessage className="block text-start" />
               </FormItem>
