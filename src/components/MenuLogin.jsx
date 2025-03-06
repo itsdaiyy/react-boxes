@@ -1,51 +1,119 @@
+import { NavLink } from "react-router-dom";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@radix-ui/react-dropdown-menu";
 import { MenuIcon } from "lucide-react";
-import { CiLogin } from "react-icons/ci";
+import { Button } from "./ui/button";
+
+import { CiLogin, CiLogout } from "react-icons/ci";
+import { FaUser } from "react-icons/fa";
 import { MdPlace } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+
+import HeaderAvatar from "./HeaderAvatar";
+import { useSignOut } from "@/hooks/useSignOut";
 
 const style = {
   mapAfter:
-    "after:content text-main-500 after:absolute after:left-8 after:mt-1 after:w-[64px] after:border-b-2 after:border-main-500",
+    "after:content text-main-500 after:absolute after:left-7 after:bottom-0 after:mt-1 after:w-[64px] after:border-b-2 after:border-main-500",
 };
-function Menu() {
+function MenuLogin({ currentMember, setCurrentMember }) {
+  const { signOutAsync } = useSignOut();
   return (
-    <>
-      <DropdownMenu>
-        <DropdownMenuTrigger>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost">
           <MenuIcon className="text-[#4767A2]" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="mt-4 w-[375px] pr-4 sm:mr-14 lg:hidden">
-          <DropdownMenuItem>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        className="mt-2 w-56 text-[#6f6f6f] lg:hidden"
+        align="end"
+      >
+        {currentMember && (
+          <>
+            <DropdownMenuLabel className="p-3 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="grow-0">
+                  <HeaderAvatar currentMember={currentMember} />
+                </div>
+
+                <div className="font-normal leading-[24px]">
+                  <p className="text-[#6f6f6f]">
+                    {currentMember?.user_metadata?.display_name}, 歡迎回箱
+                  </p>
+                  <p>{currentMember?.email}</p>
+                </div>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator className="border" />
+          </>
+        )}
+
+        <DropdownMenuGroup>
+          <DropdownMenuItem className="my-3 p-0">
             <NavLink
               to="/map"
               className={({ isActive }) =>
-                isActive ? style.mapAfter : "text-[#6F6F6F]"
+                `${isActive ? style.mapAfter : "text-[#6F6F6F]"} flex w-full items-center gap-2 px-2 py-3 hover:text-main-500`
               }
             >
-              <h6 className="fs-6 flex items-center gap-2 hover:text-main-500">
-                <MdPlace />
-                紙箱地圖
-              </h6>
+              <MdPlace />
+              紙箱地圖
             </NavLink>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <NavLink to="/signin">
-              <h6 className="fs-6 flex items-center gap-2 text-[#6F6F6F] hover:text-main-500">
+          <DropdownMenuItem className="my-0 mb-3 p-0">
+            <NavLink
+              to="/member"
+              className={({ isActive }) =>
+                `${isActive ? style.mapAfter : "text-[#6F6F6F]"} flex w-full items-center gap-2 px-2 py-3 hover:text-main-500`
+              }
+            >
+              <FaUser />
+              會員資訊
+            </NavLink>
+          </DropdownMenuItem>
+          {currentMember && (
+            <DropdownMenuItem className="my-0 mb-3 p-0">
+              <Button
+                variant="ghost"
+                className="w-full justify-start px-2 py-5 hover:text-main-500"
+                onClick={async () => {
+                  await signOutAsync();
+                  setCurrentMember(null);
+                }}
+              >
+                <CiLogout />
+                登出
+              </Button>
+            </DropdownMenuItem>
+          )}
+
+          {!currentMember && (
+            <DropdownMenuItem className="my-0 mb-3 p-0">
+              <NavLink
+                to="/signin"
+                className={({ isActive }) =>
+                  `${isActive ? style.mapAfter : "text-[#6F6F6F]"} flex w-full items-center gap-2 px-2 py-3 hover:text-main-500`
+                }
+              >
                 <CiLogin />
                 登入
-              </h6>
-            </NavLink>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+              </NavLink>
+            </DropdownMenuItem>
+          )}
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
-export default Menu;
+export default MenuLogin;

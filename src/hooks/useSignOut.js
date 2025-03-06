@@ -8,11 +8,16 @@ export function useSignOut() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutate: signOut, isPending: isLoading } = useMutation({
+  const {
+    mutate: signOut,
+    isPending: isLoading,
+    mutateAsync: signOutAsync,
+  } = useMutation({
     mutationKey: ["signOut"],
     mutationFn: apiSignOut,
     onSuccess: () => {
-      queryClient.setQueryData(['member'], null)
+      // queryClient.setQueryData(["member"], null);
+      queryClient.removeQueries();
       document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
       toast.success(`您已登出`);
 
@@ -25,5 +30,5 @@ export function useSignOut() {
     },
   });
 
-  return { signOut, isLoading };
+  return { signOut, isLoading, signOutAsync };
 }

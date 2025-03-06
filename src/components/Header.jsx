@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link, NavLink } from "react-router-dom";
+
 import logo from "@/assets/logo.svg";
 import logoSm from "@/assets/logo-sm.svg";
 import MenuLogin from "./MenuLogin";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import HeaderSignInMenu from "./HeaderSignInMenu";
 
 const style = {
   container:
@@ -16,8 +18,14 @@ const style = {
 
 function Header() {
   const queryClient = useQueryClient();
-  const currentMember = queryClient.getQueryData(["member"])?.user;
-  console.log("header", currentMember);
+  const member = queryClient.getQueryData(["member"])?.user;
+  const [currentMember, setCurrentMember] = useState(null);
+  console.log("Header", currentMember);
+
+  useEffect(() => {
+    if (member) setCurrentMember(member);
+  }, [member, setCurrentMember]);
+
   return (
     <header className="bg-[rgba(255,255,255,0.75)]">
       <div className={style.container}>
@@ -34,7 +42,10 @@ function Header() {
           </picture>
         </Link>
         <div className="lg:hidden">
-          <MenuLogin />
+          <MenuLogin
+            currentMember={currentMember}
+            setCurrentMember={setCurrentMember}
+          />
         </div>
         <nav className={style.nav}>
           <NavLink
@@ -54,15 +65,10 @@ function Header() {
             </NavLink>
           )}
           {currentMember && (
-            <>
-              <Avatar>
-                <AvatarImage
-                  src={currentMember.user_metadata.avatar_url}
-                  alt="@shadcn"
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-            </>
+            <HeaderSignInMenu
+              currentMember={currentMember}
+              setCurrentMember={setCurrentMember}
+            />
           )}
         </nav>
       </div>
