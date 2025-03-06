@@ -84,8 +84,8 @@ export default function UpdateBoxForm({ row, setOpen }) {
 
   return (
     <>
-      <div className="flex gap-4">
-        <div className="overflow-hidden">
+      <div className="mb-4 flex gap-4">
+        <div className="overflow-hidden rounded">
           <img
             src={row.image_url}
             alt="照片"
@@ -229,7 +229,9 @@ export default function UpdateBoxForm({ row, setOpen }) {
                   <SelectContent>
                     <SelectItem value="可認領">可認領</SelectItem>
                     <SelectItem value="自用">自用</SelectItem>
-                    <SelectItem value="售出">售出</SelectItem>
+                    <SelectItem value="售出" disabled>
+                      售出
+                    </SelectItem>
                     <SelectItem value="報廢">報廢</SelectItem>
                     <SelectItem value="保留到期">保留到期</SelectItem>
                   </SelectContent>
@@ -239,7 +241,7 @@ export default function UpdateBoxForm({ row, setOpen }) {
               </FormItem>
             )}
           />
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-2 py-2">
             <button
               type="button"
               className="btn-cancel"

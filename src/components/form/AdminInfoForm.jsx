@@ -128,26 +128,29 @@ function AdminInfoForm({ station }) {
             <h6 className="text-main-600">營業時間</h6>
           </label>
           {daysOfWeek.map((day, index) => (
-            <div key={index} className="flex items-center space-x-4">
+            <div
+              key={index}
+              className="flex items-center space-x-1 md:space-x-2"
+            >
               <input
                 type="checkbox"
                 {...register(`station_daily_hours.${index}.is_business_day`)}
                 disabled={!isEditing}
               />
-              <span>{day}</span>
+              <span className="text-nowrap p-1">{day}</span>
               <input
                 {...register(`station_daily_hours.${index}.open_time`)}
                 placeholder="開店時間"
                 type="time"
                 disabled={!isEditing}
-                className="w-1/3 rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+                className="text-md w-full rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
               />
               <input
                 {...register(`station_daily_hours.${index}.close_time`)}
                 placeholder="關店時間"
                 type="time"
                 disabled={!isEditing}
-                className="w-1/3 rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+                className="text-md w-full rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
               />
             </div>
           ))}

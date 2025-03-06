@@ -16,7 +16,8 @@ export async function apiGetBoxesForSelling() {
     let { data: boxes, error } = await supabase
       .from("boxes")
       .select("*")
-      .in("status", ["可認領"]);
+      .in("status", ["可認領"])
+      .order("id", { ascending: true });
 
     if (error) throw error;
 
@@ -45,7 +46,8 @@ export async function apiGetBoxesForAdminManaging(stationId) {
       .from("boxes")
       .select("*")
       .in("status", ["售出", "自用", "可認領"])
-      .eq("station_id", stationId);
+      .eq("station_id", stationId)
+      .order("id", { ascending: true });
 
     if (error) throw error;
 
@@ -74,7 +76,8 @@ export async function apiGetBoxesForScraping(stationId) {
       .from("boxes")
       .select("*")
       .in("status", ["報廢", "保留到期"])
-      .eq("station_id", stationId);
+      .eq("station_id", stationId)
+      .order("id", { ascending: true });
 
     if (error) throw error;
 
@@ -103,7 +106,8 @@ export async function apiGetBoxesTotalForSelling(stationId) {
       .from("boxes")
       .select("size")
       .in("status", ["可認領"])
-      .eq("station_id", stationId);
+      .eq("station_id", stationId)
+      .order("id", { ascending: true });
 
     if (error) throw error;
 
@@ -195,19 +199,18 @@ export async function apiUpdateMultipleBoxes(boxIds, values) {
  */
 export async function apiAddMultipleBoxes(formData) {
   try {
-    // 格式化數據以符合 Supabase 的表格格式
     const formattedBoxes = formData.boxes.map((box) => ({
-      created_at: getTimestamp(), // 設定當前時間
-      updated_at: getTimestamp(), // 預設與 `created_at` 相同
+      created_at: getTimestamp(),
+      updated_at: getTimestamp(),
       size: box.size,
       condition: box.condition,
-      status: "可認領", // 預設狀態
-      image_url: "https://fakeimg.pl/300/", // 預設圖片
-      cash_value: Number(box.cash_value), // 確保為數字
-      point_value: Number(box.points), // 確保為數字
-      retention_days: Number(box.retention_days) || 0, // 轉換為數字
-      station_id: formData.station_id, // 站點 ID
-      user_id: formData.user_id, // 來自前端的 userId
+      status: "可認領",
+      image_url: "https://fakeimg.pl/300/",
+      cash_value: Number(box.cash_value),
+      point_value: Number(box.points),
+      retention_days: Number(box.retention_days) || 0,
+      station_id: formData.station_id,
+      user_id: formData.user_id,
     }));
 
     // 批量插入數據

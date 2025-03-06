@@ -29,7 +29,7 @@ function UpdateBoxDialog({ row }) {
             <DialogTitle>編輯紙箱</DialogTitle>
             <DialogDescription>編輯紙箱資訊</DialogDescription>
           </DialogHeader>
-          <div className="max-h-[80vh] overflow-y-auto">
+          <div className="max-h-[80vh] overflow-y-auto px-2">
             <UpdateBoxForm row={row} setOpen={setOpen} />
           </div>
         </DialogContent>
