@@ -53,7 +53,13 @@ const AdminBoxManageTable = () => {
     {
       name: "紙箱照片",
       selector: (row) => (
-        <img src={row.image_url} alt="" className="h-[70px] w-[70px]" />
+        <div className="overflow-hidden">
+          <img
+            src={row.image_url}
+            alt="box-image"
+            className="h-[70px] w-[70px] transition-transform duration-300 hover:scale-150"
+          />
+        </div>
       ),
     },
     {

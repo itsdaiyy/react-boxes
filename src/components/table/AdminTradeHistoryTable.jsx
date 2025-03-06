@@ -35,7 +35,7 @@ const AdminTradeHistoryTable = () => {
     },
     {
       name: "會員編號",
-      selector: (row) => row.user_id,
+      selector: (row) => row.user_id?.slice(0, 18),
     },
     {
       name: "交易方式",

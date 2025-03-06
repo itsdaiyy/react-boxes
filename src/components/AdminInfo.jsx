@@ -5,6 +5,7 @@ import AdminInfoForm from "./form/AdminInfoForm";
 import AdminRecyclingBoxForm from "./form/AdminRecyclingBoxForm";
 import AdminTradeHistoryTable from "./table/AdminTradeHistoryTable";
 import SellingBoxesCard from "./card/SellingBoxesCard";
+import shop from "@/assets/shop.png";
 import Spinner from "./Spinner";
 
 const totalBoxes = function (boxes) {
@@ -36,20 +37,25 @@ function AdminInfo() {
           <div className="rounded-2xl bg-white p-4 md:w-1/2 lg:p-10">
             <AdminInfoForm station={station} />
           </div>
-          <div className="flex flex-col gap-6 md:w-1/2">
-            <div className="rounded-[8px] bg-white p-4">
-              <AdminRecyclingBoxForm station={station} />
+          <div className="flex flex-col justify-between md:w-1/2">
+            <div className="space-y-6">
+              <div className="rounded-[8px] bg-white p-4">
+                <AdminRecyclingBoxForm station={station} />
+              </div>
+              <div className="rounded-[8px] bg-white p-4">
+                <div className="mb-2 rounded-md bg-second-100 py-1">
+                  <p className="fs-6 text-center text-second-400">可認領紙箱</p>
+                </div>
+                <div className="flex gap-2">
+                  <SellingBoxesCard size="小" count={result.small} />
+                  <SellingBoxesCard size="中" count={result.medium} />
+                  <SellingBoxesCard size="大" count={result.large} />
+                  <SellingBoxesCard size="特大" count={result.extraLarge} />
+                </div>
+              </div>
             </div>
-            <div className="rounded-[8px] bg-white p-4">
-              <div className="mb-2 rounded-md bg-second-100 py-1">
-                <p className="fs-6 text-center text-second-400">可認領紙箱</p>
-              </div>
-              <div className="flex gap-2">
-                <SellingBoxesCard size="小" count={result.small} />
-                <SellingBoxesCard size="中" count={result.medium} />
-                <SellingBoxesCard size="大" count={result.large} />
-                <SellingBoxesCard size="特大" count={result.extraLarge} />
-              </div>
+            <div className="ml-auto flex w-[350px]">
+              <img src={shop} alt="shop" />
             </div>
           </div>
         </div>
