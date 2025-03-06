@@ -16,22 +16,17 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 
 import { useSignIn } from "@/hooks/useSignIn";
+import { apiSignIn } from "@/services/apiAuth";
 
 // zod驗證規則
 const formSchema = z.object({
   email: z
     .string()
-    .nonempty("請填寫會員信箱")
+    .min(1, { message: "請填寫會員信箱" })
     .email("請輸入有效的電子信箱格式，例如：user@example.com"),
-  password: z
-    .string()
-    .nonempty("請填寫密碼")
-    .min(8, { message: "密碼長度至少為 8 個字元" }),
+  password: z.string().min(8, { message: "密碼長度至少為 8 個字元" }),
 });
 
-// storeOwner
-// test01@gmail.com
-// password1
 function SigninForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -43,19 +38,17 @@ function SigninForm() {
   const { reset } = form;
   const { signIn, isLoading } = useSignIn();
 
+  // { email: "test01@gmail.com", password: "password1" }
   // 表單提交
-  const onSubmit = (values) =>
-    signIn(values, {
+  function onSubmit(data) {
+    signIn(data, {
       onSettled: () => reset(),
     });
+  }
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-1.5"
-        noValidate
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-1.5">
         <FormField
           control={form.control}
           name="email"
@@ -66,8 +59,8 @@ function SigninForm() {
                 <Input
                   placeholder="請輸入電子信箱"
                   type="email"
-                  {...field}
                   className="bg-white focus-visible:border-none focus-visible:ring-main-500"
+                  {...field}
                 />
               </FormControl>
               <FormMessage />
@@ -84,8 +77,8 @@ function SigninForm() {
               <FormControl>
                 <PasswordInput
                   placeholder="請輸入密碼"
-                  {...field}
                   className="bg-white focus-visible:border-none focus-visible:ring-main-500"
+                  {...field}
                 />
               </FormControl>
               <FormMessage />

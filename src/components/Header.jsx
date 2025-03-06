@@ -1,7 +1,9 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { Link, NavLink } from "react-router-dom";
 import logo from "@/assets/logo.svg";
 import logoSm from "@/assets/logo-sm.svg";
 import MenuLogin from "./MenuLogin";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const style = {
   container:
@@ -13,6 +15,9 @@ const style = {
 };
 
 function Header() {
+  const queryClient = useQueryClient();
+  const currentMember = queryClient.getQueryData(["member"])?.user;
+  console.log("header", currentMember);
   return (
     <header className="bg-[rgba(255,255,255,0.75)]">
       <div className={style.container}>
@@ -38,14 +43,27 @@ function Header() {
           >
             <h6 className="hover:text-main-500">紙箱地圖</h6>
           </NavLink>
-          <NavLink
-            to="/signin"
-            className={({ isActive }) =>
-              isActive ? "btn fs-6 bg-main-500 shadow-none" : "btn"
-            }
-          >
-            登入
-          </NavLink>
+          {!currentMember && (
+            <NavLink
+              to="/signin"
+              className={({ isActive }) =>
+                isActive ? "btn fs-6 bg-main-500 shadow-none" : "btn"
+              }
+            >
+              登入
+            </NavLink>
+          )}
+          {currentMember && (
+            <>
+              <Avatar>
+                <AvatarImage
+                  src={currentMember.user_metadata.avatar_url}
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </>
+          )}
         </nav>
       </div>
     </header>

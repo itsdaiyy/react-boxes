@@ -11,14 +11,14 @@ export function useSignIn() {
   const { mutate: signIn, isPending: isLoading } = useMutation({
     mutationKey: ["signIn"],
     mutationFn: ({ email, password }) => apiSignIn({ email, password }),
-    onSuccess: (user) => {
+    onSuccess: (member) => {
       // 1. user 緩存資料
-      queryClient.setQueryData(["user"], user);
+      queryClient.setQueryData(["member"], member);
 
       // 2. token 存入 cookies
-      const { session } = user;
-      const expires = new Date(session.expires_at * 1000).toUTCString();
-      document.cookie = `accessToken=${session.access_token};expires=${expires}`;
+      // const { session } = member;
+      // const expires = new Date(session.expires_at * 1000).toUTCString();
+      // document.cookie = `accessToken=${session.access_token};expires=${expires}`;
 
       // 3. UI 提示訊息
       toast.success(`登入成功`);

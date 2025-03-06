@@ -1,5 +1,6 @@
 import { apiGetTransactionsCounts } from "./apiBoxTransactions";
 import supabase from "./supabase";
+
 export async function apiSignIn({ email, password }) {
   try {
     let { data, error } = await supabase.auth.signInWithPassword({
@@ -8,7 +9,7 @@ export async function apiSignIn({ email, password }) {
     });
 
     if (error) throw error;
-
+    console.log("signin");
     return data;
   } catch (error) {
     throw new Error(error.message);
