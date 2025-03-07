@@ -32,7 +32,7 @@ function HeaderSignInMenu({ currentMember, setCurrentMember, role, setRole }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="mt-3 hidden w-56 text-[#6f6f6f] lg:block"
+        className="relative z-[999] mt-3 hidden w-56 text-[#6f6f6f] lg:block"
         align="end"
       >
         <DropdownMenuLabel>

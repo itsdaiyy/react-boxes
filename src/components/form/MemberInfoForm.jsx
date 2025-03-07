@@ -27,7 +27,7 @@ const formSchema = z.object({
   avatar: z.instanceof(FileList).optional(),
 });
 
-function MemberInfoForm({ data }) {
+function MemberInfoForm({ data, memberLevelTitle }) {
   const [isEditing, setIsEditing] = useState(false);
   const { updateMember, updateMemberError, isUpdating } = useUpdateMember();
 
@@ -36,10 +36,8 @@ function MemberInfoForm({ data }) {
     defaultValues: {
       display_name: data.user.user_metadata.display_name,
       phone: data.user.user_metadata.phone.toString().replace("+886", "0"),
-      // avatar: new File(),
     },
   });
-  const { reset } = form;
 
   const avatarRef = form.register("avatar");
 
@@ -53,14 +51,12 @@ function MemberInfoForm({ data }) {
     };
     setIsEditing(false);
     updateMember({ newInfoObj, avatar, userId: data.user.id });
-
-    reset();
   };
 
   return (
     <div className="order-2 rounded-3xl bg-white p-10 md:order-1 md:w-1/2">
       <div className="mb-6 flex items-center justify-between">
-        <p className="text-2xl font-bold text-gray-700">箱村村長</p>
+        <p className="text-2xl font-bold text-gray-700">{memberLevelTitle}</p>
         <div className="flex items-center justify-center">
           <button type="button" onClick={() => setIsEditing(!isEditing)}>
             {isEditing ? (

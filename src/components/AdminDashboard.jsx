@@ -25,20 +25,31 @@ function AdminDashboard({ member }) {
   };
 
   const navType = getNavType();
-
   if (isLoadingStation) return <Spinner />;
+
+  const adminInfo = [
+    `站點編號：${station.id}`,
+    `地址：${station.address}`,
+    `聯絡電話：${station.phone}`,
+  ];
+  const normalInfo = [
+    `會員編號：${member.user.id}`,
+    `電子信箱：${member.user.email}`,
+    `聯絡電話：${member.user.user_metadata.phone}`,
+  ];
 
   return (
     <>
       <Banner member={member}>
         <>
           <BannerInfo
-            title={station.station_name}
-            infoData={[
-              `站點編號：${station.id}`,
-              `地址：${station.address}`,
-              `聯絡電話：${station.phone}`,
-            ]}
+            role={navType}
+            title={
+              navType === "storeOwner"
+                ? station.station_name
+                : member.user.user_metadata.display_name
+            }
+            infoData={navType === "storeOwner" ? adminInfo : normalInfo}
             showApplyButton={false}
           />
           <BannerImage
