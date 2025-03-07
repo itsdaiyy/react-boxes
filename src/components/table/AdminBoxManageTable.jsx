@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 const AdminBoxManageTable = () => {
   const navigate = useNavigate();
   // 取得可認領紙箱資料
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging(10);
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging();
 
   // 篩選搜尋資料
   const [originData, setOriginData] = useState([]);

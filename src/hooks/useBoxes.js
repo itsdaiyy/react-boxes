@@ -79,8 +79,9 @@ export function useBoxesForScraping() {
     isLoading: isLoadingBoxes,
     error: boxesError,
   } = useQuery({
-    queryKey: ["boxes", "scrap", stationId],
+    queryKey: ["boxes", "scrap"],
     queryFn: () => apiGetBoxesForScraping(stationId),
+    enabled: !!stationId,
   });
 
   return { boxes, isLoadingBoxes, boxesError };
@@ -95,14 +96,18 @@ export function useBoxesForScraping() {
  *   - `isLoadingBoxes` {boolean} - 是否正在加載資料
  *   - `BoxesError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
  */
-export function useBoxesTotalForSelling(stationId) {
+export function useBoxesTotalForSelling() {
+  const queryClient = useQueryClient();
+  const station = queryClient.getQueryData(["stationAdmin"]);
+  const stationId = station?.id;
   const {
     data: boxes,
     isLoading: isLoadingBoxes,
     error: boxesError,
   } = useQuery({
-    queryKey: ["boxes", stationId],
+    queryKey: ["boxes", "sale"],
     queryFn: () => apiGetBoxesTotalForSelling(stationId),
+    enabled: !!stationId,
   });
 
   return { boxes, isLoadingBoxes, boxesError };

@@ -103,7 +103,7 @@ export async function apiGetBoxesTotalForSelling(stationId) {
   try {
     let { data: boxes, error } = await supabase
       .from("boxes")
-      .select("size")
+      .select("*")
       .in("status", ["可認領"])
       .eq("station_id", stationId)
       .order("id", { ascending: true });
