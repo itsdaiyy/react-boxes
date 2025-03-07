@@ -12,9 +12,27 @@ import ErrorMessage from "../../components/ErrorMessage";
 const AdminTradeHistoryTable = () => {
   // 取得可認領紙箱資料
   const { records, isLoadingRecords, recordsError } =
-    useAdminTransactionRecords(10);
+    useAdminTransactionRecords();
+
   if (isLoadingRecords) return <Spinner />;
   if (recordsError) return <ErrorMessage errorMessage={recordsError.message} />;
+
+  console.log(records);
+
+  const expendedData = records.flatMap((transaction) =>
+    transaction.boxes.map((box) => ({
+      created_at: transaction.created_at,
+      box_id: box.box_id,
+      size: box.size,
+      condition: box.condition,
+      user_id: transaction.user_id,
+      transaction_type: transaction.transaction_type,
+      user_name_snapshot: transaction.user_name_snapshot,
+    })),
+  );
+
+  console.log(expendedData);
+
   // 欄位
   const columns = [
     {
@@ -24,7 +42,7 @@ const AdminTradeHistoryTable = () => {
     },
     {
       name: "紙箱編號",
-      selector: (row) => row.id,
+      selector: (row) => row.box_id,
       sortable: true,
     },
     { name: "紙箱大小", selector: (row) => row.size, sortable: true },
@@ -33,9 +51,13 @@ const AdminTradeHistoryTable = () => {
       selector: (row) => row.condition,
       sortable: true,
     },
+    // {
+    //   name: "會員編號",
+    //   selector: (row) => row.user_id?.slice(0, 18),
+    // },
     {
-      name: "會員編號",
-      selector: (row) => row.user_id?.slice(0, 18),
+      name: "會員姓名",
+      selector: (row) => row?.user_name_snapshot,
     },
     {
       name: "交易方式",
@@ -57,7 +79,7 @@ const AdminTradeHistoryTable = () => {
       <StyleSheetManager shouldForwardProp={isPropValid}>
         <DataTable
           columns={columns}
-          data={data}
+          data={expendedData}
           pagination
           customStyles={customStyles}
           paginationComponentOptions={paginationComponentOptions}

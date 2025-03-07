@@ -52,7 +52,7 @@ export function useBoxesForAdminManaging() {
     isLoading: isLoadingBoxes,
     error: boxesError,
   } = useQuery({
-    queryKey: ["boxes", "managing", stationId],
+    queryKey: ["boxes", "managing"],
     queryFn: () => apiGetBoxesForAdminManaging(stationId),
   });
 
