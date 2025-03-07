@@ -24,8 +24,9 @@ export function useAdminTransactionRecords() {
     isLoading: isLoadingRecords,
     error: recordsError,
   } = useQuery({
-    queryKey: ["boxes-transactions", stationId],
+    queryKey: ["boxes-transactions", "admin"],
     queryFn: () => apiGetAdminTransactionRecords(stationId),
+    enabled: !!stationId,
   });
 
   return { records, isLoadingRecords, recordsError };
@@ -41,14 +42,21 @@ export function useAdminTransactionRecords() {
  *   - `isLoadingBoxes` {boolean} - 是否正在加載資料
  *   - `BoxesError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
  */
-export function useMemberTransactionRecords(userId) {
+export function useMemberTransactionRecords() {
+  const queryClient = useQueryClient();
+  const currentMember = queryClient.getQueryData(["member"]);
+  const memberId = currentMember?.user?.id;
+
+  console.log(memberId);
+
   const {
     data: records,
     isLoading: isLoadingRecords,
     error: recordsError,
   } = useQuery({
-    queryKey: ["boxes-transactions", userId],
-    queryFn: () => apiGetMemberTransactionRecords(userId),
+    queryKey: ["boxes-transactions", "normal"],
+    queryFn: () => apiGetMemberTransactionRecords(memberId),
+    enabled: !!memberId,
   });
 
   return { records, isLoadingRecords, recordsError };
