@@ -27,7 +27,7 @@ function HeaderSignInMenu({ currentMember, setCurrentMember, role, setRole }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-11 w-11 rounded-full px-0">
+        <Button variant="ghost" className="h-11 w-11 rounded-full">
           <HeaderAvatar currentMember={currentMember} />
         </Button>
       </DropdownMenuTrigger>
