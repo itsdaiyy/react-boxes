@@ -78,28 +78,6 @@ export async function apiGetStationById(id, idName) {
   }
 }
 
-// export async function getStationByMemberId(memberId) {
-//   try {
-//     let { data: station, error } = await supabase
-//       .from("stations")
-//       .select(
-//         `*,station_daily_hours(id, is_business_day, open_time, close_time, day_of_week, updated_at)`,
-//       )
-//       .order("day_of_week", {
-//         referencedTable: "station_daily_hours",
-//         ascending: true,
-//       })
-//       .eq("user_id", memberId)
-//       .single();
-//     if (error) throw error;
-
-//     return station;
-//   } catch (error) {
-//     console.error(error);
-//     throw new Error(`無法取得 Station - id: ${stationId}  資料，請稍後再試`);
-//   }
-// }
-
 // StationInfo  更新站點資訊格式：
 // {
 //   id: 1,   // station id
