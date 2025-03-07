@@ -148,10 +148,8 @@ export async function apiUpdateStationInfo({
     if (Array.isArray(station_daily_hours) && station_daily_hours.length > 0) {
       const { data, error } = await updateStationHours(station_daily_hours);
 
-      if (error) {
-        console.log(error);
-        throw error;
-      }
+      if (error) throw error;
+
       updatedHours = data;
     }
 

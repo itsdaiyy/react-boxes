@@ -7,7 +7,6 @@ import AdminDashboard from "@/components/AdminDashboard";
 
 function Member() {
   const { role, member } = useMember();
-  console.log(role);
   return (
     <>
       <Header />
