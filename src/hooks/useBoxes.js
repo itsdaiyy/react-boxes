@@ -22,7 +22,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
  */
 export function useBoxesForSelling() {
   const {
-    data: boxes = [], //若回傳null，表單搜尋功能會報錯
+    data: boxes = [], // 若回傳null，表單搜尋功能會報錯
     isLoading: isLoadingBoxes,
     error: boxesError,
   } = useQuery({
@@ -42,7 +42,11 @@ export function useBoxesForSelling() {
  *   - `isLoadingBoxes` {boolean} - 是否正在加載資料
  *   - `BoxesError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
  */
-export function useBoxesForAdminManaging(stationId) {
+export function useBoxesForAdminManaging() {
+  const queryClient = useQueryClient();
+  const station = queryClient.getQueryData(["stationAdmin"]);
+  const stationId = station?.id;
+
   const {
     data: boxes,
     isLoading: isLoadingBoxes,
@@ -65,7 +69,11 @@ export function useBoxesForAdminManaging(stationId) {
  *   - `isLoadingBoxes` {boolean} - 是否正在加載資料
  *   - `BoxesError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
  */
-export function useBoxesForScraping(stationId) {
+export function useBoxesForScraping() {
+  const queryClient = useQueryClient();
+  const station = queryClient.getQueryData(["stationAdmin"]);
+  const stationId = station?.id;
+
   const {
     data: boxes,
     isLoading: isLoadingBoxes,

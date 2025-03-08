@@ -14,11 +14,10 @@ export async function apiGetStations() {
   try {
     let { data: stations, error } = await supabase
       .from("stations")
-      .select(`*`);
+      .select(`*, boxes(*)`)
+      .eq("boxes.status", "可認領");
 
     if (error) throw error;
-
-    console.log(stations);
 
     return stations;
   } catch (error) {
@@ -29,25 +28,53 @@ export async function apiGetStations() {
   }
 }
 
-export async function apiGetStationById(stationId) {
+export async function apiGetStationById(id, idName) {
+  const idColumn = idName === "stationId" ? "id" : "user_id";
+  let getStationError;
+  let station;
+
   try {
-    let { data: station, error } = await supabase
-      .from("stations")
-      .select(
-        `*,station_daily_hours(id, is_business_day, open_time, close_time, day_of_week, updated_at)`,
-      )
-      .order("day_of_week", {
-        referencedTable: "station_daily_hours",
-        ascending: true,
-      })
-      .eq("id", stationId)
-      .single();
-    if (error) throw error;
+    if (idName === "stationId") {
+      let { data, error } = await supabase
+        .from("stations")
+        .select(
+          `*,station_daily_hours(id, is_business_day, open_time, close_time, day_of_week, updated_at),boxes(*)`,
+        )
+        .order("day_of_week", {
+          referencedTable: "station_daily_hours",
+          ascending: true,
+        })
+        .eq(idColumn, id)
+        .single()
+        .eq("boxes.status", "可認領");
+
+      if (error) getStationError = error;
+      station = data;
+    }
+
+    if (idName === "userId") {
+      let { data, error } = await supabase
+        .from("stations")
+        .select(
+          `*,station_daily_hours(id, is_business_day, open_time, close_time, day_of_week, updated_at)`,
+        )
+        .order("day_of_week", {
+          referencedTable: "station_daily_hours",
+          ascending: true,
+        })
+        .eq(idColumn, id)
+        .single();
+
+      if (error) getStationError = error;
+      station = data;
+    }
+
+    if (getStationError) throw getStationError;
 
     return station;
   } catch (error) {
     console.error(error);
-    throw new Error(`無法取得 Station - id: ${stationId}  資料，請稍後再試`);
+    throw new Error(`無法取得 Station - ${idColumn}: ${id}  資料，請稍後再試`);
   }
 }
 
@@ -99,10 +126,8 @@ export async function apiUpdateStationInfo({
     if (Array.isArray(station_daily_hours) && station_daily_hours.length > 0) {
       const { data, error } = await updateStationHours(station_daily_hours);
 
-      if (error) {
-        console.log(error);
-        throw error;
-      }
+      if (error) throw error;
+
       updatedHours = data;
     }
 

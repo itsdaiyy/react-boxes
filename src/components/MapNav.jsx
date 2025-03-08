@@ -1,14 +1,14 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo.svg";
 import logoSm from "@/assets/logo-sm.svg";
 import search from "@/assets/search.svg";
 import place from "@/assets/place.svg";
-import MenuLogin from "./MenuLogin";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import NavMenu from "./NavMenu";
 
 const style = {
   container:
-    "container mx-auto px-5 flex flex-col items-center justify-between py-2 md:flex-row",
+    "container mx-auto px-5 flex flex-col items-center justify-between py-2 md:flex-row ",
   logoContainer:
     "flex w-full items-center justify-between px-5 pb-2 shadow-[0px_1px_1px_0px_rgba(0,0,0,0.1)] backdrop-blur-[5px] md:w-auto md:px-0 md:pb-0 md:shadow-none md:backdrop-blur-none",
   menu: "hidden cursor-pointer md:block lg:hidden",
@@ -32,13 +32,14 @@ const SuggestedTags = ({ filteredTags, handleSelect }) => {
         maxHeight: "150px",
         overflowY: "auto",
         scrollbarWidth: "none",
-      }} className="w-full bg-white p-0 m-0 rounded-b-xl drop-shadow-lg"
+      }}
+      className="m-0 w-full rounded-b-xl bg-white p-0 drop-shadow-lg"
     >
       {filteredTags.slice(0, 3).map((tag) => (
         <li
           key={tag}
           onClick={() => handleSelect(tag)}
-          className="p-[12px] bg-white hover:bg-main-100 text-[#6F6F6F] hover:text-black"
+          className="bg-white p-[12px] text-[#6F6F6F] hover:bg-main-100 hover:text-black"
           style={{
             cursor: "pointer",
           }}
@@ -48,14 +49,19 @@ const SuggestedTags = ({ filteredTags, handleSelect }) => {
         </li>
       ))}
     </ul>
-  )
-}
+  );
+};
 
-function MapNav({ handleLocateUser, searchKeyWords, setSearchKeyWords, handleSearchStations, availableTags,showSuggestedTags,setShowSuggestedTags }) {
-
-  const [filteredTags, setFilteredTags] = useState([]);//儲存被篩選出的tags
-  
-
+function MapNav({
+  handleLocateUser,
+  searchKeyWords,
+  setSearchKeyWords,
+  handleSearchStations,
+  availableTags,
+  showSuggestedTags,
+  setShowSuggestedTags,
+}) {
+  const [filteredTags, setFilteredTags] = useState([]); //儲存被篩選出的tags
 
   const handleChange = (event) => {
     const value = event.target.value;
@@ -65,8 +71,8 @@ function MapNav({ handleLocateUser, searchKeyWords, setSearchKeyWords, handleSea
       // 過濾符合的選項
       setFilteredTags(
         availableTags.filter((tag) =>
-          tag.toLowerCase().includes(value.toLowerCase())
-        )
+          tag.toLowerCase().includes(value.toLowerCase()),
+        ),
       );
 
       setShowSuggestedTags(true);
@@ -80,7 +86,6 @@ function MapNav({ handleLocateUser, searchKeyWords, setSearchKeyWords, handleSea
     setSearchKeyWords(tag);
     setShowSuggestedTags(false);
   };
-
 
   return (
     <div className="relative">
@@ -100,31 +105,46 @@ function MapNav({ handleLocateUser, searchKeyWords, setSearchKeyWords, handleSea
               </picture>
             </Link>
             <div className="md:hidden">
-              <MenuLogin />
+              <NavMenu />
             </div>
           </div>
           <div className={style.formContainer}>
-            <form className={style.form} onSubmit={(e) => handleSearchStations(e)}>
-              <input className={style.input} placeholder="輸入地標 或 街道名稱" value={searchKeyWords} onChange={(e) => handleChange(e)} />
+            <form
+              className={style.form}
+              onSubmit={(e) => handleSearchStations(e)}
+            >
+              <input
+                className={style.input}
+                placeholder="輸入地標 或 街道名稱"
+                value={searchKeyWords}
+                onChange={(e) => handleChange(e)}
+              />
               <button type="submit">
                 <img src={search} alt="搜尋" className={style.searchIcons} />
               </button>
-{/* 搜尋建議 */}
-<div className="absolute z-[1000]  flex justify-center top-[135%] left-0 w-full">
-      {showSuggestedTags && filteredTags.length > 0 && (
-        <SuggestedTags filteredTags={filteredTags}
-          handleSelect={handleSelect}></SuggestedTags>)}
-      </div>
-
-
+              {/* 搜尋建議 */}
+              <div className="absolute left-0 top-[135%] z-[1000] flex w-full justify-center">
+                {showSuggestedTags && filteredTags.length > 0 && (
+                  <SuggestedTags
+                    filteredTags={filteredTags}
+                    handleSelect={handleSelect}
+                  ></SuggestedTags>
+                )}
+              </div>
             </form>
             <button className={style.placeBtn}>
               <img src={place} alt="place" className="max-w-max" />
-              <p className="fs-7 lg:fs-6" onClick={handleLocateUser}>定位</p>
+              <p className="fs-7 lg:fs-6" onClick={handleLocateUser}>
+                定位
+              </p>
             </button>
           </div>
-          <div className={style.menu}>
-            <MenuLogin />
+          <div className="hidden md:block">
+            <NavMenu />
+          </div>
+
+          {/* <div className={style.menu}>
+            <NavMenuSm />
           </div>
           <nav className={style.nav}>
             <NavLink
@@ -141,15 +161,10 @@ function MapNav({ handleLocateUser, searchKeyWords, setSearchKeyWords, handleSea
             >
               登入
             </NavLink>
-          </nav>
+          </nav> */}
         </div>
       </div>
-
-      
-
-
     </div>
-
   );
 }
 

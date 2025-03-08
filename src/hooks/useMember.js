@@ -9,7 +9,16 @@ export function useMember() {
   } = useQuery({
     queryKey: ["member"],
     queryFn: () => apiGetMember(),
+    // staleTime: 1000 * 60 * 10, // ✅ 10 分鐘內不重新 fetch，減少不必要的渲染
   });
 
-  return { member, isLoadingMember, getMemberError };
+  const roles = member?.user?.user_metadata?.roles || [];
+
+  return {
+    member,
+    isLoadingMember,
+    isAuthenticated: member?.user.role === "authenticated",
+    role: roles.includes("storeOwner") ? "storeOwner" : "normal",
+    getMemberError,
+  };
 }

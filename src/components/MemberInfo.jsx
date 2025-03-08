@@ -1,14 +1,15 @@
+import { useEffect, useState } from "react";
+import { useMember } from "@/hooks/useMember";
+
 import village_master from "../assets/village_master.svg";
+import beginer from "../assets/beginer.svg";
+import young from "../assets/young.svg";
+import guardian from "../assets/guardian.svg";
 import points_icon from "../assets/points.svg";
 import box_count from "../assets/box_count.svg";
 
 import ResponsiveSwiper from "./ui/ResponsiveSwiper";
 import MemberInfoForm from "./form/MemberInfoForm";
-
-import { useMember } from "@/hooks/useMember";
-import { useEffect, useState } from "react";
-import Spinner from "./Spinner";
-import ErrorMessage from "./ErrorMessage";
 
 const style = {
   cardContainer: "flex items-center justify-around rounded-2xl bg-white p-10",
@@ -16,19 +17,14 @@ const style = {
   cardNumber: "text-6xl font-bold text-main-600",
 };
 
+const levelImages = [beginer, young, village_master, guardian];
+
 function MemberInfo() {
-  const { member, isLoadingMember, getMemberError } = useMember();
-  const [pointNum, setPointNum] = useState("");
-  const [transactionNums, setTransactionNums] = useState(0);
+  const { member } = useMember();
+  const pointNum = member.user.user_metadata.points;
+  const transactionNums = member.transactionsCounts;
 
-  console.log(member);
-
-  useEffect(() => {
-    if (member && member.user.user_metadata) {
-      setPointNum(member.user.user_metadata.points);
-      setTransactionNums(member.transactionsCounts);
-    }
-  }, [member]);
+  console.log("MemberInfo", member);
 
   // 會員等級定義 => 轉運紙箱數為門檻
   // transactionNums > 0 => 相遇路人
@@ -41,39 +37,40 @@ function MemberInfo() {
     level_3: "箱村村長",
     level_4: "箱村守護者",
   };
+
   const [memberLevel, setMemberLevel] = useState(1);
   const [memberLevelTitle, setMemberLevelTitle] = useState("");
   const [levelUpNum, setLevelUpNum] = useState("");
   const [initialSlide, setInitialSlide] = useState(0);
+
   useEffect(() => {
     if (transactionNums > 0 && transactionNums < 50) {
       setMemberLevel(1);
-      setMemberLevelTitle(memberTitle.level_2);
+      setMemberLevelTitle(memberTitle.level_1);
       setLevelUpNum(50 - transactionNums);
       setInitialSlide(0);
     } else if (transactionNums >= 50 && transactionNums < 100) {
       setMemberLevel(2);
-      setMemberLevelTitle(memberTitle.level_3);
+      setMemberLevelTitle(memberTitle.level_2);
       setLevelUpNum(100 - transactionNums);
       setInitialSlide(1);
     } else if (transactionNums >= 100 && transactionNums < 200) {
       setMemberLevel(3);
-      setMemberLevelTitle(memberTitle.level_4);
+      setMemberLevelTitle(memberTitle.level_3);
       setLevelUpNum(200 - transactionNums);
       setInitialSlide(2);
     } else if (transactionNums > 200) {
       setMemberLevel(4);
+      setMemberLevelTitle(memberTitle.level_4);
       setInitialSlide(3);
     }
   }, [
+    memberTitle.level_1,
     memberTitle.level_2,
     memberTitle.level_3,
     memberTitle.level_4,
     transactionNums,
   ]);
-
-  if (isLoadingMember) return <Spinner />;
-  if (getMemberError) return <ErrorMessage errorMessage={member.message} />;
 
   return (
     <div className="w-full text-center">
@@ -104,7 +101,7 @@ function MemberInfo() {
             {/* 1號 div - 永遠在最上方 */}
             <div className="flex items-end justify-between p-4">
               <p className="flex text-3xl font-bold text-main-600">會員資訊</p>
-              <img src={village_master} alt="" />
+              <img src={levelImages[memberLevel - 1]} alt={memberLevelTitle} />
             </div>
 
             {/* 2號 div - 手機版時在最下方 */}
@@ -130,7 +127,7 @@ function MemberInfo() {
 
           {/* 會員資訊表單 */}
           {/* 3號 div - 左側容器，手機版時在中間 */}
-          <MemberInfoForm data={member} />
+          <MemberInfoForm data={member} memberLevelTitle={memberLevelTitle} />
 
           {/* 會員資訊 */}
           {/* 2號 div 的手機版位置 */}

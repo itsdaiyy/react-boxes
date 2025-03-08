@@ -1,14 +1,17 @@
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+
+import { useStation } from "@/hooks/useStation";
+import { useMember } from "@/hooks/useMember";
+
 import avatorLg from "@/assets/avator-lg.svg";
 import memberBannerBg01 from "@/assets/memberBanner-bg1.svg";
 import box from "@/assets/box.svg";
 import dialog from "@/assets/dialog.svg";
-import { FaStoreAlt } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
-import { useStation } from "@/hooks/useStation";
+
 import Spinner from "./Spinner";
-import { useMember } from "@/hooks/useMember";
-import { useEffect, useState } from "react";
 import ErrorMessage from "./ErrorMessage";
+import Banner from "./BannerInfo";
 
 function MemberBanner() {
   const location = useLocation();
@@ -26,13 +29,15 @@ function MemberBanner() {
   const navType = getNavType();
 
   // 會員稱號
-  const { member, isLoadingMember, getMemberError } = useMember();
+  const { member, isLoadingMember, getMemberError, role } = useMember();
+  const { station, isLoadingStation } = useStation(10);
   const [transactionNums, setTransactionNums] = useState(0);
   useEffect(() => {
     if (member && member.user.user_metadata) {
       setTransactionNums(member.user.user_metadata.transaction_nums);
     }
   }, [member]);
+
   // 會員等級定義 => 轉運紙箱數為門檻
   // transactionNums > 0 => 相遇路人
   // transactionNums > 50 => 返箱青年
@@ -46,6 +51,7 @@ function MemberBanner() {
   };
   const [memberLevel, setMemberLevel] = useState(1);
   const [memberLevelTitle, setMemberLevelTitle] = useState("");
+
   useEffect(() => {
     if (transactionNums > 0 && transactionNums < 50) {
       setMemberLevel(1);
@@ -68,9 +74,6 @@ function MemberBanner() {
     transactionNums,
   ]);
 
-  if (isLoadingMember) return <Spinner />;
-  if (getMemberError) return <ErrorMessage errorMessage={member.message} />;
-
   return (
     <section className="bg-[#F3F3F3] bg-top bg-no-repeat md:bg-[url('@/assets/memberBanner-bg2.svg')]">
       <div className="container relative mx-auto flex flex-col items-center gap-10 py-20 text-center md:flex-row md:justify-between md:text-left">
@@ -82,7 +85,27 @@ function MemberBanner() {
             className="absolute -bottom-3 -left-14 hidden md:flex"
           />
         </div>
-        {navType === "normal" ? <NormalBanner /> : <AdminBanner />}
+        {navType === "normal" ? (
+          <Banner
+            title={member.user.user_metadata.display_name}
+            infoData={[
+              `會員編號：${member.user.id}`,
+              `電子信箱：${member.user.email}`,
+              `聯絡電話：${member.user.user_metadata.phone}`,
+            ]}
+            showApplyButton={role !== "storeOwner"}
+          />
+        ) : (
+          <Banner
+            title={station.station_name}
+            infoData={[
+              `站點編號：${station.id}`,
+              `地址：${station.address}`,
+              `聯絡電話：${station.phone}`,
+            ]}
+            showApplyButton={false}
+          />
+        )}
         <div className="relative h-60 w-80 md:w-[500px]">
           <h4 className="absolute left-12 top-6 z-30 rotate-6 text-nowrap text-center text-main-100 lg:left-48 lg:top-16">
             {navType === "normal" ? memberLevelTitle : "站長"}午安，
@@ -101,36 +124,3 @@ function MemberBanner() {
 }
 
 export default MemberBanner;
-
-function NormalBanner() {
-  return (
-    <div className="grow">
-      <h2 className="mb-4 text-black">Natasa</h2>
-      <div className="fs-6 mb-4 flex flex-col space-y-2 text-[#6F6F6F]">
-        <p>會員編號：Natasa1234</p>
-        <p>電子信箱：ntasa0101@gmail.com</p>
-        <p>連絡電話：0934134165</p>
-      </div>
-      <button className="btn flex items-center gap-1 text-main-200">
-        <FaStoreAlt className="text-white" />
-        申請成為轉運站站長
-      </button>
-    </div>
-  );
-}
-
-function AdminBanner() {
-  const { station, isLoadingStation } = useStation(10);
-  if (isLoadingStation) return <Spinner />;
-
-  return (
-    <div className="grow">
-      <h2 className="mb-4 text-black">{station.station_name}</h2>
-      <div className="fs-6 mb-4 flex flex-col space-y-2 text-[#6F6F6F]">
-        <p>站點編號：{station.id}</p>
-        <p>地址：{station.address}</p>
-        <p>連絡電話：{station.phone}</p>
-      </div>
-    </div>
-  );
-}

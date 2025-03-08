@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FaPen, FaTimes } from "react-icons/fa";
-// import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
+import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
 
 const formSchema = z.object({
   station_name: z.string().nonempty("站點名稱不得為空"),
@@ -20,7 +21,6 @@ const formSchema = z.object({
     }),
   ),
 });
-import { useUpdateStationInfo } from "@/hooks/useUpdateStationInfo";
 
 import PropTypes from "prop-types";
 AdminInfoForm.propTypes = { station: PropTypes.object };
@@ -62,7 +62,6 @@ function AdminInfoForm({ station }) {
 
   function onSubmit(values) {
     try {
-      console.log(values);
       updateStation({ ...values, id: station.id });
       setIsEditing(false);
     } catch (error) {

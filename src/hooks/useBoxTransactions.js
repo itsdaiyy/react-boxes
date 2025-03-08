@@ -2,7 +2,7 @@ import {
   apiGetAdminTransactionRecords,
   apiGetMemberTransactionRecords,
 } from "@/services/apiBoxTransactions";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 /**
  * 自訂 Hook：使用 React Query 來取得 管理者-紙箱交易紀錄的交易資料
@@ -14,7 +14,11 @@ import { useQuery } from "@tanstack/react-query";
  *   - `isLoadingBoxes` {boolean} - 是否正在加載資料
  *   - `BoxesError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
  */
-export function useAdminTransactionRecords(stationId) {
+export function useAdminTransactionRecords() {
+  const queryClient = useQueryClient();
+  const currentStation = queryClient.getQueryData(["stationAdmin"]);
+  const stationId = currentStation?.id;
+
   const {
     data: records,
     isLoading: isLoadingRecords,
