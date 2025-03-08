@@ -3,7 +3,7 @@ import dialog from "@/assets/dialog.svg";
 import { useEffect, useState } from "react";
 
 const memberTitle = {
-  level_1: "相遇路人",
+  level_1: "箱遇路人",
   level_2: "返箱青年",
   level_3: "箱村村長",
   level_4: "箱村守護者",

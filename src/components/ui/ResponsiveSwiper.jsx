@@ -74,7 +74,7 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
           <div className={style.cardContainer}>
             <div className={style.card}>
               <img className="" src={beginer} alt="" />
-              <p className={style.cardTilte}>相遇路人</p>
+              <p className={style.cardTilte}>箱遇路人</p>
             </div>
             <button
               className={
