@@ -20,7 +20,9 @@ const MemberInfoHistoryTable = () => {
       station_name_snapshot: transaction.station_name_snapshot,
       transaction_type: transaction.transaction_type,
       points_cost: transaction.points_cost,
-      earned_points: transaction.earned_points / transaction.boxes.length,
+      earned_points: box.point_value,
+      total_earned_points: transaction.earned_points,
+      boxes_counts: transaction.boxes.length,
     })),
   );
 
@@ -48,29 +50,12 @@ const MemberInfoHistoryTable = () => {
     },
     {
       name: "換算積分",
-      selector: (row) => {
-        if (
-          row.transaction_type === "回收" ||
-          row.transaction_type === "購買"
-        ) {
-          return `+${row.earned_points}`;
-        } else {
-          return row.earned_points - row.points_cost > 0
-            ? `+${row.earned_points - row.points_cost}`
-            : `${row.earned_points - row.points_cost}`;
-        }
-      },
-      // cell: (row) => (
-      //   <span
-      //     style={{
-      //       color: row.earned_points - row.points_cost > 0 ? "green" : "red",
-      //     }}
-      //   >
-      //     {row.earned_points - row.points_cost > 0
-      //       ? `+${row.earned_points - row.points_cost}`
-      //       : `${row.earned_points - row.points_cost}`}
-      //   </span>
-      // ),
+      selector: (row) =>
+        row.transaction_type === "回收"
+          ? `+${row.earned_points}`
+          : row.transaction_type === "購買"
+            ? `+${row.total_earned_points / row.boxes_counts}`
+            : `${row.total_earned_points - row.points_cost}`,
     },
   ];
 
