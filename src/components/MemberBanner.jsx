@@ -39,12 +39,12 @@ function MemberBanner() {
   }, [member]);
 
   // 會員等級定義 => 轉運紙箱數為門檻
-  // transactionNums > 0 => 相遇路人
+  // transactionNums > 0 => 箱遇路人
   // transactionNums > 50 => 返箱青年
   // transactionNums > 100 => 箱村村長
   // transactionNums > 200 => 箱村守護者
   const memberTitle = {
-    level_1: "相遇路人",
+    level_1: "箱遇路人",
     level_2: "返箱青年",
     level_3: "箱村村長",
     level_4: "箱村守護者",
