@@ -8,7 +8,7 @@ import ErrorMessage from "../ErrorMessage";
 const MemberInfoHistoryTable = () => {
   const { records, isLoadingRecords, recordsError } =
     useMemberTransactionRecords();
-  console.log(records);
+
   if (isLoadingRecords) return <Spinner />;
   if (recordsError) return <ErrorMessage errorMessage={recordsError.message} />;
 

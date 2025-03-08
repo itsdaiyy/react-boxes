@@ -133,6 +133,7 @@ export function useUpdateBox() {
     isPending: isUpdating,
     isError,
   } = useMutation({
+    mutationKey: ["updateBox"],
     mutationFn: ({ boxId, values }) => apiUpdateBox(boxId, values),
     onSuccess: () => {
       toast.success("更新成功");
@@ -166,6 +167,7 @@ export function useUpdateMultipleBoxes() {
     isPending: isUpdating,
     isError,
   } = useMutation({
+    mutationKey: ["updateMultipleBoxes"],
     mutationFn: ({ boxIds, values }) => apiUpdateMultipleBoxes(boxIds, values),
     onSuccess: () => {
       toast.success("售出成功");

@@ -82,7 +82,6 @@ export async function apiCreateTransaction({
   stationInfo,
   memberId,
 }) {
-  console.log(transaction, stationInfo, memberId);
   let total_points;
   let user_name_snapshot;
   try {
@@ -104,9 +103,6 @@ export async function apiCreateTransaction({
 
       const recordsData = records.length > 0 ? records[0] : null;
 
-      console.log(transaction.earned_points - transaction.points_cost);
-      console.log(recordsData);
-
       total_points = recordsData
         ? recordsData.total_points +
           transaction.earned_points -
@@ -126,8 +122,6 @@ export async function apiCreateTransaction({
       created_at: getTimestamp(),
     };
 
-    console.log(newTransaction);
-
     const { data: transactionData, error } = await supabase
       .from("box-transactions")
       .insert([newTransaction])
@@ -136,13 +130,13 @@ export async function apiCreateTransaction({
 
     if (error) throw error;
 
-    console.log("transactionData", transactionData);
-
     if (total_points) {
-      const { data: user, error } =
-        await supabaseAdmin.auth.admin.updateUserById(memberId, {
+      const { error } = await supabaseAdmin.auth.admin.updateUserById(
+        memberId,
+        {
           user_metadata: { points: total_points },
-        });
+        },
+      );
       if (error) {
         console.error(error);
 
@@ -153,10 +147,7 @@ export async function apiCreateTransaction({
 
         throw new Error("更新用戶點數失敗");
       }
-      console.log(user);
     }
-
-    console.log("final data", transactionData);
 
     return transactionData;
   } catch (error) {

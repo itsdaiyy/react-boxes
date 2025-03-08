@@ -33,13 +33,11 @@ function UpdateUserImage() {
   });
 
   async function onSubmit(data) {
-    console.log(data);
     const res = await apiUploadImage(
       "box-images",
       data.avatar[0],
       "8b9acdef-b856-4c78-ac16-36d199737957",
     );
-    console.log("res", res);
 
     // updateMember({
     //   data: {
