@@ -68,7 +68,6 @@ export default function UpdateBoxForm({ row, setOpen }) {
         );
         const { publicUrl } = await res;
         imageUrl = publicUrl;
-        console.log("res", res);
       }
       // 更新boxes資料
       await updateBox({

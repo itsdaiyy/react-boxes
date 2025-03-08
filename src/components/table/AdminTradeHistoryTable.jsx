@@ -8,6 +8,7 @@ import { customStyles, paginationComponentOptions } from "@/data/constants";
 import { useAdminTransactionRecords } from "@/hooks/useBoxTransactions";
 import Spinner from "../../components/Spinner";
 import ErrorMessage from "../../components/ErrorMessage";
+import { formatUTCTimestamp } from "@/utils/helpers";
 
 const AdminTradeHistoryTable = () => {
   // 取得可認領紙箱資料
@@ -16,8 +17,6 @@ const AdminTradeHistoryTable = () => {
 
   if (isLoadingRecords) return <Spinner />;
   if (recordsError) return <ErrorMessage errorMessage={recordsError.message} />;
-
-  console.log(records);
 
   const expendedData = records.flatMap((transaction) =>
     transaction.boxes.map((box) => ({
@@ -31,18 +30,16 @@ const AdminTradeHistoryTable = () => {
     })),
   );
 
-  console.log(expendedData);
-
   // 欄位
   const columns = [
     {
       name: "交易時間",
-      selector: (row) => row.created_at?.replace("T", " ").slice(0, 16),
+      selector: (row) => formatUTCTimestamp(row.created_at),
       sortable: true,
     },
     {
       name: "紙箱編號",
-      selector: (row) => row.box_id,
+      selector: (row) => row.box_id || `-`,
       sortable: true,
     },
     { name: "紙箱大小", selector: (row) => row.size, sortable: true },
@@ -71,7 +68,6 @@ const AdminTradeHistoryTable = () => {
           : "現金",
     },
   ];
-  const data = [...records];
 
   return (
     <>

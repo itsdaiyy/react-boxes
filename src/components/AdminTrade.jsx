@@ -21,10 +21,6 @@ const formSchema = z.object({
 function AdminTrade() {
   const navigate = useNavigate();
   const { createTransactionAsync } = useCreateTransaction();
-  // 從 5-3 傳遞 station_id
-  // const location = useLocation();
-  // const { station_id } = location.state;
-  // console.log("5-7收到站點編號", station_id);
 
   const methods = useForm({
     resolver: zodResolver(formSchema),
@@ -75,8 +71,6 @@ function AdminTrade() {
   };
 
   const onSubmit = async (data) => {
-    console.log("提交的資料:", data);
-
     const boxesArr = data.selectedRows.map((box) => {
       return {
         size: box.size,

@@ -18,7 +18,6 @@ import { Input } from "@/components/ui/input";
 import { FaPen } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { useUpdateMember } from "@/hooks/useUpdateMember";
-import { useQueryClient } from "@tanstack/react-query";
 
 // zod驗證規則
 const formSchema = z.object({

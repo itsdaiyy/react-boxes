@@ -47,8 +47,6 @@ export function useMemberTransactionRecords() {
   const currentMember = queryClient.getQueryData(["member"]);
   const memberId = currentMember?.user?.id;
 
-  console.log(memberId);
-
   const {
     data: records,
     isLoading: isLoadingRecords,
