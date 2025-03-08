@@ -1,7 +1,7 @@
 import { getTimestamp } from "@/utils/helpers";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useAddMultipleBoxes } from "@/hooks/useBoxes";
@@ -56,10 +56,7 @@ const formSchema = z.object({
 
 function AdminAddBoxes() {
   const navigate = useNavigate();
-  // 從 5-3 傳遞 station_id
-  // const location = useLocation();
-  // const { station_id } = location.state;
-  // console.log("5-6收到站點編號", station_id);
+
   const { control, handleSubmit, register, watch, setValue, formState } =
     useForm({
       resolver: zodResolver(formSchema),
@@ -75,6 +72,7 @@ function AdminAddBoxes() {
     control,
     name: "boxes",
   });
+
   const watchBoxes = watch("boxes");
   // 監聽紙箱大小與保存等級變化，更新對應現金與對應積分
   useEffect(() => {
@@ -87,12 +85,21 @@ function AdminAddBoxes() {
       );
     });
   }, [watchBoxes, setValue]);
+
   // 計算積分總計
   const totalPoints = watchBoxes.reduce((sum, box) => sum + box.points, 0);
   // 新增多比紙箱資料
-  const { addMultipleBoxes, isAdding } = useAddMultipleBoxes();
+  const { addMultipleBoxesAsync, isAdding } = useAddMultipleBoxes();
   const { createTransactionAsync } = useCreateTransaction();
-  const onSubmit = (data) => {
+
+  const onSubmit = async (data) => {
+    // 新增紙箱資料
+    const formData = {
+      user_id: data.user_id,
+      boxes: data.boxes,
+    };
+
+    // 新增交易記錄
     const transactionBoxes = data.boxes.map((box) => ({
       size: box.size,
       condition: box.condition,
@@ -108,22 +115,9 @@ function AdminAddBoxes() {
       boxes: transactionBoxes,
     };
 
-    console.log(transaction);
-
-    const formData = {
-      // station_id,
-      user_id: data.user_id,
-      boxes: data.boxes,
-    };
-    try {
-      createTransactionAsync({ transaction, memberId: data.user_id });
-
-      // addMultipleBoxes(formData);
-      console.log(formData);
-      // navigate("/member/admin/boxesTable");
-    } catch (error) {
-      console.error("Form submission error", error);
-    }
+    await addMultipleBoxesAsync(formData);
+    await createTransactionAsync({ transaction, memberId: data.user_id });
+    navigate("/member/admin/boxesTable");
   };
 
   return (

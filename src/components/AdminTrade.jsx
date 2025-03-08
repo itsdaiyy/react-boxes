@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

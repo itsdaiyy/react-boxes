@@ -196,7 +196,7 @@ export async function apiUpdateMultipleBoxes(boxIds, values) {
  * @param {Array} formData.boxes - 需要新增的紙箱資料陣列
  * @returns {Promise<Array>} 新增的紙箱資料或錯誤
  */
-export async function apiAddMultipleBoxes(formData) {
+export async function apiAddMultipleBoxes({ formData, stationId }) {
   try {
     const formattedBoxes = formData.boxes.map((box) => ({
       created_at: getTimestamp(),
@@ -208,7 +208,7 @@ export async function apiAddMultipleBoxes(formData) {
       cash_value: Number(box.cash_value),
       point_value: Number(box.points),
       retention_days: Number(box.retention_days) || 0,
-      station_id: formData.station_id,
+      station_id: stationId,
       user_id: formData.user_id,
     }));
 

@@ -190,14 +190,17 @@ export function useUpdateMultipleBoxes() {
  */
 export function useAddMultipleBoxes() {
   const queryClient = useQueryClient();
+  const station = queryClient.getQueryData(["stationAdmin"]);
+  const stationId = station?.id;
 
   const {
-    mutate: addMultipleBoxes,
+    mutateAsync: addMultipleBoxesAsync,
     error: addedError,
     isPending: isAdding,
     isError,
   } = useMutation({
-    mutationFn: (formData) => apiAddMultipleBoxes(formData),
+    mutationKey: ["addMultipleBoxes"],
+    mutationFn: (formData) => apiAddMultipleBoxes({ formData, stationId }),
     onSuccess: () => {
       toast.success("紙箱新增成功");
       queryClient.invalidateQueries({ queryKey: ["boxes"] }); // 重新獲取最新數據
@@ -207,5 +210,5 @@ export function useAddMultipleBoxes() {
     },
   });
 
-  return { addMultipleBoxes, isAdding, addedError, isError };
+  return { addMultipleBoxesAsync, isAdding, addedError, isError };
 }

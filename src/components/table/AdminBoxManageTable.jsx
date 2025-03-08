@@ -58,7 +58,7 @@ const AdminBoxManageTable = () => {
           <img
             src={row.image_url}
             alt="box-image"
-            className="h-[70px] w-[70px] transition-transform duration-300 hover:scale-150"
+            className="h-[70px] w-[70px] object-cover transition-transform duration-300 hover:scale-150"
           />
         </div>
       ),
