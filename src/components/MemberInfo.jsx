@@ -40,6 +40,7 @@ function MemberInfo() {
 
   const [memberLevel, setMemberLevel] = useState(1);
   const [memberLevelTitle, setMemberLevelTitle] = useState("");
+  const [unlockMemberTitle, setUnlockMemberTitle] = useState("");
   const [levelUpNum, setLevelUpNum] = useState("");
   const [initialSlide, setInitialSlide] = useState(0);
 
@@ -47,16 +48,19 @@ function MemberInfo() {
     if (transactionNums > 0 && transactionNums < 50) {
       setMemberLevel(1);
       setMemberLevelTitle(memberTitle.level_1);
+      setUnlockMemberTitle(memberTitle.level_2);
       setLevelUpNum(50 - transactionNums);
       setInitialSlide(0);
     } else if (transactionNums >= 50 && transactionNums < 100) {
       setMemberLevel(2);
       setMemberLevelTitle(memberTitle.level_2);
+      setUnlockMemberTitle(memberTitle.level_3);
       setLevelUpNum(100 - transactionNums);
       setInitialSlide(1);
     } else if (transactionNums >= 100 && transactionNums < 200) {
       setMemberLevel(3);
       setMemberLevelTitle(memberTitle.level_3);
+      setUnlockMemberTitle(memberTitle.level_4);
       setLevelUpNum(200 - transactionNums);
       setInitialSlide(2);
     } else if (transactionNums > 200) {
@@ -84,6 +88,7 @@ function MemberInfo() {
             <NormalLevel
               levelUpNum={levelUpNum}
               memberLevelTitle={memberLevelTitle}
+              unlockMemberTitle={unlockMemberTitle}
             />
           )}
         </div>
@@ -158,7 +163,7 @@ function MemberInfo() {
 export default MemberInfo;
 
 // 一般等級
-function NormalLevel({ levelUpNum, memberLevelTitle }) {
+function NormalLevel({ levelUpNum, unlockMemberTitle }) {
   return (
     <div className="md:flex md:items-center md:justify-center">
       <p className="my-5 flex items-center justify-center text-base md:text-2xl">
@@ -170,7 +175,9 @@ function NormalLevel({ levelUpNum, memberLevelTitle }) {
       </p>
       <p className="my-5 flex items-center justify-center text-base md:text-2xl">
         轉運紙箱數，就可以解鎖
-        <span className="px-1 font-bold text-main-500">{memberLevelTitle}</span>
+        <span className="px-1 font-bold text-main-500">
+          {unlockMemberTitle}
+        </span>
         稱號！
       </p>
     </div>
