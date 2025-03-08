@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 
 import NavMenuSm from "./NavMenuSm";
 import NavMenuLg from "./NavMenuLg";
+import { useMember } from "@/hooks/useMember";
 
 function NavMenu() {
-  const queryClient = useQueryClient();
-  const member = queryClient.getQueryData(["member"])?.user;
+  const { member } = useMember();
   const [currentMember, setCurrentMember] = useState(null);
   const [role, setRole] = useState("");
 
   useEffect(() => {
     if (member) {
-      setCurrentMember(member);
-      const role = member.user_metadata.roles.includes("storeOwner")
+      console.log(member);
+      setCurrentMember(member.user);
+      const role = member.user.user_metadata.roles.includes("storeOwner")
         ? "storeOwner"
         : "normal";
       setRole(role);
