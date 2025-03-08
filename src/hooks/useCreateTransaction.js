@@ -27,7 +27,7 @@ export function useCreateTransaction() {
     },
     onError: (err) => {
       console.error(err.message);
-      toast(`新增交易失敗`);
+      toast.error(`${err.message}`);
     },
   });
 

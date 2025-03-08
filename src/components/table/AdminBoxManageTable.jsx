@@ -16,6 +16,7 @@ import { FaRecycle } from "react-icons/fa";
 import UpdateBoxDialog from "../dialog/UpdateBoxDialog";
 import DeleteBoxDialog from "../dialog/DeleteBoxDialog";
 import { useNavigate } from "react-router-dom";
+import { formatUTCTimestamp } from "@/utils/helpers";
 
 const AdminBoxManageTable = () => {
   const navigate = useNavigate();
@@ -64,13 +65,13 @@ const AdminBoxManageTable = () => {
     },
     {
       name: "新增時間",
-      selector: (row) => row.created_at?.replace("T", " ").slice(0, 16),
+      selector: (row) => formatUTCTimestamp(row.created_at),
       sortable: true,
       width: "135px",
     },
     {
       name: "更新時間",
-      selector: (row) => row.updated_at?.replace("T", " ").slice(0, 16),
+      selector: (row) => formatUTCTimestamp(row.updated_at),
       sortable: true,
       width: "135px",
     },

@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useAddMultipleBoxes } from "@/hooks/useBoxes";
+import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 
 const sizeOptions = [
   { label: "特大", value: "特大", points: 5 },
@@ -56,9 +57,9 @@ const formSchema = z.object({
 function AdminAddBoxes() {
   const navigate = useNavigate();
   // 從 5-3 傳遞 station_id
-  const location = useLocation();
-  const { station_id } = location.state;
-  console.log("5-6收到站點編號", station_id);
+  // const location = useLocation();
+  // const { station_id } = location.state;
+  // console.log("5-6收到站點編號", station_id);
   const { control, handleSubmit, register, watch, setValue, formState } =
     useForm({
       resolver: zodResolver(formSchema),
@@ -90,16 +91,36 @@ function AdminAddBoxes() {
   const totalPoints = watchBoxes.reduce((sum, box) => sum + box.points, 0);
   // 新增多比紙箱資料
   const { addMultipleBoxes, isAdding } = useAddMultipleBoxes();
+  const { createTransactionAsync } = useCreateTransaction();
   const onSubmit = (data) => {
+    const transactionBoxes = data.boxes.map((box) => ({
+      size: box.size,
+      condition: box.condition,
+      cash_value: box.cash_value,
+      point_value: box.points,
+    }));
+
+    const transaction = {
+      transaction_type: "回收",
+      cash_cost: 0,
+      points_cost: 0,
+      earned_points: 2 * transactionBoxes.length,
+      boxes: transactionBoxes,
+    };
+
+    console.log(transaction);
+
     const formData = {
-      station_id,
+      // station_id,
       user_id: data.user_id,
       boxes: data.boxes,
     };
     try {
-      addMultipleBoxes(formData);
+      createTransactionAsync({ transaction, memberId: data.user_id });
+
+      // addMultipleBoxes(formData);
       console.log(formData);
-      navigate("/member/admin/boxesTable");
+      // navigate("/member/admin/boxesTable");
     } catch (error) {
       console.error("Form submission error", error);
     }

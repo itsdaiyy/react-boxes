@@ -170,14 +170,16 @@ export async function apiCreateTransaction({
     if (memberId) {
       const { data, error } =
         await supabaseAdmin.auth.admin.getUserById(memberId);
-      total_points =
-        data.user.user_metadata.points + 2 - transaction.points_cost;
-      user_name_snapshot = data.user.user_metadata.display_name;
 
       if (error) {
         console.error(error);
-        throw new Error("取得用戶失敗");
+        throw new Error(`無法取該用戶，ID： ${memberId}`);
       }
+      total_points =
+        data.user.user_metadata.points +
+        transaction.earned_points -
+        transaction.points_cost;
+      user_name_snapshot = data.user.user_metadata.display_name;
     }
 
     console.log(user_name_snapshot, total_points);
@@ -186,7 +188,7 @@ export async function apiCreateTransaction({
       ...transaction,
       ...stationInfo,
       boxes: [...transaction.boxes],
-      earned_points: 2,
+
       total_points: total_points ? total_points : null,
       user_id: memberId,
       user_name_snapshot: user_name_snapshot ? user_name_snapshot : null,
