@@ -5,7 +5,8 @@ function HeaderAvatar({ currentMember }) {
     <Avatar>
       <AvatarImage
         src={currentMember?.user_metadata?.avatar_url}
-        alt="@shadcn"
+        alt={currentMember?.user_metadata?.display_name}
+        className="object-cover"
       />
       <AvatarFallback delayMs={600}>
         {currentMember?.user_metadata?.display_name}
