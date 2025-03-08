@@ -77,87 +77,6 @@ export async function apiGetTransactionsCounts(userId) {
   }
 }
 
-// {
-//     "userId": "8b9acdef-b856-4c78-ac16-36d199737957",
-//     "selectedRows": [
-//         {
-//             "id": 152,
-//             "created_at": "2024-01-30T00:00:00+00:00",
-//             "updated_at": "2024-11-25T00:00:00+00:00",
-//             "size": "特大",
-//             "condition": "全新",
-//             "status": "可認領",
-//             "retention_days": 30,
-//             "image_url": "https://fakeimg.pl/300/",
-//             "cash_value": 20,
-//             "point_value": 9,
-//             "station_id": 1,
-//             "user_id": "1725f7bc-7108-4d31-ae2f-b3d68393d6a5"
-//         },
-//         {
-//             "id": 29,
-//             "created_at": "2024-05-15T00:00:00+00:00",
-//             "updated_at": "2024-11-14T00:00:00+00:00",
-//             "size": "小",
-//             "condition": "全新",
-//             "status": "可認領",
-//             "retention_days": 30,
-//             "image_url": "https://fakeimg.pl/300/",
-//             "cash_value": 8,
-//             "point_value": 6,
-//             "station_id": 1,
-//             "user_id": "8b9acdef-b856-4c78-ac16-36d199737957"
-//         }
-//     ],
-//     "paymentMethod": "cash"
-// }
-
-//  {
-//     id: 192,
-//     created_at: "2025-01-29T00:00:00+00:00",
-//     transaction_type: "回收",
-//     cash_cost: 0,
-//     points_cost: 0,
-//     earned_points: 3,
-//     total_points: 17,
-//     station_id: 7,
-//     station_name_snapshot: "無日",
-//     user_id: "34cdab41-2bdf-4dd9-8c35-0cb7c15a4d0b",
-//     user_name_snapshot: "阮彥博",
-//     status: "成功",
-//     boxes: [
-//       {
-//         size: "大",
-//         box_id: 99,
-//         condition: "差",
-//         cash_value: 4,
-//         point_value: 3,
-//       },
-//     ],
-//   };
-
-// {
-//     "transaction_type": "認領",
-//     "cash_cost": 28,
-//     "points_cost": 0,
-//     "earned_points": 2,
-//     "boxes": [
-//         {
-//             "size": "特大",
-//             "box_id": 152,
-//             "condition": "全新",
-//             "cash_value": 20,
-//             "point_value": 9
-//         },
-//         {
-//             "size": "小",
-//             "box_id": 29,
-//             "condition": "全新",
-//             "cash_value": 8,
-//             "point_value": 6
-//         }
-//     ]
-// }
 export async function apiCreateTransaction({
   transaction,
   stationInfo,
@@ -168,28 +87,40 @@ export async function apiCreateTransaction({
   let user_name_snapshot;
   try {
     if (memberId) {
-      const { data, error } =
+      const { data, userError } =
         await supabaseAdmin.auth.admin.getUserById(memberId);
 
-      if (error) {
-        console.error(error);
+      const { data: records, error } = await supabase
+        .from("box-transactions")
+        .select("*")
+        .eq("user_id", memberId)
+        .order("created_at", { ascending: false }) // 🔹 依 `created_at` 降序排列
+        .limit(1); // 🔹 只取最新一筆
+
+      if (userError || error) {
+        console.error(userError || error);
         throw new Error(`無法取該用戶，ID： ${memberId}`);
       }
-      total_points =
-        data.user.user_metadata.points +
-        transaction.earned_points -
-        transaction.points_cost;
+
+      const recordsData = records.length > 0 ? records[0] : null;
+
+      console.log(transaction.earned_points - transaction.points_cost);
+      console.log(recordsData);
+
+      total_points = recordsData
+        ? recordsData.total_points +
+          transaction.earned_points -
+          transaction.points_cost
+        : 0 + transaction.earned_points - transaction.points_cost;
       user_name_snapshot = data.user.user_metadata.display_name;
     }
-
-    console.log(user_name_snapshot, total_points);
 
     const newTransaction = {
       ...transaction,
       ...stationInfo,
       boxes: [...transaction.boxes],
 
-      total_points: total_points ? total_points : null,
+      total_points: total_points ? total_points : 0,
       user_id: memberId,
       user_name_snapshot: user_name_snapshot ? user_name_snapshot : null,
       created_at: getTimestamp(),

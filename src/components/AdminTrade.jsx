@@ -90,7 +90,7 @@ function AdminTrade() {
     const transaction = {
       transaction_type: data.paymentMethod === "cash" ? "購買" : "兌換",
       cash_cost: data.paymentMethod === "cash" ? totalCash : 0,
-      points_cost: data.paymentMethod === "points" ? totalCash : 0,
+      points_cost: data.paymentMethod === "points" ? totalPoints : 0,
       earned_points: 2 * boxesArr.length,
       boxes: boxesArr,
     };

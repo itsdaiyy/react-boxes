@@ -107,11 +107,16 @@ function AdminAddBoxes() {
       point_value: box.points,
     }));
 
+    const totalEarnedPoints = data.boxes.reduce(
+      (acc, cur) => acc + cur.points,
+      0,
+    );
+
     const transaction = {
       transaction_type: "回收",
       cash_cost: 0,
       points_cost: 0,
-      earned_points: 2 * transactionBoxes.length,
+      earned_points: totalEarnedPoints,
       boxes: transactionBoxes,
     };
 
