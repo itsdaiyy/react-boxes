@@ -39,7 +39,7 @@ function AdminInfoForm({ station }) {
   const [isEditing, setIsEditing] = useState(false);
   const { updateStation, isUpdating } = useUpdateStationInfo();
 
-  const { handleSubmit, register } = useForm({
+  const { handleSubmit, register, setValue } = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       station_name: station.station_name || "",
@@ -69,11 +69,32 @@ function AdminInfoForm({ station }) {
     }
   }
 
+  function handleClickClose() {
+    setIsEditing(!isEditing);
+    setValue("station_name", station.station_name);
+    setValue("phone", station.phone);
+    setValue(
+      "station_daily_hours",
+      Array.from({ length: 7 }, (_, index) => {
+        const dayData = station.station_daily_hours.find(
+          (item) => item.day_of_week === index,
+        );
+
+        return {
+          id: dayData ? dayData.id : "",
+          open_time: dayData ? dayData.open_time.substring(0, 5) : "",
+          close_time: dayData ? dayData.close_time.substring(0, 5) : "",
+          is_business_day: dayData ? dayData.is_business_day : false,
+        };
+      }),
+    );
+  }
+
   return (
     <>
       <div className="flex items-center justify-between">
         <p className="text-2xl font-bold text-gray-700">轉運站長</p>
-        <button type="button" onClick={() => setIsEditing(!isEditing)}>
+        <button type="button" onClick={handleClickClose}>
           {isEditing ? (
             <FaTimes size={20} />
           ) : (

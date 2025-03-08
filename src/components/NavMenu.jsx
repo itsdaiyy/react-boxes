@@ -11,7 +11,6 @@ function NavMenu() {
 
   useEffect(() => {
     if (member) {
-      console.log(member);
       setCurrentMember(member.user);
       const role = member.user.user_metadata.roles.includes("storeOwner")
         ? "storeOwner"
