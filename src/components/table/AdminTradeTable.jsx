@@ -1,11 +1,13 @@
 // 5-7 回收站點管理者後台 - 售出紙箱流程
 import { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
 import { StyleSheetManager } from "styled-components";
 import isPropValid from "@emotion/is-prop-valid";
-import { useBoxesForSelling } from "@/hooks/useBoxes";
+import DataTable from "react-data-table-component";
+
+import { useBoxesTotalForSelling } from "@/hooks/useBoxes";
 import Spinner from "../Spinner";
 import ErrorMessage from "../ErrorMessage";
+import { formatUTCTimestamp } from "@/utils/helpers";
 
 // 表格內客製化樣式 (或建立style.css覆蓋樣式)
 const customStyles = {
@@ -47,7 +49,8 @@ const customStyles = {
 
 const AdminTradeTable = ({ handleSelectChange, setBoxIds, setValues }) => {
   // 資料
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForSelling(16);
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesTotalForSelling();
+
   // 篩選搜尋資料
   const [originData, setOriginData] = useState([]);
   const [filterText, setFilterText] = useState("");
@@ -61,19 +64,25 @@ const AdminTradeTable = ({ handleSelectChange, setBoxIds, setValues }) => {
     }
   }, [boxes]);
 
-  useEffect(() => {
-    const filtered = originData.filter((item) =>
-      item.id.toString().includes(filterText),
-    );
-    setFilteredData(filtered);
-  }, [filterText, originData]);
   // 搜尋欄、原始資料變動時觸發
+  useEffect(() => {
+    let tempData = [...originData];
+    if (filterText) {
+      tempData = originData.filter(
+        (item) =>
+          item.id.toString().includes(filterText) ||
+          item.size.includes(filterText) ||
+          item.condition.includes(filterText),
+      );
+    }
+    setFilteredData(tempData);
+  }, [filterText, originData]);
 
   // 欄位
   const columns = [
     {
       name: "新增時間",
-      selector: (row) => row.updated_at?.replace("T", " ").slice(0, 16),
+      selector: (row) => formatUTCTimestamp(row.updated_at).slice(0, 10),
       sortable: true,
     },
     {
@@ -127,7 +136,7 @@ const AdminTradeTable = ({ handleSelectChange, setBoxIds, setValues }) => {
       <div className="mb-3 flex w-full justify-start">
         <input
           type="text"
-          placeholder="搜尋紙箱編號"
+          placeholder="請輸入關鍵字搜尋"
           value={filterText}
           onChange={(e) => setFilterText(e.target.value)}
           className="rounded border p-2"

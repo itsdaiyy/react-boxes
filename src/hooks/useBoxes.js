@@ -52,7 +52,7 @@ export function useBoxesForAdminManaging() {
     isLoading: isLoadingBoxes,
     error: boxesError,
   } = useQuery({
-    queryKey: ["boxes", "managing", stationId],
+    queryKey: ["boxes", "managing"],
     queryFn: () => apiGetBoxesForAdminManaging(stationId),
   });
 
@@ -79,8 +79,9 @@ export function useBoxesForScraping() {
     isLoading: isLoadingBoxes,
     error: boxesError,
   } = useQuery({
-    queryKey: ["boxes", "scrap", stationId],
+    queryKey: ["boxes", "scrap"],
     queryFn: () => apiGetBoxesForScraping(stationId),
+    enabled: !!stationId,
   });
 
   return { boxes, isLoadingBoxes, boxesError };
@@ -95,14 +96,18 @@ export function useBoxesForScraping() {
  *   - `isLoadingBoxes` {boolean} - 是否正在加載資料
  *   - `BoxesError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
  */
-export function useBoxesTotalForSelling(stationId) {
+export function useBoxesTotalForSelling() {
+  const queryClient = useQueryClient();
+  const station = queryClient.getQueryData(["stationAdmin"]);
+  const stationId = station?.id;
   const {
     data: boxes,
     isLoading: isLoadingBoxes,
     error: boxesError,
   } = useQuery({
-    queryKey: ["boxes", stationId],
+    queryKey: ["boxes", "sale"],
     queryFn: () => apiGetBoxesTotalForSelling(stationId),
+    enabled: !!stationId,
   });
 
   return { boxes, isLoadingBoxes, boxesError };
@@ -128,6 +133,7 @@ export function useUpdateBox() {
     isPending: isUpdating,
     isError,
   } = useMutation({
+    mutationKey: ["updateBox"],
     mutationFn: ({ boxId, values }) => apiUpdateBox(boxId, values),
     onSuccess: () => {
       toast.success("更新成功");
@@ -161,6 +167,7 @@ export function useUpdateMultipleBoxes() {
     isPending: isUpdating,
     isError,
   } = useMutation({
+    mutationKey: ["updateMultipleBoxes"],
     mutationFn: ({ boxIds, values }) => apiUpdateMultipleBoxes(boxIds, values),
     onSuccess: () => {
       toast.success("售出成功");
@@ -185,14 +192,17 @@ export function useUpdateMultipleBoxes() {
  */
 export function useAddMultipleBoxes() {
   const queryClient = useQueryClient();
+  const station = queryClient.getQueryData(["stationAdmin"]);
+  const stationId = station?.id;
 
   const {
-    mutate: addMultipleBoxes,
+    mutateAsync: addMultipleBoxesAsync,
     error: addedError,
     isPending: isAdding,
     isError,
   } = useMutation({
-    mutationFn: (formData) => apiAddMultipleBoxes(formData),
+    mutationKey: ["addMultipleBoxes"],
+    mutationFn: (formData) => apiAddMultipleBoxes({ formData, stationId }),
     onSuccess: () => {
       toast.success("紙箱新增成功");
       queryClient.invalidateQueries({ queryKey: ["boxes"] }); // 重新獲取最新數據
@@ -202,5 +212,5 @@ export function useAddMultipleBoxes() {
     },
   });
 
-  return { addMultipleBoxes, isAdding, addedError, isError };
+  return { addMultipleBoxesAsync, isAdding, addedError, isError };
 }

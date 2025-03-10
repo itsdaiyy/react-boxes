@@ -68,14 +68,12 @@ export default function UpdateBoxForm({ row, setOpen }) {
         );
         const { publicUrl } = await res;
         imageUrl = publicUrl;
-        console.log("res", res);
       }
       // 更新boxes資料
       await updateBox({
         boxId: row.id,
         values: { ...formattedValues, image_url: imageUrl },
       });
-      console.log("更新成功", row.id, formattedValues);
       setOpen(false);
     } catch (error) {
       console.error("Form submission error", error);

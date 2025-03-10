@@ -1,10 +1,24 @@
 export function getTimestamp() {
-  const now = new Date();
+  return new Date().toISOString();
+}
 
-  // 取得 ISO 格式：2025-02-02T07:36:28.117Z
-  let isoString = now.toISOString();
+export function formatUTCTimestamp(utcTimestamp, timeZone = "Asia/Taipei") {
+  const date = new Date(utcTimestamp);
 
-  return isoString;
+  const options = {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  };
+
+  return new Intl.DateTimeFormat("zh-TW", options)
+    .format(date)
+    .replace(/\//g, "-")
+    .replace(",", "");
 }
 
 /**

@@ -1,4 +1,6 @@
+import { getTimestamp } from "@/utils/helpers";
 import supabase from "./supabase";
+import supabaseAdmin from "./supabaseAdmin";
 
 /**
  * 從 Supabase 取得 管理者-紙箱交易紀錄的交易資料
@@ -70,6 +72,84 @@ export async function apiGetTransactionsCounts(userId) {
 
     const transactionsCounts = boxTransactions.length;
     return transactionsCounts;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function apiCreateTransaction({
+  transaction,
+  stationInfo,
+  memberId,
+}) {
+  let total_points;
+  let user_name_snapshot;
+  try {
+    if (memberId) {
+      const { data, userError } =
+        await supabaseAdmin.auth.admin.getUserById(memberId);
+
+      const { data: records, error } = await supabase
+        .from("box-transactions")
+        .select("*")
+        .eq("user_id", memberId)
+        .order("created_at", { ascending: false }) // 🔹 依 `created_at` 降序排列
+        .limit(1); // 🔹 只取最新一筆
+
+      if (userError || error) {
+        console.error(userError || error);
+        throw new Error(`無法取該用戶，ID： ${memberId}`);
+      }
+
+      const recordsData = records.length > 0 ? records[0] : null;
+
+      total_points = recordsData
+        ? recordsData.total_points +
+          transaction.earned_points -
+          transaction.points_cost
+        : 0 + transaction.earned_points - transaction.points_cost;
+      user_name_snapshot = data.user.user_metadata.display_name;
+    }
+
+    const newTransaction = {
+      ...transaction,
+      ...stationInfo,
+      boxes: [...transaction.boxes],
+
+      total_points: total_points ? total_points : 0,
+      user_id: memberId,
+      user_name_snapshot: user_name_snapshot ? user_name_snapshot : null,
+      created_at: getTimestamp(),
+    };
+
+    const { data: transactionData, error } = await supabase
+      .from("box-transactions")
+      .insert([newTransaction])
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    if (total_points) {
+      const { error } = await supabaseAdmin.auth.admin.updateUserById(
+        memberId,
+        {
+          user_metadata: { points: total_points },
+        },
+      );
+      if (error) {
+        console.error(error);
+
+        const { error } = await supabase
+          .from("box-transactions")
+          .delete()
+          .eq("id", transactionData.id);
+
+        throw new Error("更新用戶點數失敗");
+      }
+    }
+
+    return transactionData;
   } catch (error) {
     throw new Error(error.message);
   }

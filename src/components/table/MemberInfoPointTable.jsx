@@ -2,228 +2,56 @@
 import DataTable from "react-data-table-component";
 import { customStyles, paginationComponentOptions } from "@/data/constants";
 import { useMemberTransactionRecords } from "@/hooks/useBoxTransactions";
-
-// 假資料
-const tempData = [
-  {
-    time: "2024-02-01 10:30",
-    content: "回收 4 個紙箱",
-    site: "台南圖書館",
-    pointChange: "+50",
-    totalPoints: "1050",
-  },
-  {
-    time: "2024-02-02 15:45",
-    content: "購買 1 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+10",
-    totalPoints: "1060",
-  },
-  {
-    time: "2024-02-03 09:15",
-    content: "回收 1 個紙箱",
-    site: "葉子小舖",
-    pointChange: "+100",
-    totalPoints: "1160",
-  },
-  {
-    time: "2024-02-04 14:20",
-    content: "購買 1 個紙箱",
-    site: "台南圖書館",
-    pointChange: "-500",
-    totalPoints: "660",
-  },
-  {
-    time: "2024-02-05 11:45",
-    content: "回收 2 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+200",
-    totalPoints: "860",
-  },
-  {
-    time: "2024-02-01 10:30",
-    content: "回收 4 個紙箱",
-    site: "台南圖書館",
-    pointChange: "+50",
-    totalPoints: "1050",
-  },
-  {
-    time: "2024-02-02 15:45",
-    content: "購買 1 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+10",
-    totalPoints: "1060",
-  },
-  {
-    time: "2024-02-03 09:15",
-    content: "回收 1 個紙箱",
-    site: "葉子小舖",
-    pointChange: "+100",
-    totalPoints: "1160",
-  },
-  {
-    time: "2024-02-04 14:20",
-    content: "購買 1 個紙箱",
-    site: "台南圖書館",
-    pointChange: "-500",
-    totalPoints: "660",
-  },
-  {
-    time: "2024-02-05 11:45",
-    content: "回收 2 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+200",
-    totalPoints: "860",
-  },
-  {
-    time: "2024-02-01 10:30",
-    content: "回收 4 個紙箱",
-    site: "台南圖書館",
-    pointChange: "+50",
-    totalPoints: "1050",
-  },
-  {
-    time: "2024-02-02 15:45",
-    content: "購買 1 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+10",
-    totalPoints: "1060",
-  },
-  {
-    time: "2024-02-03 09:15",
-    content: "回收 1 個紙箱",
-    site: "葉子小舖",
-    pointChange: "+100",
-    totalPoints: "1160",
-  },
-  {
-    time: "2024-02-04 14:20",
-    content: "購買 1 個紙箱",
-    site: "台南圖書館",
-    pointChange: "-500",
-    totalPoints: "660",
-  },
-  {
-    time: "2024-02-05 11:45",
-    content: "回收 2 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+200",
-    totalPoints: "860",
-  },
-  {
-    time: "2024-02-01 10:30",
-    content: "回收 4 個紙箱",
-    site: "台南圖書館",
-    pointChange: "+50",
-    totalPoints: "1050",
-  },
-  {
-    time: "2024-02-02 15:45",
-    content: "購買 1 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+10",
-    totalPoints: "1060",
-  },
-  {
-    time: "2024-02-03 09:15",
-    content: "回收 1 個紙箱",
-    site: "葉子小舖",
-    pointChange: "+100",
-    totalPoints: "1160",
-  },
-  {
-    time: "2024-02-04 14:20",
-    content: "購買 1 個紙箱",
-    site: "台南圖書館",
-    pointChange: "-500",
-    totalPoints: "660",
-  },
-  {
-    time: "2024-02-05 11:45",
-    content: "回收 2 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+200",
-    totalPoints: "860",
-  },
-  {
-    time: "2024-02-01 10:30",
-    content: "回收 4 個紙箱",
-    site: "台南圖書館",
-    pointChange: "+50",
-    totalPoints: "1050",
-  },
-  {
-    time: "2024-02-02 15:45",
-    content: "購買 1 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+10",
-    totalPoints: "1060",
-  },
-  {
-    time: "2024-02-03 09:15",
-    content: "回收 1 個紙箱",
-    site: "葉子小舖",
-    pointChange: "+100",
-    totalPoints: "1160",
-  },
-  {
-    time: "2024-02-04 14:20",
-    content: "購買 1 個紙箱",
-    site: "台南圖書館",
-    pointChange: "-500",
-    totalPoints: "660",
-  },
-  {
-    time: "2024-02-05 11:45",
-    content: "回收 2 個紙箱",
-    site: "米米小吃店",
-    pointChange: "+200",
-    totalPoints: "860",
-  },
-];
+import { formatUTCTimestamp } from "@/utils/helpers";
+import Spinner from "../Spinner";
+import ErrorMessage from "../ErrorMessage";
 
 const MemberInfoPointTable = () => {
+  const { records, isLoadingRecords, recordsError } =
+    useMemberTransactionRecords();
   // 欄位
+
+  if (isLoadingRecords) <Spinner />;
+  if (recordsError) <ErrorMessage errorMessage={recordsError.message} />;
+
   const columns = [
     {
       name: "交易時間",
-      selector: (row) => row.time,
+      selector: (row) => formatUTCTimestamp(row.created_at),
     },
     {
       name: "交易內容",
-      selector: (row) => row.content,
+      selector: (row) => `${row.transaction_type} ${row.boxes.length} 紙箱`,
     },
     {
       name: "交易站點",
-      selector: (row) => row.site,
+      selector: (row) => row.station_name_snapshot,
     },
     {
       name: "積分變化",
-      selector: (row) => row.pointChange,
+      selector: (row) => row.earned_points - row.points_cost,
       cell: (row) => (
         <span
           style={{
-            color: row.pointChange.startsWith("+") ? "green" : "red",
+            color: row.earned_points - row.points_cost > 0 ? "green" : "red",
           }}
         >
-          {row.pointChange}
+          {row.earned_points - row.points_cost > 0
+            ? `+${row.earned_points - row.points_cost}`
+            : `${row.earned_points - row.points_cost}`}
         </span>
       ),
     },
     {
       name: "積分總計",
-      selector: (row) => row.totalPoints,
+      selector: (row) => row.total_points,
     },
   ];
-
-  const { records, isLoadingRecords, recordsError } =
-    useMemberTransactionRecords("8b9acdef-b856-4c78-ac16-36d199737957");
-  console.log(records);
 
   return (
     <DataTable
       columns={columns}
-      data={tempData}
+      data={records}
       pagination
       customStyles={customStyles}
       paginationComponentOptions={paginationComponentOptions}

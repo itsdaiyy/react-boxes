@@ -1,13 +1,15 @@
-import AdminTradeTable from "./table/AdminTradeTable";
+import { useState } from "react";
+import { Controller, FormProvider, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { useState } from "react";
-import { Controller, FormProvider, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useUpdateMultipleBoxes } from "@/hooks/useBoxes";
+import AdminTradeTable from "./table/AdminTradeTable";
+import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 
 // 驗證 schema
 const formSchema = z.object({
@@ -18,10 +20,8 @@ const formSchema = z.object({
 
 function AdminTrade() {
   const navigate = useNavigate();
-  // 從 5-3 傳遞 station_id
-  const location = useLocation();
-  const { station_id } = location.state;
-  console.log("5-7收到站點編號", station_id);
+  const { createTransactionAsync } = useCreateTransaction();
+
   const methods = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -70,9 +70,27 @@ function AdminTrade() {
     setValues({ status: "售出" });
   };
 
-  const onSubmit = (data) => {
-    console.log("提交的資料:", data);
+  const onSubmit = async (data) => {
+    const boxesArr = data.selectedRows.map((box) => {
+      return {
+        size: box.size,
+        box_id: box.id,
+        condition: box.condition,
+        cash_value: box.cash_value,
+        point_value: box.point_value,
+      };
+    });
+
+    const transaction = {
+      transaction_type: data.paymentMethod === "cash" ? "購買" : "兌換",
+      cash_cost: data.paymentMethod === "cash" ? totalCash : 0,
+      points_cost: data.paymentMethod === "points" ? totalPoints : 0,
+      earned_points: 2 * boxesArr.length,
+      boxes: boxesArr,
+    };
+
     updateMultipleBoxes({ boxIds, values });
+    await createTransactionAsync({ transaction, memberId: data.userId });
     navigate("/member/admin/boxesTable"); // 轉向至 5-3
   };
 

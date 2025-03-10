@@ -18,7 +18,6 @@ import { Input } from "@/components/ui/input";
 import { FaPen } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { useUpdateMember } from "@/hooks/useUpdateMember";
-import { useQueryClient } from "@tanstack/react-query";
 
 // zod驗證規則
 const formSchema = z.object({
@@ -53,12 +52,21 @@ function MemberInfoForm({ data, memberLevelTitle }) {
     updateMember({ newInfoObj, avatar, userId: data.user.id });
   };
 
+  function handleClickClose() {
+    setIsEditing(!isEditing);
+    form.setValue("display_name", data.user.user_metadata.display_name);
+    form.setValue(
+      "phone",
+      data.user.user_metadata.phone.toString().replace("+886", "0"),
+    );
+  }
+
   return (
     <div className="order-2 rounded-3xl bg-white p-10 md:order-1 md:w-1/2">
       <div className="mb-6 flex items-center justify-between">
         <p className="text-2xl font-bold text-gray-700">{memberLevelTitle}</p>
         <div className="flex items-center justify-center">
-          <button type="button" onClick={() => setIsEditing(!isEditing)}>
+          <button type="button" onClick={handleClickClose}>
             {isEditing ? (
               <MdClose className="text-main-600" size={30} />
             ) : (

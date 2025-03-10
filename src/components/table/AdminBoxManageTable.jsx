@@ -16,11 +16,12 @@ import { FaRecycle } from "react-icons/fa";
 import UpdateBoxDialog from "../dialog/UpdateBoxDialog";
 import DeleteBoxDialog from "../dialog/DeleteBoxDialog";
 import { useNavigate } from "react-router-dom";
+import { formatUTCTimestamp } from "@/utils/helpers";
 
 const AdminBoxManageTable = () => {
   const navigate = useNavigate();
   // 取得可認領紙箱資料
-  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging(10);
+  const { boxes, isLoadingBoxes, boxesError } = useBoxesForAdminManaging();
 
   // 篩選搜尋資料
   const [originData, setOriginData] = useState([]);
@@ -57,20 +58,20 @@ const AdminBoxManageTable = () => {
           <img
             src={row.image_url}
             alt="box-image"
-            className="h-[70px] w-[70px] transition-transform duration-300 hover:scale-150"
+            className="h-[70px] w-[70px] object-cover transition-transform duration-300 hover:scale-150"
           />
         </div>
       ),
     },
     {
       name: "新增時間",
-      selector: (row) => row.created_at?.replace("T", " ").slice(0, 16),
+      selector: (row) => formatUTCTimestamp(row.created_at),
       sortable: true,
       width: "135px",
     },
     {
       name: "更新時間",
-      selector: (row) => row.updated_at?.replace("T", " ").slice(0, 16),
+      selector: (row) => formatUTCTimestamp(row.updated_at),
       sortable: true,
       width: "135px",
     },

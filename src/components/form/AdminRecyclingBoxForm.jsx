@@ -22,7 +22,6 @@ function AdminRecyclingBoxForm({ station }) {
 
   function onSubmit(available_slots) {
     try {
-      console.log({ stationId: station.id, ...available_slots });
       updateAvailableSlots({ stationId: station.id, ...available_slots });
       toast.success("提交成功");
       setIsEditing(false);
