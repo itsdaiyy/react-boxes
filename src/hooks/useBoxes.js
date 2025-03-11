@@ -132,7 +132,7 @@ export function useDeleteBox() {
     isPending: isDeleting,
     isError,
   } = useMutation({
-    mutationKey: ["deleteMultipleBoxes"],
+    mutationKey: ["deleteBox"],
     mutationFn: ({ boxId }) => apiDeleteBox(boxId),
     onSuccess: () => {
       toast.success("刪除成功");
