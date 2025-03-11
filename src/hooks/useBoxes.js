@@ -115,12 +115,12 @@ export function useBoxesTotalForSelling() {
 }
 
 /**
- * 自訂 Hook：使用 React Query 來批量新增紙箱資料
+ * 自訂 Hook：使用 React Query 來刪除紙箱資料
  *
  * @returns {Object} 返回包含四個屬性的物件：
- *   - `addMultipleBoxes` {Function} - 用於觸發批量新增的函式，接收 `formData`
- *   - `isAdding` {boolean} - 是否正在新增資料
- *   - `addedError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
+ *   - `deleteBox` {Function} - 用於觸發刪除操作的函式，接收 `boxId`
+ *   - `isDeleting` {boolean} - 是否正在刪除資料
+ *   - `deletedError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
  *   - `isError` {boolean} - 是否發生錯誤
  */
 export function useDeleteBox() {
