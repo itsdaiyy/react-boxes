@@ -46,7 +46,8 @@ export async function apiGetBoxesForAdminManaging(stationId) {
       .from("boxes")
       .select("*")
       .in("status", ["自用", "可認領"])
-      .eq("station_id", stationId);
+      .eq("station_id", stationId)
+      .order("id", { ascending: true });
 
     if (error) throw error;
 
