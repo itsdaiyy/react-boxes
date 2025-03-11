@@ -6,6 +6,7 @@ import {
   apiUpdateBox,
   apiUpdateMultipleBoxes,
   apiAddMultipleBoxes,
+  apiDeleteBox,
 } from "@/services/apiBoxes";
 import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -114,6 +115,38 @@ export function useBoxesTotalForSelling() {
 }
 
 /**
+ * 自訂 Hook：使用 React Query 來刪除紙箱資料
+ *
+ * @returns {Object} 返回包含四個屬性的物件：
+ *   - `deleteBox` {Function} - 用於觸發刪除操作的函式，接收 `boxId`
+ *   - `isDeleting` {boolean} - 是否正在刪除資料
+ *   - `deletedError` {Error|null} - 若請求發生錯誤，將包含錯誤物件，否則為 `null`
+ *   - `isError` {boolean} - 是否發生錯誤
+ */
+export function useDeleteBox() {
+  const queryClient = useQueryClient();
+
+  const {
+    mutateAsync: deleteBox,
+    error: deletedError,
+    isPending: isDeleting,
+    isError,
+  } = useMutation({
+    mutationKey: ["deleteBox"],
+    mutationFn: ({ boxId }) => apiDeleteBox(boxId),
+    onSuccess: () => {
+      toast.success("刪除成功");
+      queryClient.invalidateQueries({ queryKey: ["boxes"] }); // 重新獲取最新數據
+    },
+    onError: (error) => {
+      toast.error(`刪除失敗: ${error.message}`);
+    },
+  });
+
+  return { deleteBox, isDeleting, deletedError, isError };
+}
+
+/**
  * 自訂 Hook：使用 React Query 來更新單一筆紙箱資料
  *
  * 使用 `useMutation` 來向 API 發送更新請求，並在成功時重新整理紙箱數據。
@@ -136,11 +169,11 @@ export function useUpdateBox() {
     mutationKey: ["updateBox"],
     mutationFn: ({ boxId, values }) => apiUpdateBox(boxId, values),
     onSuccess: () => {
-      toast.success("更新成功");
+      toast.success("回收成功");
       queryClient.invalidateQueries({ queryKey: ["boxes"] }); // 重新請求最新的紙箱列表
     },
     onError: (error) => {
-      toast.error(`更新失敗: ${error.message}`);
+      toast.error(`回收失敗: ${error.message}`);
     },
   });
 

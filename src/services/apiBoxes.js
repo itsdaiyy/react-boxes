@@ -46,7 +46,8 @@ export async function apiGetBoxesForAdminManaging(stationId) {
       .from("boxes")
       .select("*")
       .in("status", ["自用", "可認領"])
-      .eq("station_id", stationId);
+      .eq("station_id", stationId)
+      .order("id", { ascending: true });
 
     if (error) throw error;
 
@@ -116,6 +117,23 @@ export async function apiGetBoxesTotalForSelling(stationId) {
     console.error("讀取 Box 發生錯誤:", error);
     // UI 顯示的錯誤內容
     throw new Error("無法取得 boxes 資料，請稍後再試");
+  }
+}
+
+export async function apiDeleteBox(boxId) {
+  try {
+    const { data, error } = await supabase
+      .from("boxes")
+      .delete()
+      .eq("id", boxId)
+      .select();
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    // supabase 錯誤內容
+    console.error("刪除 Box 發生錯誤:", error);
+    // UI 顯示的錯誤內容
+    throw new Error("無法刪除 boxes 資料，請稍後再試");
   }
 }
 

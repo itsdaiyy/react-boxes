@@ -11,26 +11,34 @@ import {
 } from "@/components/ui/dialog";
 
 import toast from "react-hot-toast";
-import { useUpdateBox } from "@/hooks/useBoxes";
+import { useDeleteBox, useUpdateBox } from "@/hooks/useBoxes";
 
 function DeleteBoxDialog({ row, icons }) {
   const { updateBox } = useUpdateBox();
+  const { deleteBox } = useDeleteBox();
   const [open, setOpen] = useState(false);
-  const result = ["售出", "自用", "可認領"].includes(row.status)
-    ? "回收"
-    : "刪除";
+  const result = ["自用", "可認領"].includes(row.status) ? "回收" : "刪除";
 
   const handleUpdate = () => {
+    if (result === "刪除") {
+      deleteBox(
+        { boxId: row.id },
+        {
+          onSuccess: () => {
+            setOpen(false);
+          },
+        },
+      );
+      return;
+    }
     const formattedValues = {
       status: "報廢",
       retention_days: Number(row.retention_days),
     };
-
     updateBox(
       { boxId: row.id, values: formattedValues },
       {
         onSuccess: () => {
-          toast.success(`${result}成功`);
           setOpen(false);
         },
       },
