@@ -2,11 +2,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HomeSection1 from "@/components/homePage/HomeSection1";
 import HomeSection2 from "@/components/homePage/HomeSection2";
-import HomeSection3 from "@/components/homePage/HomeSection3svg";
+import HomeSection3 from "@/components/homePage/HomeSection3";
 import HomeSection4 from "@/components/homePage/HomeSection4";
 import HomeSection5 from "@/components/homePage/HomeSection5";
-
-// Main 
 
 function HomePage() {
 
