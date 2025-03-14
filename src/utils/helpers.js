@@ -63,3 +63,35 @@ export function getPendingBoxes(boxes = []) {
   }
   return countsObj;
 }
+
+// 計算可回收紙箱數量
+export function countRecyclableBoxes(station) {
+  const total = station.available_slots.XL + station.available_slots.L + station.available_slots.M + station.available_slots.S;
+  return total;
+};
+
+// 計算可認領紙箱數量是否大於0
+export function countPendingBoxes(station) {
+  return station.boxes?.length;
+};
+
+// 取得電話號碼
+export function formatPhoneNumber(phone) {
+  return phone?.replace(/^\+886-/, "0").replace(/#$/, "");
+};
+
+// 計算營業時間
+export function getTodayOpenTime(station_daily_hours){
+  const today = new Date().getDay();
+  let todayOpenTime = "";
+  station_daily_hours.forEach((item, index) => {
+    const openTime = item.open_time.replace(/^(\d{2}:\d{2}):\d{2}.*/, "$1");
+    const closeTime = item.close_time.replace(/^(\d{2}:\d{2}):\d{2}.*/, "$1");
+
+    if (today === index) {
+      todayOpenTime = `${openTime}-${closeTime}`;
+    }
+  });
+
+  return todayOpenTime;
+};
