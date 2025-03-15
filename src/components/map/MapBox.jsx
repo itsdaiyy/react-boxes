@@ -24,7 +24,7 @@ const UserLocation = ({ setUserLocation }) => {
         (position) => {
           const { latitude, longitude } = position.coords;
           setUserLocation([latitude, longitude]);
-          map.setView([latitude, longitude], 15); // 設定地圖中心到用戶位置
+          map.setView([latitude, longitude], 12); // 設定地圖中心到用戶位置
         },
         (error) => {
           console.error("無法獲取位置：", error);
