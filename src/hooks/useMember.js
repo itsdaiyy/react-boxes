@@ -12,12 +12,18 @@ export function useMember() {
   });
 
   const roles = member?.user?.user_metadata?.roles || [];
+  const role =
+    roles.includes("storeOwner") && roles.length > 1
+      ? "storeOwner"
+      : roles.includes("users")
+        ? "normal"
+        : "";
 
   return {
     member,
     isLoadingMember,
     isAuthenticated: member?.user.role === "authenticated",
-    role: roles.includes("storeOwner") ? "storeOwner" : "normal",
+    role,
     getMemberError,
   };
 }

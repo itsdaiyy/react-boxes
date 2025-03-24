@@ -7,18 +7,19 @@ import HomePage from "./pages/HomePage";
 import Map from "./components/Map";
 import MapPage from "./pages/MapPage";
 import StationInfo from "./pages/StationInfo";
-import Member from "./pages/Member";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import StationSignup from "./pages/StationSignup";
 import PageNotFound from "./pages/PageNotFound";
+import Member from "./pages/Member";
 import MemberInfo from "./components/MemberInfo";
+import MemberInfoHistoryTable from "./components/table/MemberInfoHistoryTable";
+import MemberInfoPointTable from "./components/table/MemberInfoPointTable";
 
 import AdminInfo from "./components/AdminInfo";
 import AdminBoxManageTable from "./components/table/AdminBoxManageTable";
 import AdminDeprecatedTable from "./components/table/AdminDeprecatedTable";
 import AdminTradeHistoryTable from "./components/table/AdminTradeHistoryTable";
-import MemberInfoHistoryTable from "./components/table/MemberInfoHistoryTable";
-import MemberInfoPointTable from "./components/table/MemberInfoPointTable";
 import AdminTrade from "./components/AdminTrade";
 import AdminAddBoxes from "./components/form/AdminAddBoxes";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -76,6 +77,7 @@ function App() {
           </Route>
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="stationSignup" element={<StationSignup />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </HashRouter>

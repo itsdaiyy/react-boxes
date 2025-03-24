@@ -6,6 +6,7 @@ import { useMember } from "@/hooks/useMember";
 
 function NavMenu() {
   const { member } = useMember();
+
   const [currentMember, setCurrentMember] = useState(null);
   const [role, setRole] = useState("");
 

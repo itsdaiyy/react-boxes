@@ -31,14 +31,13 @@ function SigninForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "test01@gmail.com",
-      password: "password1",
+      email: "customer1@gmail.com",
+      password: "customerPassword1",
     },
   });
   const { reset } = form;
   const { signIn, isLoading } = useSignIn();
 
-  // { email: "test01@gmail.com", password: "password1" }
   // 表單提交
   function onSubmit(data) {
     signIn(data, {

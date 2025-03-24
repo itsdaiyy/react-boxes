@@ -7,7 +7,6 @@ import HomeSection4 from "@/components/homePage/HomeSection4";
 import HomeSection5 from "@/components/homePage/HomeSection5";
 
 function HomePage() {
-
   return (
     <div>
       <Header />
@@ -21,7 +20,6 @@ function HomePage() {
       <HomeSection4></HomeSection4>
       {/* 區塊五 */}
       <HomeSection5></HomeSection5>
-
 
       <Footer />
     </div>

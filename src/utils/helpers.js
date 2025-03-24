@@ -66,22 +66,30 @@ export function getPendingBoxes(boxes = []) {
 
 // 計算可回收紙箱數量
 export function countRecyclableBoxes(station) {
-  const total = station.available_slots.XL + station.available_slots.L + station.available_slots.M + station.available_slots.S;
+  const total =
+    station.available_slots.XL +
+    station.available_slots.L +
+    station.available_slots.M +
+    station.available_slots.S;
   return total;
-};
+}
 
 // 計算可認領紙箱數量是否大於0
 export function countPendingBoxes(station) {
   return station.boxes?.length;
-};
+}
 
 // 取得電話號碼
 export function formatPhoneNumber(phone) {
   return phone?.replace(/^\+886-/, "0").replace(/#$/, "");
-};
+}
+
+export function convertToIntlPhoneFormat(phone) {
+  return `+886${phone.slice(1)}`;
+}
 
 // 計算營業時間
-export function getTodayOpenTime(station_daily_hours){
+export function getTodayOpenTime(station_daily_hours) {
   const today = new Date().getDay();
   let todayOpenTime = "";
   station_daily_hours.forEach((item, index) => {
@@ -94,4 +102,17 @@ export function getTodayOpenTime(station_daily_hours){
   });
 
   return todayOpenTime;
-};
+}
+
+export function extractRoadName(fullAddress) {
+  // 1️⃣ 移除「之」或「-」後的數字（處理 `100-1` / `100之1`）
+  fullAddress = fullAddress.replace(/\d+[-之]+\d+號/g, "");
+
+  // 2️⃣ 移除數字開頭的門牌號碼（如 `100 號` / `100號`）
+  fullAddress = fullAddress.replace(/\d+號/g, "").trim();
+
+  // 3️⃣ 移除樓層資訊（如 `3樓` / `5F` / `5 樓之 2`）
+  fullAddress = fullAddress.replace(/\d+\s*(樓|F|樓之\d)/g, "").trim();
+
+  return fullAddress;
+}
