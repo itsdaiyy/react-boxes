@@ -78,23 +78,6 @@ export async function apiGetStationById(id, idName) {
   }
 }
 
-// StationInfo  更新站點資訊格式：
-// {
-//   id: 1,   // station id
-//   station_name: "多米葉漢堡",
-//   address: "新北市樹林區佳園路2段104號",
-//   phone: "+886-2-26802008",
-//   station_daily_hours: [
-//     {
-//       id: 70,
-//       open_time: "08:00:00+00",
-//       close_time: "20:00:00+00",
-//       day_of_week: 6,
-//       is_business_day: true,
-//     },
-//   ],
-// }
-
 export async function apiUpdateStationInfo({
   id,
   station_name,
@@ -138,26 +121,33 @@ export async function apiUpdateStationInfo({
   }
 }
 
-export async function updateStationHours(hoursData) {
-  const missingId = hoursData.find((el) => !el.id);
+export async function updateStationHours(dailyHoursData) {
+  const missingId = dailyHoursData.find((el) => !el.id);
 
   if (missingId) {
     return { error: new Error(`更新站點營業時間時，每筆記錄都必須包含 id`) };
   }
 
-  const updatedHoursData = hoursData.map((el) => ({
-    ...el,
-    updated_at: getTimestamp(),
-  }));
+  const newDailyHours = [];
 
-  const { data, error } = await supabase
-    .from("station_daily_hours")
-    .upsert(updatedHoursData, {
-      onConflict: "id",
-    })
-    .select();
+  for (const dailyHours of dailyHoursData) {
+    const { open_time, close_time, is_business_day, id } = dailyHours;
+    const { data, error } = await supabase
+      .from("station_daily_hours")
+      .update({
+        open_time,
+        close_time,
+        is_business_day,
+        updated_at: getTimestamp(),
+      })
+      .eq("id", id)
+      .select()
+      .single();
 
-  return { data, error };
+    if (error) return { error };
+    newDailyHours.push(data);
+  }
+  return { newDailyHours };
 }
 
 export async function apiUpdateAvailableSlots({ stationId, S, M, L, XL }) {
