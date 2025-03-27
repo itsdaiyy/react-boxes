@@ -11,12 +11,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 
 import { useSignIn } from "@/hooks/useSignIn";
-import { apiSignIn } from "@/services/apiAuth";
 
 // zod驗證規則
 const formSchema = z.object({
@@ -47,7 +45,7 @@ function SigninForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-1.5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="email"
@@ -84,9 +82,9 @@ function SigninForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isLoading}>
+        <button type="submit" className="btn" disabled={isLoading}>
           登入
-        </Button>
+        </button>
       </form>
     </Form>
   );

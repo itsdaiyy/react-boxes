@@ -51,7 +51,7 @@ function SigninForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-1.5"
+        className="space-y-6"
         noValidate
       >
         <FormField
@@ -109,9 +109,9 @@ function SigninForm() {
           )}
         />
 
-        <Button type="submit" disabled={isLoading}>
+        <button type="submit" disabled={isLoading} className="btn">
           註冊
-        </Button>
+        </button>
       </form>
     </Form>
   );
