@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { useMember } from "@/hooks/useMember";
 
 import NavMenuSm from "./NavMenuSm";
 import NavMenuLg from "./NavMenuLg";
-import { useMember } from "@/hooks/useMember";
 
 function NavMenu() {
   const { member } = useMember();

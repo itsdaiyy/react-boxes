@@ -138,16 +138,6 @@ export async function apiUpdateStationInfo({
   }
 }
 
-// Station Hours 更新物件格式：
-// [
-//  {
-//     id: 70,
-//     open_time: "08:00:00+00",
-//     close_time: "20:00:00+00",
-//     day_of_week: 6,
-//     is_business_day: false,
-//  }
-// ];
 export async function updateStationHours(hoursData) {
   const missingId = hoursData.find((el) => !el.id);
 

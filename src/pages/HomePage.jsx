@@ -1,3 +1,6 @@
+import { useMember } from "@/hooks/useMember";
+
+import Spinner from "@/components/Spinner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HomeSection1 from "@/components/homePage/HomeSection1";
@@ -7,6 +10,10 @@ import HomeSection4 from "@/components/homePage/HomeSection4";
 import HomeSection5 from "@/components/homePage/HomeSection5";
 
 function HomePage() {
+  const { isLoadingMember } = useMember();
+
+  if (isLoadingMember) return <Spinner />;
+
   return (
     <div>
       <Header />
