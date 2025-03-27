@@ -25,8 +25,8 @@ export async function apiSignUp({ username, email, password }) {
     options: {
       data: {
         display_name: username,
+        phone: "",
         points: 0,
-        transaction_counts: 0,
         roles: ["users"],
         avatar_url: "https://fakeimg.pl/200/",
       },
@@ -89,8 +89,6 @@ export async function apiStationSignup({ formData, currentUser }) {
       .select();
 
     if (createDailyHoursError) throw createDailyHoursError;
-
-    console.log(newDailyHours);
   } catch (error) {
     throw new Error(error.message);
   }

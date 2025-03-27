@@ -14,7 +14,7 @@ export function useSignUp() {
     mutationFn: apiSignUp,
     onSuccess: (user) => {
       // 1. user 資料加入緩存
-      queryClient.setQueryData(["user"], user);
+      queryClient.setQueryData(["member"], user);
 
       // 2. token 存 cookie
       const { session } = user;
