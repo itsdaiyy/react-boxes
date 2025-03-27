@@ -66,7 +66,7 @@ async function getLatLng(query, setLatLng) {
 
 function StationSignupForm() {
   const [latLng, setLatLng] = useState(null);
-  const { createStationAsync } = useStationSignup();
+  const { createStationAsync, isCreatingStation } = useStationSignup();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -117,7 +117,7 @@ function StationSignupForm() {
       {/* row */}
       <div className="flex h-full items-center">
         {/* col */}
-        <div className="flex grow flex-col gap-5 rounded-xl bg-main-100 p-6 md:flex-row md:justify-between md:p-10">
+        <div className="flex grow flex-col gap-5 rounded-xl bg-main-100 p-6 shadow shadow-neutral-400 md:flex-row md:justify-between md:p-10">
           <h1 className="fs-5 md:fs-4 flex flex-col font-semibold text-zinc-800 md:font-semibold">
             <span>申請成為轉運站</span>
             <span>加入轉運站長的行列</span>
@@ -182,7 +182,11 @@ function StationSignupForm() {
                   )}
                 />
                 <div className="flex flex-col items-start gap-5 text-start md:flex-row md:items-center">
-                  <button type="submit" className="btn">
+                  <button
+                    type="submit"
+                    className="btn"
+                    disabled={isCreatingStation}
+                  >
                     送出申請
                   </button>
                   <p className="flex flex-col text-xs text-zinc-500">

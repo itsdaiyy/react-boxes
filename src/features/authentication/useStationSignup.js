@@ -6,7 +6,7 @@ export function useStationSignup() {
   const queryClient = useQueryClient();
   const currentUser = queryClient.getQueryData(["member"]);
 
-  const { mutateAsync: createStationAsync, isPending: usCreatingStation } =
+  const { mutateAsync: createStationAsync, isPending: isCreatingStation } =
     useMutation({
       mutationKey: ["stationSignup"],
       mutationFn: (formData) => apiStationSignup({ formData, currentUser }),
@@ -30,5 +30,5 @@ export function useStationSignup() {
       },
     });
 
-  return { createStationAsync, usCreatingStation };
+  return { createStationAsync, isCreatingStation };
 }
