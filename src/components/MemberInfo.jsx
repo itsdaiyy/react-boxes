@@ -39,11 +39,11 @@ function MemberInfo() {
   const [memberLevel, setMemberLevel] = useState(1);
   const [memberLevelTitle, setMemberLevelTitle] = useState("");
   const [unlockMemberTitle, setUnlockMemberTitle] = useState("");
-  const [levelUpNum, setLevelUpNum] = useState("");
+  const [levelUpNum, setLevelUpNum] = useState(0);
   const [initialSlide, setInitialSlide] = useState(0);
 
   useEffect(() => {
-    if (transactionNums > 0 && transactionNums < 50) {
+    if (transactionNums >= 0 && transactionNums < 50) {
       setMemberLevel(1);
       setMemberLevelTitle(memberTitle.level_1);
       setUnlockMemberTitle(memberTitle.level_2);
