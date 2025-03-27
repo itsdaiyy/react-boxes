@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 // 取得站點id
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 // API
 import ErrorMessage from "@/components/ErrorMessage";
 import Header from "@/components/Header";
 import Spinner from "@/components/Spinner";
-import { useBoxesForAdminManaging } from "@/hooks/useBoxes";
 import { useStation } from "@/hooks/useStation";
 
 // React Data Table Component
@@ -18,12 +17,7 @@ import {
 } from "@/data/constants";
 
 // Map
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import mapMark from "../assets/mapMark.png";
@@ -40,14 +34,6 @@ const countRecyclableBoxes = (station) => {
   );
 };
 
-const countPendingBoxes = (station) => {
-  return (
-    station.pending_boxes_xl +
-    station.pending_boxes_l +
-    station.pending_boxes_m +
-    station.pending_boxes_s
-  );
-};
 // 電話國際碼轉換市碼
 const formatPhoneNumber = (phone) => {
   return phone.replace(/^\+886-/, "0").replace(/#$/, "");
@@ -189,8 +175,8 @@ function StationInfo() {
   const [isAllOpenTime, setIsAllOpenTime] = useState(false);
 
   useEffect(() => {
-    if (station?.boxes?.length > 0) {
-      // 若boxes回傳為undefined則無法計算length會報錯，加?避免錯誤
+    if (station?.boxes.length > 0) {
+      // useStation 回傳的 station boxes 資料預設為 []
       setAvailableBoxes(station.boxes);
     }
   }, [station?.boxes]);
@@ -265,7 +251,7 @@ function StationInfo() {
                   ) : (
                     <></>
                   )}
-                  {countPendingBoxes(station) ? (
+                  {station.boxes.length > 0 ? (
                     <span className="fs-7 rounded-full bg-second-200 px-[12px] py-[4px]">
                       可認領
                     </span>

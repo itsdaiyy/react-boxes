@@ -139,9 +139,7 @@ const AdminBoxManageTable = () => {
                 <button
                   className="btn flex items-center gap-1 border p-2"
                   onClick={() => {
-                    navigate("/member/admin/addBoxes", {
-                      state: { station_id: boxes.at(0).station_id },
-                    });
+                    navigate("/member/admin/addBoxes");
                   }}
                 >
                   <FaFolderPlus /> 新增紙箱
@@ -149,9 +147,7 @@ const AdminBoxManageTable = () => {
                 <button
                   className="btn flex items-center gap-1 border p-2"
                   onClick={() => {
-                    navigate("/member/admin/tradeBoxes", {
-                      state: { station_id: boxes.at(0).station_id },
-                    });
+                    navigate("/member/admin/tradeBoxes");
                   }}
                 >
                   <FaCashRegister /> 交易紙箱
