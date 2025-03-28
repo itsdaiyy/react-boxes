@@ -11,16 +11,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@radix-ui/react-dropdown-menu";
-import { MenuIcon } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
+import { MenuIcon } from "lucide-react";
 import { CiLogin, CiLogout } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
 import { MdPlace } from "react-icons/md";
 
-import { useSignOut } from "@/hooks/useSignOut";
+import { useSignOut } from "@/hooks/authentication/useSignOut";
 
-import HeaderAvatar from "./HeaderAvatar";
+import HeaderAvatar from "@/components/HeaderAvatar";
 
 const style = {
   mapAfter:

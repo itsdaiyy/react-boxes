@@ -1,13 +1,13 @@
-import { useMember } from "@/hooks/useMember";
+import { useMember } from "@/hooks/authentication/useMember";
 
 import Spinner from "@/components/Spinner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import HomeSection1 from "@/components/homePage/HomeSection1";
-import HomeSection2 from "@/components/homePage/HomeSection2";
-import HomeSection3 from "@/components/homePage/HomeSection3";
-import HomeSection4 from "@/components/homePage/HomeSection4";
-import HomeSection5 from "@/components/homePage/HomeSection5";
+import HomeSection1 from "@/features/homePage/HomeSection1";
+import HomeSection2 from "@/features/homePage/HomeSection2";
+import HomeSection3 from "@/features/homePage/HomeSection3";
+import HomeSection4 from "@/features/homePage/HomeSection4";
+import HomeSection5 from "@/features/homePage/HomeSection5";
 
 function HomePage() {
   const { isLoadingMember } = useMember();

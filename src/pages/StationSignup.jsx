@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMember } from "@/hooks/useMember";
+import { useMember } from "@/hooks/authentication/useMember";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -11,8 +11,6 @@ import toast from "react-hot-toast";
 function StationSignup() {
   const { isAuthenticated, role, isLoadingMember } = useMember();
   const navigate = useNavigate();
-
-  console.log(isAuthenticated, role, isLoadingMember);
 
   useEffect(() => {
     if (!isLoadingMember && !isAuthenticated) {

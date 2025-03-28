@@ -1,6 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import debounce from "lodash.debounce";
+
+import { useStationSignup } from "../../hooks/authentication/useStationSignup";
+import { convertToIntlPhoneFormat, extractRoadName } from "@/utils/helpers";
 
 import {
   Form,
@@ -11,10 +16,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useCallback, useState } from "react";
-import debounce from "lodash.debounce";
-import { useStationSignup } from "./useStationSignup";
-import { convertToIntlPhoneFormat, extractRoadName } from "@/utils/helpers";
 
 const style = {
   input: `border-main-100 bg-white focus-visible:border-none focus-visible:ring-main-500`,
@@ -30,7 +31,7 @@ const formSchema = z.object({
   phone: z
     .string()
     .min(1, { message: "電話為必填欄位" })
-    .regex(/^(0[2-8]\d{7}|09\d{8})$/, {
+    .regex(/^(0[2-8]\d{7,8}|09\d{8})$/, {
       message: "請輸入正確格式的電話號碼",
     }),
 });
@@ -53,14 +54,8 @@ async function getLatLng(query, setLatLng) {
     } else {
       setLatLng(null);
     }
-    console.log(data);
-    console.log(`轉換請求的結果：：`, {
-      latitude: Number(data[0].lat),
-      longitude: data[0].lon,
-    });
   } catch (error) {
     setLatLng(null);
-    console.error("地址轉換失敗:", error);
   }
 }
 

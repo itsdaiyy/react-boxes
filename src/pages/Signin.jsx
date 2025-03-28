@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 
 import Header from "@/components/Header";
-import SigninForm from "@/components/form/SigninForm";
+import SigninForm from "@/features/authentication/SigninForm";
 import Footer from "@/components/Footer";
 
 const style = {

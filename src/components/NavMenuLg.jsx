@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import HeaderSignInMenu from "./HeaderSignInMenu";
+import HeaderSignInMenu from "@/components/HeaderSignInMenu";
 
 const style = {
   nav: "hidden items-center justify-between gap-6 lg:flex text-nowrap",

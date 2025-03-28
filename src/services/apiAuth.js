@@ -54,7 +54,6 @@ export async function apiSignOut() {
 }
 
 export async function apiStationSignup({ formData, currentUser }) {
-  console.log(formData, currentUser);
   const { id: user_id } = currentUser.user;
   try {
     // 1. 更新用戶角色
@@ -72,7 +71,6 @@ export async function apiStationSignup({ formData, currentUser }) {
 
     if (createStationError) throw createStationError;
 
-    console.log("newStation", newStation);
     const station_id = newStation[0].id;
     // 3. 新增站點營業時間
     const dailyHours = Array.from({ length: 7 }, (_, i) => ({

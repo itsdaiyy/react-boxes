@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import ErrorMessage from "@/components/ErrorMessage";
 import Header from "@/components/Header";
 import Spinner from "@/components/Spinner";
-import { useStation } from "@/hooks/useStation";
+import { useStation } from "@/hooks/stations/useStation";
 
 // React Data Table Component
 import DataTable from "react-data-table-component";
