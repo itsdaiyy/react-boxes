@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import logo from "@/assets/logo.svg";
 import logoSm from "@/assets/logo-sm.svg";
-import NavMenu from "./NavMenu";
+import NavMenu from "@/components/NavMenu";
 
 const style = {
   container:

@@ -1,12 +1,13 @@
-import { useMember } from "@/hooks/useMember";
+import { useMember } from "@/hooks/authentication/useMember";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import NormalDashboard from "@/components/NormalDashboard";
-import AdminDashboard from "@/components/AdminDashboard";
+import NormalDashboard from "@/features/member/NormalDashboard";
+import AdminDashboard from "@/features/admin/AdminDashboard";
 
 function Member() {
   const { role, member } = useMember();
+
   return (
     <>
       <Header />
