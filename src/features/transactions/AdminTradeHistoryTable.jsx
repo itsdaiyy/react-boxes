@@ -5,7 +5,7 @@ import { StyleSheetManager } from "styled-components";
 import isPropValid from "@emotion/is-prop-valid";
 import { customStyles, paginationComponentOptions } from "@/data/constants";
 // react query
-import { useAdminTransactionRecords } from "@/hooks/boxes/useBoxTransactions";
+import { useAdminTransactionRecords } from "@/hooks/transactions/useBoxTransactions";
 import Spinner from "@/components/Spinner";
 import ErrorMessage from "@/components/ErrorMessage";
 import { formatUTCTimestamp } from "@/utils/helpers";

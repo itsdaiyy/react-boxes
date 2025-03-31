@@ -1,7 +1,7 @@
 // 4-4 一般會員 - 歷史回收記錄列表
 import DataTable from "react-data-table-component";
 import { customStyles, paginationComponentOptions } from "@/data/constants";
-import { useMemberTransactionRecords } from "@/hooks/boxes/useBoxTransactions";
+import { useMemberTransactionRecords } from "@/hooks/transactions/useBoxTransactions";
 import Spinner from "@/components/Spinner";
 import ErrorMessage from "@/components/ErrorMessage";
 
