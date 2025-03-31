@@ -5,7 +5,6 @@ import "swiper/css/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import beginer from "../../assets/beginer.svg";
-import beginer_locked from "../../assets/beginer_locked.svg";
 import young from "../../assets/young.svg";
 import young_locked from "../../assets/young_locked.svg";
 import village_master from "../../assets/village_master.svg";
@@ -40,12 +39,6 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  useEffect(() => {
-    if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.slideTo(initialSlide);
-    }
-  }, [slidesPerView, initialSlide]);
 
   const style = {
     cardContainer: "2xl:mx-5 md:mx-2",
