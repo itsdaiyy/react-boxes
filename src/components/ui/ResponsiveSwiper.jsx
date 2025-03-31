@@ -51,7 +51,7 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
   };
 
   return (
-    <div className="w-full p-10 md:p-0">
+    <div className="w-full">
       <Swiper
         key={slidesPerView} // 強制 Swiper 重新初始化
         ref={swiperRef}

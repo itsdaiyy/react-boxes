@@ -12,9 +12,10 @@ import ResponsiveSwiper from "@/components/ui/ResponsiveSwiper";
 import MemberInfoForm from "@/features/member/MemberInfoForm";
 
 const style = {
-  cardContainer: "flex items-center justify-around rounded-2xl bg-white p-10",
+  cardContainer: "grid rounded-2xl bg-white p-5 lg:px-0 lg:py-10 xl:p-10",
   cardText: "text-2xl font-bold",
   cardNumber: "text-6xl font-bold text-main-600",
+  responsiveSettings: "col-span-1 p-1 lg:p-0 justify-self-center",
 };
 
 const levelImages = [beginer, young, village_master, guardian];
@@ -75,7 +76,7 @@ function MemberInfo() {
   ]);
 
   return (
-    <div className="w-full text-center">
+    <div className="w-full p-10 text-center">
       <div className="my-20">
         <div className="my-10">
           <p className="mb-6 text-base md:text-2xl">
@@ -102,28 +103,56 @@ function MemberInfo() {
           {/* 右側容器 */}
           <div className="order-1 flex flex-col gap-4 md:order-2 md:w-1/2">
             {/* 1號 div - 永遠在最上方 */}
-            <div className="flex items-end justify-between p-4">
+            <div className="flex items-end justify-center p-4 lg:justify-between">
               <p className="flex text-3xl font-bold text-main-600">會員資訊</p>
-              <img src={levelImages[memberLevel - 1]} alt={memberLevelTitle} />
+              <img
+                src={levelImages[memberLevel - 1]}
+                alt={memberLevelTitle}
+                className="hidden lg:block"
+              />
             </div>
 
             {/* 2號 div - 手機版時在最下方 */}
             <div className="hidden gap-5 rounded md:flex md:flex-col">
-              <div className={style.cardContainer}>
-                <img src={points_icon} alt="" />
-                <p className={style.cardText}>當前積分</p>
-                <p className={style.cardNumber}>
+              <div
+                className={`${style.cardContainer} items-center lg:grid-cols-4`}
+              >
+                <img
+                  src={points_icon}
+                  alt=""
+                  className={`${style.responsiveSettings}`}
+                />
+                <p className={`${style.cardText} ${style.responsiveSettings}`}>
+                  當前積分
+                </p>
+                <p
+                  className={`${style.cardNumber} ${style.responsiveSettings}`}
+                >
                   {pointNum !== "" ? pointNum : "載入中..."}
                 </p>
-                <p className={style.cardText}>Points</p>
+                <p className={`${style.cardText} ${style.responsiveSettings}`}>
+                  Points
+                </p>
               </div>
-              <div className={style.cardContainer}>
-                <img src={box_count} alt="" />
-                <p className={style.cardText}>轉運紙箱數</p>
-                <p className={style.cardNumber}>
+              <div
+                className={`${style.cardContainer} items-center lg:grid-cols-4`}
+              >
+                <img
+                  src={box_count}
+                  alt=""
+                  className={`${style.responsiveSettings}`}
+                />
+                <p className={`${style.cardText} ${style.responsiveSettings}`}>
+                  轉運紙箱
+                </p>
+                <p
+                  className={`${style.cardNumber} ${style.responsiveSettings}`}
+                >
                   {transactionNums !== "" ? transactionNums : "載入中..."}
                 </p>
-                <p className={style.cardText}>次</p>
+                <p className={`${style.cardText} ${style.responsiveSettings}`}>
+                  次
+                </p>
               </div>
             </div>
           </div>
@@ -135,17 +164,17 @@ function MemberInfo() {
           {/* 會員資訊 */}
           {/* 2號 div 的手機版位置 */}
           <div className="order-3 flex flex-col gap-5 rounded md:hidden">
-            <div className={`${style.cardContainer} flex-col gap-4`}>
-              <img src={points_icon} alt="" />
+            <div className={`${style.cardContainer} justify-center gap-4`}>
+              <img src={points_icon} alt="" className="justify-self-center" />
               <p className={style.cardText}>當前積分</p>
               <p className={style.cardNumber}>
                 {pointNum !== "" ? pointNum : "載入中..."}
               </p>
               <p className={style.cardText}>Points</p>
             </div>
-            <div className={`${style.cardContainer} flex-col gap-4`}>
-              <img src={box_count} alt="" />
-              <p className={style.cardText}>轉運紙箱數</p>
+            <div className={`${style.cardContainer} justify-center gap-4`}>
+              <img src={box_count} alt="" className="justify-self-center" />
+              <p className={style.cardText}>轉運紙箱</p>
               <p className={style.cardNumber}>
                 {transactionNums !== "" ? transactionNums : "載入中..."}
               </p>
