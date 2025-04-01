@@ -42,7 +42,7 @@ function DecoSvgSecond() {
 function DecoSvgMain() {
   return (
     <>
-      <svg className="z-0 absolute top-0 left-0 w-full h-auto hidden xxl:block" viewBox="0 0 100 200">
+      <svg className="z-[-10] absolute top-0 left-0 w-full h-auto hidden xxl:block" viewBox="0 0 100 200">
         <path d="M90,0 L20,0,A10,10 0 0,0 20,33,L80,33,A10,10 0 0,1 80,71,L20,71,A10,10 0 0,0 20,107,L90,107" stroke="#F5F1E8" strokeWidth="4" fill="none" strokeLinecap="butt" vectorEffect="non-scaling-stroke" />
       </svg>
 
