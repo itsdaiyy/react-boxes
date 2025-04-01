@@ -125,7 +125,7 @@ export default function HomeSection3() {
 
       </div>
 
-      <NavLink to="/signup" className="btn z-10 inline-block">馬上註冊<br></br>加入返箱大冒險</NavLink>
+      <NavLink to="/signup" className="btn inline-block" style={{zIndex:100}}>馬上註冊<br></br>加入返箱大冒險</NavLink>
     </div>
   )
 }
