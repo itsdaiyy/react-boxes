@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { useMember } from "@/hooks/authentication/useMember";
 
-import NavMenuSm from "./NavMenuSm";
-import NavMenuLg from "./NavMenuLg";
-import { useMember } from "@/hooks/useMember";
+import NavMenuSm from "@/components/NavMenuSm";
+import NavMenuLg from "@/components/NavMenuLg";
 
 function NavMenu() {
   const { member } = useMember();
+
   const [currentMember, setCurrentMember] = useState(null);
   const [role, setRole] = useState("");
 

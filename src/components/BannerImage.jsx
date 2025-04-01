@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
+
 import box from "@/assets/box.svg";
 import dialog from "@/assets/dialog.svg";
-import { useEffect, useState } from "react";
 
 const memberTitle = {
   level_1: "箱遇路人",

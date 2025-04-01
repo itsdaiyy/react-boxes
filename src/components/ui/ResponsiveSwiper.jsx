@@ -5,7 +5,6 @@ import "swiper/css/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import beginer from "../../assets/beginer.svg";
-import beginer_locked from "../../assets/beginer_locked.svg";
 import young from "../../assets/young.svg";
 import young_locked from "../../assets/young_locked.svg";
 import village_master from "../../assets/village_master.svg";
@@ -41,12 +40,6 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    if (swiperRef.current && swiperRef.current.swiper) {
-      swiperRef.current.swiper.slideTo(initialSlide);
-    }
-  }, [slidesPerView, initialSlide]);
-
   const style = {
     cardContainer: "2xl:mx-5 md:mx-2",
     card: "flex flex-col justify-center rounded-2xl border-4 border-main-500 bg-main-100 px-5 py-5 md:py-3",
@@ -58,7 +51,7 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
   };
 
   return (
-    <div className="w-full p-10 md:p-0">
+    <div className="w-full">
       <Swiper
         key={slidesPerView} // 強制 Swiper 重新初始化
         ref={swiperRef}

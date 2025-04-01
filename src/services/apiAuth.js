@@ -25,8 +25,8 @@ export async function apiSignUp({ username, email, password }) {
     options: {
       data: {
         display_name: username,
+        phone: "",
         points: 0,
-        transaction_counts: 0,
         roles: ["users"],
         avatar_url: "https://fakeimg.pl/200/",
       },
@@ -48,6 +48,45 @@ export async function apiSignOut() {
     const { error } = await supabase.auth.signOut();
 
     if (error) throw error;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function apiStationSignup({ formData, currentUser }) {
+  const { id: user_id } = currentUser.user;
+  try {
+    // 1. 更新用戶角色
+    const { data: newUserData, error: updateUserError } =
+      await supabase.auth.updateUser({
+        data: { roles: ["users", "storeOwner"] },
+      });
+    if (updateUserError) throw updateUserError;
+
+    // 2. 新增站點
+    const { data: newStation, error: createStationError } = await supabase
+      .from("stations")
+      .insert([{ ...formData, user_id }])
+      .select();
+
+    if (createStationError) throw createStationError;
+
+    const station_id = newStation[0].id;
+    // 3. 新增站點營業時間
+    const dailyHours = Array.from({ length: 7 }, (_, i) => ({
+      station_id,
+      open_time: "09:00:00+00",
+      close_time: "21:00:00+00",
+      day_of_week: i,
+      is_business_day: false,
+    }));
+
+    const { data: newDailyHours, error: createDailyHoursError } = await supabase
+      .from("station_daily_hours")
+      .insert(dailyHours)
+      .select();
+
+    if (createDailyHoursError) throw createDailyHoursError;
   } catch (error) {
     throw new Error(error.message);
   }

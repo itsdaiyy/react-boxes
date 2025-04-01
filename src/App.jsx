@@ -4,25 +4,27 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 
 import HomePage from "./pages/HomePage";
-import Map from "./components/Map";
+import Map from "./features/map/Map";
 import MapPage from "./pages/MapPage";
 import StationInfo from "./pages/StationInfo";
-import Member from "./pages/Member";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import StationSignup from "./pages/StationSignup";
 import PageNotFound from "./pages/PageNotFound";
-import MemberInfo from "./components/MemberInfo";
 
-import AdminInfo from "./components/AdminInfo";
-import AdminBoxManageTable from "./components/table/AdminBoxManageTable";
-import AdminDeprecatedTable from "./components/table/AdminDeprecatedTable";
-import AdminTradeHistoryTable from "./components/table/AdminTradeHistoryTable";
-import MemberInfoHistoryTable from "./components/table/MemberInfoHistoryTable";
-import MemberInfoPointTable from "./components/table/MemberInfoPointTable";
-import AdminTrade from "./components/AdminTrade";
-import AdminAddBoxes from "./components/form/AdminAddBoxes";
-import ProtectedRoute from "./components/ProtectedRoute";
-import AdminProtectedRoute from "./components/AdminProtectedRoute";
+import Member from "./pages/Member";
+import MemberInfo from "./features/member/MemberInfo";
+import MemberInfoHistoryTable from "./features/transactions/MemberInfoHistoryTable";
+import MemberInfoPointTable from "./features/transactions/MemberInfoPointTable";
+import ProtectedRoute from "./features/authentication/ProtectedRoute";
+
+import AdminInfo from "./features/admin/AdminInfo";
+import AdminBoxManageTable from "./features/boxes/AdminBoxManageTable";
+import AdminDeprecatedTable from "./features/boxes/AdminDeprecatedTable";
+import AdminTradeHistoryTable from "./features/transactions/AdminTradeHistoryTable";
+import AdminTrade from "./features/boxes/AdminTrade";
+import AdminAddBoxes from "./features/boxes/AdminAddBoxes";
+import AdminProtectedRoute from "./features/authentication/AdminProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +78,7 @@ function App() {
           </Route>
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="stationSignup" element={<StationSignup />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </HashRouter>

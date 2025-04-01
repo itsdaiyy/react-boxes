@@ -1,4 +1,4 @@
-import { useSignOut } from "@/hooks/useSignOut";
+import { useSignOut } from "@/hooks/authentication/useSignOut";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +15,7 @@ import { CiLogout } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 
-import HeaderAvatar from "./HeaderAvatar";
+import HeaderAvatar from "@/components/HeaderAvatar";
 
 const style = {
   mapAfter:

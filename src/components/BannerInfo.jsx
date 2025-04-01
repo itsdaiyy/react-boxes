@@ -1,4 +1,5 @@
 import { FaStoreAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function BannerInfo({ title, infoData = [], showApplyButton }) {
   return (
@@ -10,10 +11,13 @@ function BannerInfo({ title, infoData = [], showApplyButton }) {
         ))}
       </ul>
       {showApplyButton && (
-        <button className="btn flex items-center gap-1 text-main-200">
-          <FaStoreAlt className="text-white" />
+        <Link
+          className="btn inline-flex items-center gap-1"
+          to="/stationSignup"
+        >
+          <FaStoreAlt />
           申請成為轉運站站長
-        </button>
+        </Link>
       )}
     </div>
   );
