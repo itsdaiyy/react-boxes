@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import homeSection2_1 from "@/assets/homeSection2-1.png";
 import homeSection2_2 from "@/assets/homeSection2-2.png";
 import homeSection2_3 from "@/assets/homeSection2-3.png";
@@ -12,6 +14,13 @@ function Section2_Card({ imgUrl, title, content, padding }) {
         <p className="z-10">{content[0]}<br></br>{content[1]}</p>
       </div>
     )
+  }
+
+  Section2_Card.propTypes = { 
+    imgUrl:PropTypes.string, 
+    title:PropTypes.string, 
+    content:PropTypes.array, 
+    padding:PropTypes.string
   }
 
 export default function HomeSection2 (){

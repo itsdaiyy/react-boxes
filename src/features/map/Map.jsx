@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import L from "leaflet";
 
 import { useStations } from "@/hooks/stations/useStations";
@@ -29,14 +29,14 @@ function Map() {
     if (userLocation.length > 0) {
       countDistance();
     }
-  }, [userLocation]);
+  }, [userLocation,countDistance]);
 
   //取得搜尋建議tags
   useEffect(() => {
     if (stations) {
       getAvailableTags();
     }
-  }, [stations]);
+  }, [stations,getAvailableTags]);
 
   // 畫面大小
   useEffect(() => {
@@ -57,6 +57,28 @@ function Map() {
     return () => window.removeEventListener("resize", checkSize);
   }, []);
 
+  // 計算距離
+  const countDistance = useCallback(() => {
+    const allDistance = stations.map((item) => ({
+      ...item,
+      distance: L.latLng(userLocation[0], userLocation[1]).distanceTo(
+        L.latLng(item.latitude, item.longitude),
+      ),
+    }));
+
+    setSuggestionStations(
+      allDistance.sort((a, b) => a.distance - b.distance).slice(0, 5),
+    );
+  },[stations,userLocation]);
+
+   //取得搜尋建議tags
+   const getAvailableTags =useCallback(() => {
+    let stationsName = stations.map((item) => item.station_name); // 取得所有站點名稱
+    let stationsAddress = stations.map((item) => item.address); // 取得所有站點地址
+    let tags = [...stationsName, ...stationsAddress]; //合併陣列
+    setAvailableTags(tags); // 更新狀態
+  },[stations,setAvailableTags]);
+
   if (isLoadingStations) return <Spinner />;
   if (stationsError) return <ErrorMessage error={stationsError} />;
 
@@ -68,19 +90,7 @@ function Map() {
     }
   };
 
-  // 計算距離
-  const countDistance = () => {
-    const allDistance = stations.map((item) => ({
-      ...item,
-      distance: L.latLng(userLocation[0], userLocation[1]).distanceTo(
-        L.latLng(item.latitude, item.longitude),
-      ),
-    }));
-
-    setSuggestionStations(
-      allDistance.sort((a, b) => a.distance - b.distance).slice(0, 5),
-    );
-  };
+  
 
   //執行搜尋
   const handleSearchStations = (e) => {
@@ -95,14 +105,6 @@ function Map() {
     setIsSideBar(true);
     setShowSuggestedTags(false);
     setIsStationInfo(false);
-  };
-
-  //取得搜尋建議tags
-  const getAvailableTags = () => {
-    let stationsName = stations.map((item) => item.station_name); // 取得所有站點名稱
-    let stationsAddress = stations.map((item) => item.address); // 取得所有站點地址
-    let tags = [...stationsName, ...stationsAddress]; //合併陣列
-    setAvailableTags(tags); // 更新狀態
   };
 
   return (

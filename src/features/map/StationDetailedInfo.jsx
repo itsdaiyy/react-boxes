@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import {
   getPendingBoxes,
@@ -172,3 +173,22 @@ export default function StationDetailedInfo({
     </div>
   );
 }
+
+StationDetailedInfo.propTypes = {
+  station: PropTypes.shape({
+    id: PropTypes.string,
+    boxes: PropTypes.array,
+    image_url: PropTypes.string,
+    station_name: PropTypes.string,
+    address: PropTypes.string,
+    phone: PropTypes.string,
+    station_daily_hours: PropTypes.object,
+    available_slots: PropTypes.shape({
+      S: PropTypes.number,
+      M: PropTypes.number,
+      L: PropTypes.number,
+      XL: PropTypes.number,
+    }),
+  }),
+  handleBackSuggestaion:PropTypes.func,
+};

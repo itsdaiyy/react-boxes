@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import {
   getPendingBoxes,
@@ -172,4 +173,15 @@ export default function SuggestionStationCard({
       </div>
     </div>
   );
+}
+
+SuggestionStationCard.propTypes = {
+  station: PropTypes.array,
+  setClickedId:PropTypes.func,
+  mapRef:PropTypes.object,
+  setIsStationInfo:PropTypes.func,
+  isLg:PropTypes.bool,
+  setIsSideBar:PropTypes.func,
+  markerRefs:PropTypes.object,
+  setPopupStation:PropTypes.func,
 }
