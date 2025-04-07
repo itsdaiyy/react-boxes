@@ -9,7 +9,7 @@ import {
 
 import { Link } from "react-router-dom";
 
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import SigninForm from "@/features/authentication/SigninForm";
 import Footer from "@/components/Footer";
 

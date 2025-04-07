@@ -1,7 +1,7 @@
 import { useMember } from "@/hooks/authentication/useMember";
 
 import Spinner from "@/components/Spinner";
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import Footer from "@/components/Footer";
 import HomeSection1 from "@/features/homePage/HomeSection1";
 import HomeSection2 from "@/features/homePage/HomeSection2";

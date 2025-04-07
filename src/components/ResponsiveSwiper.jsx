@@ -3,15 +3,26 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 
-import beginer from "../../assets/beginer.svg";
-import young from "../../assets/young.svg";
-import young_locked from "../../assets/young_locked.svg";
-import village_master from "../../assets/village_master.svg";
-import village_master_locked from "../../assets/village_master_locked.svg";
-import guardian from "../../assets/guardian.svg";
-import guardian_locked from "../../assets/guardian_locked.svg";
+import beginner from "@/assets/beginner.svg";
+import young from "@/assets/young.svg";
+import young_locked from "@/assets/young_locked.svg";
+import village_master from "@/assets/village_master.svg";
+import village_master_locked from "@/assets/village_master_locked.svg";
+import guardian from "@/assets/guardian.svg";
+import guardian_locked from "@/assets/guardian_locked.svg";
 import { IoIosArrowForward } from "react-icons/io";
+
+const style = {
+  cardContainer: "2xl:mx-5 md:mx-2",
+  card: "flex flex-col justify-center rounded-2xl border-4 border-main-500 bg-main-100 px-5 py-5 md:py-3",
+  cardTitle: "pt-4 text-xl font-bold text-main-500 md:text-xl",
+  cardButton:
+    "rounded-[20px] border border-[#563B28] bg-main-600  py-2 text-main-200 shadow-[0_2px_0_#563B28] my-5 w-full md:text-sm lg:text-sm p-2 xl:text-base 2xl:text-xl",
+  cardButtonRewarded:
+    "rounded-[20px] border border-[#D9D9D9] bg-[#D9D9D9]  py-2 text-main-200 shadow-[0_2px_0_#563B28] my-5 w-full md:text-sm lg:text-sm p-2 xl:text-base 2xl:text-xl  text-white shadow-[#B2B2B2]",
+};
 
 function ResponsiveSwiper({ initialSlide, memberLevel }) {
   const [slidesPerView, setSlidesPerView] = useState(4);
@@ -40,16 +51,6 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const style = {
-    cardContainer: "2xl:mx-5 md:mx-2",
-    card: "flex flex-col justify-center rounded-2xl border-4 border-main-500 bg-main-100 px-5 py-5 md:py-3",
-    cardTilte: "pt-4 text-xl font-bold text-main-500 md:text-xl",
-    cardButton:
-      "rounded-[20px] border border-[#563B28] bg-main-600  py-2 text-main-200 shadow-[0_2px_0_#563B28] my-5 w-full md:text-sm lg:text-sm p-2 xl:text-base 2xl:text-xl",
-    cardButtonRewarded:
-      "rounded-[20px] border border-[#D9D9D9] bg-[#D9D9D9]  py-2 text-main-200 shadow-[0_2px_0_#563B28] my-5 w-full md:text-sm lg:text-sm p-2 xl:text-base 2xl:text-xl  text-white shadow-[#B2B2B2]",
-  };
-
   return (
     <div className="w-full">
       <Swiper
@@ -66,8 +67,8 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
         <SwiperSlide>
           <div className={style.cardContainer}>
             <div className={style.card}>
-              <img className="" src={beginer} alt="" />
-              <p className={style.cardTilte}>箱遇路人</p>
+              <img className="" src={beginner} alt="" />
+              <p className={style.cardTitle}>箱遇路人</p>
             </div>
             <button
               className={
@@ -95,7 +96,7 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
                 src={memberLevel < 2 ? young_locked : young}
                 alt=""
               />
-              <p className={style.cardTilte}>返箱青年</p>
+              <p className={style.cardTitle}>返箱青年</p>
             </div>
             <button
               className={
@@ -123,7 +124,7 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
                 src={memberLevel < 3 ? village_master_locked : village_master}
                 alt=""
               />
-              <p className={style.cardTilte}>箱村村長</p>
+              <p className={style.cardTitle}>箱村村長</p>
             </div>
             <button
               className={
@@ -151,7 +152,7 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
                 src={memberLevel < 4 ? guardian_locked : guardian}
                 alt=""
               />
-              <p className={style.cardTilte}>箱村守護者</p>
+              <p className={style.cardTitle}>箱村守護者</p>
             </div>
             <button className={style.cardButton}>
               指定店家消費8折優惠
@@ -165,5 +166,9 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
     </div>
   );
 }
+ResponsiveSwiper.propTypes = {
+  initialSlide: PropTypes.number.isRequired,
+  memberLevel: PropTypes.number.isRequired,
+};
 
 export default ResponsiveSwiper;

@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import PropTypes from "prop-types";
 
 function HeaderAvatar({ currentMember }) {
   return (
@@ -14,5 +15,9 @@ function HeaderAvatar({ currentMember }) {
     </Avatar>
   );
 }
+
+HeaderAvatar.propTypes = {
+  currentMember: PropTypes.object,
+};
 
 export default HeaderAvatar;

@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-// shadcn 元件
 import {
   Form,
   FormControl,
@@ -16,7 +15,6 @@ import { PasswordInput } from "@/components/ui/password-input";
 
 import { useSignUp } from "@/hooks/authentication/useSignUp";
 
-// zod驗證規則
 const formSchema = z.object({
   username: z.string().nonempty("請填寫會員名稱"),
   email: z

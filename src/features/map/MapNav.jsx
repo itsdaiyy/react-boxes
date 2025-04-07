@@ -5,7 +5,7 @@ import logo from "@/assets/logo.svg";
 import logoSm from "@/assets/logo-sm.svg";
 import search from "@/assets/search.svg";
 import place from "@/assets/place.svg";
-import NavMenu from "@/components/NavMenu";
+import NavMenu from "@/components/header/NavMenu";
 
 const style = {
   container:

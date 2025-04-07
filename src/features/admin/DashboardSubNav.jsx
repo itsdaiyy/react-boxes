@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const style = {
   secondNavContainer: "container mx-auto flex gap-2 overflow-x-auto",
@@ -6,6 +7,7 @@ const style = {
   secondActive:
     "grow border-b-4 border-main-600 py-[23px] text-center text-main-600 text-nowrap",
 };
+
 const normalLinks = [
   { path: "normal/memberInfo", label: "會員頁面" },
   { path: "normal/pointsRecords", label: "積分紀錄" },
@@ -18,6 +20,7 @@ const adminLinks = [
   { path: "admin/recyclingTable", label: "待回收紙箱列表" },
   { path: "admin/adminTransactionRecords", label: "交易紀錄" },
 ];
+
 function DashboardSubNav({ role }) {
   const linksArray = role === "storeOwner" ? adminLinks : normalLinks;
 
@@ -39,5 +42,8 @@ function DashboardSubNav({ role }) {
     </nav>
   );
 }
+DashboardSubNav.propTypes = {
+  role: PropTypes.string.isRequired,
+};
 
 export default DashboardSubNav;

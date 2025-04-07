@@ -20,7 +20,9 @@ import { MdPlace } from "react-icons/md";
 
 import { useSignOut } from "@/hooks/authentication/useSignOut";
 
-import HeaderAvatar from "@/components/HeaderAvatar";
+import HeaderAvatar from "@/components/header/HeaderAvatar";
+
+import PropTypes from "prop-types";
 
 const style = {
   mapAfter:
@@ -120,5 +122,12 @@ function NavMenuSm({ currentMember, setCurrentMember, role, setRole }) {
     </DropdownMenu>
   );
 }
+
+NavMenuSm.propTypes = {
+  currentMember: PropTypes.object,
+  setCurrentMember: PropTypes.func.isRequired,
+  role: PropTypes.string.isRequired,
+  setRole: PropTypes.func.isRequired,
+};
 
 export default NavMenuSm;

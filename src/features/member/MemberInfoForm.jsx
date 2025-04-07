@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import PropTypes from "prop-types";
 
-// shadcn 元件
 import {
   Form,
   FormControl,
@@ -14,12 +14,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-// Icon
 import { FaPen } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { useUpdateMember } from "@/hooks/authentication/useUpdateMember";
 
-// zod驗證規則
 const formSchema = z.object({
   display_name: z.string().min(2, "姓名至少需要 2 個字"),
   phone: z.string().regex(/^09\d{8}$/, "請輸入正確的台灣手機號碼"),
@@ -28,7 +26,7 @@ const formSchema = z.object({
 
 function MemberInfoForm({ data, memberLevelTitle }) {
   const [isEditing, setIsEditing] = useState(false);
-  const { updateMember, updateMemberError, isUpdating } = useUpdateMember();
+  const { updateMember } = useUpdateMember();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -123,7 +121,7 @@ function MemberInfoForm({ data, memberLevelTitle }) {
           <FormField
             control={form.control}
             name="avatar"
-            render={({ field }) => (
+            render={() => (
               <FormItem className="mb-6 text-start">
                 <FormLabel className="block text-start text-gray-700">
                   上傳頭貼
@@ -145,5 +143,17 @@ function MemberInfoForm({ data, memberLevelTitle }) {
     </div>
   );
 }
+MemberInfoForm.propTypes = {
+  data: PropTypes.shape({
+    user: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      user_metadata: PropTypes.shape({
+        display_name: PropTypes.string.isRequired,
+        phone: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+  }).isRequired,
+  memberLevelTitle: PropTypes.string.isRequired,
+};
 
 export default MemberInfoForm;

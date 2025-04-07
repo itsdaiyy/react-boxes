@@ -56,6 +56,7 @@ async function getLatLng(query, setLatLng) {
     }
   } catch (error) {
     setLatLng(null);
+    console.error(error);
   }
 }
 

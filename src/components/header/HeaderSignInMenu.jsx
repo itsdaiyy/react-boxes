@@ -14,13 +14,14 @@ import {
 import { CiLogout } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-
-import HeaderAvatar from "@/components/HeaderAvatar";
+import HeaderAvatar from "@/components/header/HeaderAvatar";
+import PropTypes from "prop-types";
 
 const style = {
   mapAfter:
     "after:content text-main-500 after:absolute after:left-7 after:bottom-0 after:mt-1 after:w-[64px] after:border-b-2 after:border-main-500",
 };
+
 function HeaderSignInMenu({ currentMember, setCurrentMember, role, setRole }) {
   const { signOutAsync } = useSignOut();
 
@@ -76,5 +77,12 @@ function HeaderSignInMenu({ currentMember, setCurrentMember, role, setRole }) {
     </DropdownMenu>
   );
 }
+
+HeaderSignInMenu.propTypes = {
+  currentMember: PropTypes.object,
+  setCurrentMember: PropTypes.func.isRequired,
+  role: PropTypes.string.isRequired,
+  setRole: PropTypes.func.isRequired,
+};
 
 export default HeaderSignInMenu;

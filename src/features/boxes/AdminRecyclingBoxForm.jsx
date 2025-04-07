@@ -5,7 +5,6 @@ import { FaPen, FaTimes } from "react-icons/fa";
 import { useUpdateAvailableSlots } from "@/hooks/stations/useUpdateAvailableSlots";
 
 import PropTypes from "prop-types";
-AdminRecyclingBoxForm.propTypes = { station: PropTypes.object };
 
 function AdminRecyclingBoxForm({ station }) {
   const { updateAvailableSlots, isLoading } = useUpdateAvailableSlots();
@@ -103,5 +102,6 @@ function AdminRecyclingBoxForm({ station }) {
     </>
   );
 }
+AdminRecyclingBoxForm.propTypes = { station: PropTypes.object };
 
 export default AdminRecyclingBoxForm;

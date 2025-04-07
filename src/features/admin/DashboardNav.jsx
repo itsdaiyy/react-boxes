@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const style = {
   mainNavContainer:
@@ -36,5 +37,8 @@ function DashboardNav({ role }) {
     </nav>
   );
 }
+DashboardNav.propTypes = {
+  role: PropTypes.string.isRequired,
+};
 
 export default DashboardNav;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 import box from "@/assets/box.svg";
 import dialog from "@/assets/dialog.svg";
@@ -9,26 +9,22 @@ const memberTitle = {
   level_3: "箱村村長",
   level_4: "箱村守護者",
 };
+import PropTypes from "prop-types";
 
-function BannerImage({ role, transactionNums }) {
-  const [memberLevel, setMemberLevel] = useState(1);
-  const [memberLevelTitle, setMemberLevelTitle] = useState("");
+function getMemberLevel(transactionNumber) {
+  if (transactionNumber >= 200) return 4;
+  if (transactionNumber >= 100) return 3;
+  if (transactionNumber >= 50) return 2;
+  if (transactionNumber > 0) return 1;
+  return 1;
+}
 
-  useEffect(() => {
-    if (transactionNums > 0 && transactionNums < 50) {
-      setMemberLevel(1);
-      setMemberLevelTitle(memberTitle.level_1);
-    } else if (transactionNums >= 50 && transactionNums < 100) {
-      setMemberLevel(2);
-      setMemberLevelTitle(memberTitle.level_2);
-    } else if (transactionNums >= 100 && transactionNums < 200) {
-      setMemberLevel(3);
-      setMemberLevelTitle(memberTitle.level_3);
-    } else if (transactionNums > 200) {
-      setMemberLevel(4);
-      setMemberLevelTitle(memberTitle.level_4);
-    }
-  }, [transactionNums, setMemberLevel]);
+function BannerImage({ role, transactionNumber }) {
+  const memberLevel = useMemo(
+    () => getMemberLevel(transactionNumber),
+    [transactionNumber],
+  );
+  const memberLevelTitle = memberTitle[`level_${memberLevel}`];
 
   return (
     <div className="relative h-60 w-80 md:w-[500px]">
@@ -57,5 +53,9 @@ function BannerImage({ role, transactionNums }) {
     </div>
   );
 }
+BannerImage.propTypes = {
+  role: PropTypes.string.isRequired,
+  transactionNumber: PropTypes.number.isRequired,
+};
 
 export default BannerImage;

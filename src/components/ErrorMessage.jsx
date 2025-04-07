@@ -9,7 +9,6 @@ function ErrorMessage({ errorMessage }) {
     </div>
   );
 }
-
 ErrorMessage.propTypes = {
   errorMessage: PropTypes.string,
 };

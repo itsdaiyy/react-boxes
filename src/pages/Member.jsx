@@ -1,6 +1,6 @@
 import { useMember } from "@/hooks/authentication/useMember";
 
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import Footer from "@/components/Footer";
 import NormalDashboard from "@/features/member/NormalDashboard";
 import AdminDashboard from "@/features/admin/AdminDashboard";

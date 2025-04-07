@@ -57,10 +57,9 @@ export async function apiStationSignup({ formData, currentUser }) {
   const { id: user_id } = currentUser.user;
   try {
     // 1. 更新用戶角色
-    const { data: newUserData, error: updateUserError } =
-      await supabase.auth.updateUser({
-        data: { roles: ["users", "storeOwner"] },
-      });
+    const { error: updateUserError } = await supabase.auth.updateUser({
+      data: { roles: ["users", "storeOwner"] },
+    });
     if (updateUserError) throw updateUserError;
 
     // 2. 新增站點
@@ -81,7 +80,7 @@ export async function apiStationSignup({ formData, currentUser }) {
       is_business_day: false,
     }));
 
-    const { data: newDailyHours, error: createDailyHoursError } = await supabase
+    const { error: createDailyHoursError } = await supabase
       .from("station_daily_hours")
       .insert(dailyHours)
       .select();
