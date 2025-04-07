@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+
 import { useMember } from "@/hooks/authentication/useMember";
 
 import village_master from "@/assets/village_master.svg";
-import beginer from "@/assets/beginer.svg";
+import beginner from "@/assets/beginner.svg";
 import young from "@/assets/young.svg";
 import guardian from "@/assets/guardian.svg";
 import points_icon from "@/assets/points.svg";
 import box_count from "@/assets/box_count.svg";
 
-import ResponsiveSwiper from "@/components/ui/ResponsiveSwiper";
+import ResponsiveSwiper from "@/components/ResponsiveSwiper";
 import MemberInfoForm from "@/features/member/MemberInfoForm";
 
 const style = {
@@ -18,18 +20,18 @@ const style = {
   responsiveSettings: "col-span-1 p-1 lg:p-0 justify-self-center",
 };
 
-const levelImages = [beginer, young, village_master, guardian];
+const levelImages = [beginner, young, village_master, guardian];
 
 function MemberInfo() {
   const { member } = useMember();
   const pointNum = member.user.user_metadata.points;
-  const transactionNums = member.transactionsCounts;
+  const transactionNumber = member.transactionsCounts;
 
   // 會員等級定義 => 轉運紙箱數為門檻
-  // transactionNums > 0 => 箱遇路人
-  // transactionNums > 50 => 返箱青年
-  // transactionNums > 100 => 箱村村長
-  // transactionNums > 200 => 箱村守護者
+  // transactionNumber > 0 => 箱遇路人
+  // transactionNumber > 50 => 返箱青年
+  // transactionNumber > 100 => 箱村村長
+  // transactionNumber > 200 => 箱村守護者
   const memberTitle = {
     level_1: "箱遇路人",
     level_2: "返箱青年",
@@ -44,25 +46,25 @@ function MemberInfo() {
   const [initialSlide, setInitialSlide] = useState(0);
 
   useEffect(() => {
-    if (transactionNums >= 0 && transactionNums < 50) {
+    if (transactionNumber >= 0 && transactionNumber < 50) {
       setMemberLevel(1);
       setMemberLevelTitle(memberTitle.level_1);
       setUnlockMemberTitle(memberTitle.level_2);
-      setLevelUpNum(50 - transactionNums);
+      setLevelUpNum(50 - transactionNumber);
       setInitialSlide(0);
-    } else if (transactionNums >= 50 && transactionNums < 100) {
+    } else if (transactionNumber >= 50 && transactionNumber < 100) {
       setMemberLevel(2);
       setMemberLevelTitle(memberTitle.level_2);
       setUnlockMemberTitle(memberTitle.level_3);
-      setLevelUpNum(100 - transactionNums);
+      setLevelUpNum(100 - transactionNumber);
       setInitialSlide(1);
-    } else if (transactionNums >= 100 && transactionNums < 200) {
+    } else if (transactionNumber >= 100 && transactionNumber < 200) {
       setMemberLevel(3);
       setMemberLevelTitle(memberTitle.level_3);
       setUnlockMemberTitle(memberTitle.level_4);
-      setLevelUpNum(200 - transactionNums);
+      setLevelUpNum(200 - transactionNumber);
       setInitialSlide(2);
-    } else if (transactionNums > 200) {
+    } else if (transactionNumber > 200) {
       setMemberLevel(4);
       setMemberLevelTitle(memberTitle.level_4);
       setInitialSlide(3);
@@ -72,7 +74,7 @@ function MemberInfo() {
     memberTitle.level_2,
     memberTitle.level_3,
     memberTitle.level_4,
-    transactionNums,
+    transactionNumber,
   ]);
 
   return (
@@ -148,7 +150,7 @@ function MemberInfo() {
                 <p
                   className={`${style.cardNumber} ${style.responsiveSettings}`}
                 >
-                  {transactionNums !== "" ? transactionNums : "載入中..."}
+                  {transactionNumber !== "" ? transactionNumber : "載入中..."}
                 </p>
                 <p className={`${style.cardText} ${style.responsiveSettings}`}>
                   次
@@ -176,7 +178,7 @@ function MemberInfo() {
               <img src={box_count} alt="" className="justify-self-center" />
               <p className={style.cardText}>轉運紙箱</p>
               <p className={style.cardNumber}>
-                {transactionNums !== "" ? transactionNums : "載入中..."}
+                {transactionNumber !== "" ? transactionNumber : "載入中..."}
               </p>
               <p className={style.cardText}>次</p>
             </div>
@@ -210,3 +212,8 @@ function NormalLevel({ levelUpNum, unlockMemberTitle }) {
     </div>
   );
 }
+
+NormalLevel.propTypes = {
+  levelUpNum: PropTypes.number.isRequired,
+  unlockMemberTitle: PropTypes.string.isRequired,
+};

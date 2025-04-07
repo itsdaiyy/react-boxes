@@ -1,5 +1,6 @@
 import { FaStoreAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function BannerInfo({ title, infoData = [], showApplyButton }) {
   return (
@@ -22,5 +23,11 @@ function BannerInfo({ title, infoData = [], showApplyButton }) {
     </div>
   );
 }
+
+BannerInfo.propTypes = {
+  title: PropTypes.string.isRequired,
+  infoData: PropTypes.arrayOf(PropTypes.string),
+  showApplyButton: PropTypes.bool,
+};
 
 export default BannerInfo;

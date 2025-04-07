@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import HeaderSignInMenu from "@/components/HeaderSignInMenu";
+import HeaderSignInMenu from "@/components/header/HeaderSignInMenu";
+import PropTypes from "prop-types";
 
 const style = {
   nav: "hidden items-center justify-between gap-6 lg:flex text-nowrap",
@@ -36,5 +37,12 @@ function NavMenuLg({ currentMember, setCurrentMember, role, setRole }) {
     </nav>
   );
 }
+
+NavMenuLg.propTypes = {
+  currentMember: PropTypes.object,
+  setCurrentMember: PropTypes.func.isRequired,
+  role: PropTypes.string.isRequired,
+  setRole: PropTypes.func.isRequired,
+};
 
 export default NavMenuLg;

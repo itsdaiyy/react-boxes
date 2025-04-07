@@ -1,13 +1,14 @@
 import { Outlet, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import { useStationAdmin } from "@/hooks/stations/useStationAdmin";
 
-import Banner from "@/components/Banner";
-import DashboardSubNav from "@/components/DashboardSubNav";
+import Banner from "@/features/admin/Banner";
+import DashboardSubNav from "@/features/admin/DashboardSubNav";
 import Spinner from "@/components/Spinner";
-import DashboardNav from "@/components/DashboardNav";
-import BannerImage from "@/components/BannerImage";
-import BannerInfo from "@/components/BannerInfo";
+import DashboardNav from "@/features/admin/DashboardNav";
+import BannerImage from "@/features/admin/BannerImage";
+import BannerInfo from "@/features/admin/BannerInfo";
 
 function AdminDashboard({ member }) {
   const { station, isLoadingStation } = useStationAdmin();
@@ -53,7 +54,7 @@ function AdminDashboard({ member }) {
           />
           <BannerImage
             role={navType}
-            transactionNums={member.transactionsCounts}
+            transactionNumber={member.transactionsCounts}
           />
         </>
       </Banner>
@@ -67,5 +68,9 @@ function AdminDashboard({ member }) {
     </>
   );
 }
+
+AdminDashboard.propTypes = {
+  member: PropTypes.object.isRequired,
+};
 
 export default AdminDashboard;

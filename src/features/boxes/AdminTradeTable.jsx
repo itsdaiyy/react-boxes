@@ -46,8 +46,9 @@ const customStyles = {
     },
   },
 };
+import PropTypes from "prop-types";
 
-const AdminTradeTable = ({ handleSelectChange, setBoxIds, setValues }) => {
+const AdminTradeTable = ({ handleSelectChange }) => {
   // 資料
   const { boxes, isLoadingBoxes, boxesError } = useBoxesTotalForSelling();
 
@@ -153,6 +154,10 @@ const AdminTradeTable = ({ handleSelectChange, setBoxIds, setValues }) => {
       />
     </StyleSheetManager>
   );
+};
+
+AdminTradeTable.propTypes = {
+  handleSelectChange: PropTypes.func.isRequired,
 };
 
 export default AdminTradeTable;

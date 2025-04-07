@@ -48,10 +48,6 @@ const AdminTradeHistoryTable = () => {
       selector: (row) => row.condition,
       sortable: true,
     },
-    // {
-    //   name: "會員編號",
-    //   selector: (row) => row.user_id?.slice(0, 18),
-    // },
     {
       name: "會員姓名",
       selector: (row) => row?.user_name_snapshot,

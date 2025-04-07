@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 // API
 import ErrorMessage from "@/components/ErrorMessage";
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import Spinner from "@/components/Spinner";
 import { useStation } from "@/hooks/stations/useStation";
 

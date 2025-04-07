@@ -1,5 +1,10 @@
 import memberBannerBg01 from "@/assets/memberBanner-bg1.svg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import PropTypes from "prop-types";
+Banner.propTypes = {
+  children: PropTypes.node.isRequired,
+  member: PropTypes.object.isRequired,
+};
 
 function Banner({ children, member }) {
   return (
