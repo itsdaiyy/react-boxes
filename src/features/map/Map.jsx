@@ -24,6 +24,28 @@ function Map() {
   const [isLg, setIsLg] = useState(false); //畫面大小
   const markerRefs = useRef({}); //儲存所有的marker
 
+    // 計算距離
+    const countDistance = useCallback(() => {
+      const allDistance = stations.map((item) => ({
+        ...item,
+        distance: L.latLng(userLocation[0], userLocation[1]).distanceTo(
+          L.latLng(item.latitude, item.longitude),
+        ),
+      }));
+  
+      setSuggestionStations(
+        allDistance.sort((a, b) => a.distance - b.distance).slice(0, 5),
+      );
+    },[stations,userLocation]);
+  
+     //取得搜尋建議tags
+     const getAvailableTags =useCallback(() => {
+      let stationsName = stations.map((item) => item.station_name); // 取得所有站點名稱
+      let stationsAddress = stations.map((item) => item.address); // 取得所有站點地址
+      let tags = [...stationsName, ...stationsAddress]; //合併陣列
+      setAvailableTags(tags); // 更新狀態
+    },[stations,setAvailableTags]);
+
   // 取得5筆鄰近站點
   useEffect(() => {
     if (userLocation.length > 0) {
@@ -57,28 +79,6 @@ function Map() {
     return () => window.removeEventListener("resize", checkSize);
   }, []);
 
-  // 計算距離
-  const countDistance = useCallback(() => {
-    const allDistance = stations.map((item) => ({
-      ...item,
-      distance: L.latLng(userLocation[0], userLocation[1]).distanceTo(
-        L.latLng(item.latitude, item.longitude),
-      ),
-    }));
-
-    setSuggestionStations(
-      allDistance.sort((a, b) => a.distance - b.distance).slice(0, 5),
-    );
-  },[stations,userLocation]);
-
-   //取得搜尋建議tags
-   const getAvailableTags =useCallback(() => {
-    let stationsName = stations.map((item) => item.station_name); // 取得所有站點名稱
-    let stationsAddress = stations.map((item) => item.address); // 取得所有站點地址
-    let tags = [...stationsName, ...stationsAddress]; //合併陣列
-    setAvailableTags(tags); // 更新狀態
-  },[stations,setAvailableTags]);
-
   if (isLoadingStations) return <Spinner />;
   if (stationsError) return <ErrorMessage error={stationsError} />;
 
@@ -90,7 +90,6 @@ function Map() {
     }
   };
 
-  
 
   //執行搜尋
   const handleSearchStations = (e) => {
