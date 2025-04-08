@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
+import PropTypes from "prop-types";
+
 const PasswordInput = React.forwardRef(({ className, ...props }, ref) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const disabled =
@@ -51,5 +53,14 @@ const PasswordInput = React.forwardRef(({ className, ...props }, ref) => {
   );
 });
 PasswordInput.displayName = "PasswordInput";
+
+PasswordInput.propTypes = {
+  className: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  disabled: PropTypes.bool,
+};
 
 export { PasswordInput };

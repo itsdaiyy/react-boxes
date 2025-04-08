@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import logo from "@/assets/logo.svg";
 import logoSm from "@/assets/logo-sm.svg";
@@ -52,6 +53,11 @@ const SuggestedTags = ({ filteredTags, handleSelect }) => {
     </ul>
   );
 };
+
+SuggestedTags.propTypes = { 
+  filteredTags:PropTypes.array,
+  handleSelect: PropTypes.func 
+}
 
 function MapNav({
   handleLocateUser,
@@ -167,6 +173,16 @@ function MapNav({
       </div>
     </div>
   );
+}
+
+MapNav.propTypes = {
+  handleLocateUser:PropTypes.func,
+  searchKeyWords:PropTypes.string,
+  setSearchKeyWords:PropTypes.func,
+  handleSearchStations:PropTypes.func,
+  availableTags:PropTypes.array,
+  showSuggestedTags:PropTypes.bool,
+  setShowSuggestedTags:PropTypes.func,
 }
 
 export default MapNav;

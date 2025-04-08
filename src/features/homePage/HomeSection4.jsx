@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom"
+import PropTypes from "prop-types";
 
 import homeSection4_1 from "@/assets/homeSection4_1.png";
 import homeSection4_2 from "@/assets/homeSection4_2.png";
@@ -18,6 +19,11 @@ function Section4_Card({ imgUrl, title, content }) {
 
   )
 }
+
+Section4_Card.propTypes = { 
+  imgUrl:PropTypes.string, 
+  title:PropTypes.string, 
+  content:PropTypes.array }
 
 export default function HomeSection4 (){
 

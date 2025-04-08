@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import homeSection3_1 from "@/assets/homeSection3_1.png";
 import homeSection3_2 from "@/assets/homeSection3_2.png";
@@ -20,6 +21,13 @@ function Section3_Card({ imgUrl, content, flexDirection, padding }) {
       </div>
     </div>
   );
+}
+
+Section3_Card.propTypes = { 
+  imgUrl:PropTypes.string, 
+  content:PropTypes.string,
+  flexDirection:PropTypes.string, 
+  padding:PropTypes.string
 }
 
 function DecoSvgSecond() {

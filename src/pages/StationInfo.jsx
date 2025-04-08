@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 // 取得站點id
 import { NavLink } from "react-router-dom";
 // API
@@ -165,6 +166,11 @@ const Dropdown = ({ setAvailableBoxes, availableBoxes }) => {
       )}
     </div>
   );
+};
+
+Dropdown.propTypes = {
+  setAvailableBoxes: PropTypes.array,
+  availableBoxes: PropTypes.array,
 };
 
 function StationInfo() {

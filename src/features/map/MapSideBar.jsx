@@ -1,4 +1,5 @@
 import { useStation } from "@/hooks/stations/useStation";
+import PropTypes from "prop-types";
 
 import SuggestionStationCard from "@/features/map/SuggestionStationCard";
 import StationDetailedInfo from "@/features/map/StationDetailedInfo";
@@ -15,7 +16,7 @@ export default function MapSideBar({
   markerRefs,
   clickedId,
 }) {
-  const { station, isLoadingStation, stationError } = useStation(clickedId); //所選擇的站點詳細資訊
+  const { station } = useStation(clickedId); //所選擇的站點詳細資訊
 
   //返回建議站點列表
   const handleBackSuggestaion = () => {
@@ -67,3 +68,16 @@ export default function MapSideBar({
     </div>
   );
 }
+
+MapSideBar.propTypes = {
+  setIsSideBar: PropTypes.func,
+  mapRef:PropTypes.object,
+  isStationInfo:PropTypes.bool,
+  setIsStationInfo: PropTypes.func,
+  setPopupStation: PropTypes.func,
+  suggestionStations: PropTypes.array,
+  setClickedId: PropTypes.func,
+  isLg:PropTypes.bool,
+  markerRefs:PropTypes.object,
+  clickedId:PropTypes.string,
+};
