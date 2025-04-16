@@ -1,11 +1,10 @@
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import PropTypes from "prop-types";
 
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
@@ -19,8 +18,8 @@ import { MdClose } from "react-icons/md";
 import { useUpdateMember } from "@/hooks/authentication/useUpdateMember";
 
 const formSchema = z.object({
-  display_name: z.string().min(2, "姓名至少需要 2 個字"),
-  phone: z.string().regex(/^09\d{8}$/, "請輸入正確的台灣手機號碼"),
+  display_name: z.string().min(2, { message: "姓名至少需要 2 個字" }),
+  phone: z.string().regex(/^09\d{8}$/, { message: "請輸入正確的台灣手機號碼" }),
   avatar: z.instanceof(FileList).optional(),
 });
 
@@ -28,7 +27,7 @@ function MemberInfoForm({ data, memberLevelTitle }) {
   const [isEditing, setIsEditing] = useState(false);
   const { updateMember } = useUpdateMember();
 
-  const form = useForm({
+  const methods = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       display_name: data.user.user_metadata.display_name,
@@ -36,9 +35,16 @@ function MemberInfoForm({ data, memberLevelTitle }) {
     },
   });
 
-  const avatarRef = form.register("avatar");
+  const {
+    handleSubmit,
+    setValue,
+    trigger,
+    control,
+    formState: { errors },
+  } = methods;
 
-  // 串接API後繼續完成
+  const avatarRef = methods.register("avatar");
+
   const onSubmit = (values) => {
     const { display_name, phone } = values;
     const avatar = values.avatar[0];
@@ -52,11 +58,12 @@ function MemberInfoForm({ data, memberLevelTitle }) {
 
   function handleClickClose() {
     setIsEditing(!isEditing);
-    form.setValue("display_name", data.user.user_metadata.display_name);
-    form.setValue(
+    setValue("display_name", data.user.user_metadata.display_name);
+    setValue(
       "phone",
       data.user.user_metadata.phone.toString().replace("+886", "0"),
     );
+    trigger();
   }
 
   return (
@@ -73,11 +80,10 @@ function MemberInfoForm({ data, memberLevelTitle }) {
           </button>
         </div>
       </div>
-
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FormField
-            control={form.control}
+            control={control}
             name="display_name"
             render={({ field }) => (
               <FormItem className="mb-6">
@@ -93,12 +99,16 @@ function MemberInfoForm({ data, memberLevelTitle }) {
                     disabled={!isEditing}
                   />
                 </FormControl>
-                <FormMessage className="block text-start" />
+                {errors.display_name && (
+                  <p className="text-sm text-red-500">
+                    {errors.display_name.message}
+                  </p>
+                )}
               </FormItem>
             )}
           />
           <FormField
-            control={form.control}
+            control={control}
             name="phone"
             render={({ field }) => (
               <FormItem className="mb-6">
@@ -114,12 +124,14 @@ function MemberInfoForm({ data, memberLevelTitle }) {
                     disabled={!isEditing}
                   />
                 </FormControl>
-                <FormMessage className="block text-start" />
+                {errors.phone && (
+                  <p className="text-sm text-red-500">{errors.phone.message}</p>
+                )}
               </FormItem>
             )}
           />
           <FormField
-            control={form.control}
+            control={control}
             name="avatar"
             render={() => (
               <FormItem className="mb-6 text-start">
@@ -129,7 +141,7 @@ function MemberInfoForm({ data, memberLevelTitle }) {
                 <FormControl>
                   <Input type="file" disabled={!isEditing} {...avatarRef} />
                 </FormControl>
-                <FormMessage className="block text-start" />
+                <FormMessage className="block text-start text-red-500" />
               </FormItem>
             )}
           />
@@ -139,7 +151,7 @@ function MemberInfoForm({ data, memberLevelTitle }) {
             </button>
           )}
         </form>
-      </Form>
+      </FormProvider>
     </div>
   );
 }
