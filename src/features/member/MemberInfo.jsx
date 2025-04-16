@@ -121,7 +121,7 @@ function MemberInfo() {
               >
                 <img
                   src={points_icon}
-                  alt=""
+                  alt="金幣圖示"
                   className={`${style.responsiveSettings}`}
                 />
                 <p className={`${style.cardText} ${style.responsiveSettings}`}>
@@ -141,7 +141,7 @@ function MemberInfo() {
               >
                 <img
                   src={box_count}
-                  alt=""
+                  alt="紙箱圖示"
                   className={`${style.responsiveSettings}`}
                 />
                 <p className={`${style.cardText} ${style.responsiveSettings}`}>
@@ -167,7 +167,11 @@ function MemberInfo() {
           {/* 2號 div 的手機版位置 */}
           <div className="order-3 flex flex-col gap-5 rounded md:hidden">
             <div className={`${style.cardContainer} justify-center gap-4`}>
-              <img src={points_icon} alt="" className="justify-self-center" />
+              <img
+                src={points_icon}
+                alt="金幣圖示"
+                className="justify-self-center"
+              />
               <p className={style.cardText}>當前積分</p>
               <p className={style.cardNumber}>
                 {pointNum !== "" ? pointNum : "載入中..."}
@@ -175,7 +179,11 @@ function MemberInfo() {
               <p className={style.cardText}>點</p>
             </div>
             <div className={`${style.cardContainer} justify-center gap-4`}>
-              <img src={box_count} alt="" className="justify-self-center" />
+              <img
+                src={box_count}
+                alt="紙箱圖示"
+                className="justify-self-center"
+              />
               <p className={style.cardText}>轉運紙箱</p>
               <p className={style.cardNumber}>
                 {transactionNumber !== "" ? transactionNumber : "載入中..."}

@@ -67,7 +67,10 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
         <SwiperSlide>
           <div className={style.cardContainer}>
             <div className={style.card}>
-              <img className="" src={beginner} alt="" />
+              <img
+                src={beginner}
+                alt="滿面笑容的小孩戴著黃色帽子、黃色眼鏡，背著黃色背包"
+              />
               <p className={style.cardTitle}>箱遇路人</p>
             </div>
             <button
@@ -92,9 +95,8 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
           <div className={style.cardContainer}>
             <div className={style.card}>
               <img
-                className=""
                 src={memberLevel < 2 ? young_locked : young}
-                alt=""
+                alt="駕駛引曳機的青年"
               />
               <p className={style.cardTitle}>返箱青年</p>
             </div>
@@ -120,9 +122,8 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
           <div className={style.cardContainer}>
             <div className={style.card}>
               <img
-                className=""
                 src={memberLevel < 3 ? village_master_locked : village_master}
-                alt=""
+                alt="手上停了一隻鳥，在樹下坐著椅子的白鬍子村長"
               />
               <p className={style.cardTitle}>箱村村長</p>
             </div>
@@ -148,9 +149,8 @@ function ResponsiveSwiper({ initialSlide, memberLevel }) {
           <div className={style.cardContainer}>
             <div className={style.card}>
               <img
-                className=""
                 src={memberLevel < 4 ? guardian_locked : guardian}
-                alt=""
+                alt="戴著綠色帽子，背後有翅膀的可愛稻草人"
               />
               <p className={style.cardTitle}>箱村守護者</p>
             </div>
