@@ -78,9 +78,9 @@ function MemberInfo() {
   ]);
 
   return (
-    <div className="w-full p-10 text-center">
-      <div className="my-20">
-        <div className="my-10">
+    <div className="w-full px-10 text-center">
+      <div className="my-15">
+        <div className="mb-10">
           <p className="mb-6 text-base md:text-2xl">
             幫助紙箱君順利搭上返箱專車，繼續旅行吧！
           </p>
