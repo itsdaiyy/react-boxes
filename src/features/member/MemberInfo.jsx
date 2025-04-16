@@ -78,7 +78,7 @@ function MemberInfo() {
   ]);
 
   return (
-    <div className="w-full px-10 text-center">
+    <div className="w-full px-2 text-center sm:px-5 md:px-10">
       <div className="my-15">
         <div className="mb-10">
           <p className="mb-6 text-base md:text-2xl">
@@ -133,7 +133,7 @@ function MemberInfo() {
                   {pointNum !== "" ? pointNum : "載入中..."}
                 </p>
                 <p className={`${style.cardText} ${style.responsiveSettings}`}>
-                  Points
+                  點
                 </p>
               </div>
               <div
@@ -172,7 +172,7 @@ function MemberInfo() {
               <p className={style.cardNumber}>
                 {pointNum !== "" ? pointNum : "載入中..."}
               </p>
-              <p className={style.cardText}>Points</p>
+              <p className={style.cardText}>點</p>
             </div>
             <div className={`${style.cardContainer} justify-center gap-4`}>
               <img src={box_count} alt="" className="justify-self-center" />
