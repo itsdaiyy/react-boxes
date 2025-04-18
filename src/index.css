@@ -74,6 +74,8 @@
     --chart-5: 27 87% 67%;
 
     --radius: 0.5rem;
+
+    --swiper-navigation-color: #563b28;
   }
   .dark {
     --background: 0 0% 3.9%;

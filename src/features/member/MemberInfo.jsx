@@ -78,9 +78,9 @@ function MemberInfo() {
   ]);
 
   return (
-    <div className="w-full p-10 text-center">
-      <div className="my-20">
-        <div className="my-10">
+    <div className="w-full px-2 text-center sm:px-5 md:px-10">
+      <div className="my-15">
+        <div className="mb-10">
           <p className="mb-6 text-base md:text-2xl">
             幫助紙箱君順利搭上返箱專車，繼續旅行吧！
           </p>
@@ -121,7 +121,7 @@ function MemberInfo() {
               >
                 <img
                   src={points_icon}
-                  alt=""
+                  alt="金幣圖示"
                   className={`${style.responsiveSettings}`}
                 />
                 <p className={`${style.cardText} ${style.responsiveSettings}`}>
@@ -133,7 +133,7 @@ function MemberInfo() {
                   {pointNum !== "" ? pointNum : "載入中..."}
                 </p>
                 <p className={`${style.cardText} ${style.responsiveSettings}`}>
-                  Points
+                  點
                 </p>
               </div>
               <div
@@ -141,7 +141,7 @@ function MemberInfo() {
               >
                 <img
                   src={box_count}
-                  alt=""
+                  alt="紙箱圖示"
                   className={`${style.responsiveSettings}`}
                 />
                 <p className={`${style.cardText} ${style.responsiveSettings}`}>
@@ -167,15 +167,23 @@ function MemberInfo() {
           {/* 2號 div 的手機版位置 */}
           <div className="order-3 flex flex-col gap-5 rounded md:hidden">
             <div className={`${style.cardContainer} justify-center gap-4`}>
-              <img src={points_icon} alt="" className="justify-self-center" />
+              <img
+                src={points_icon}
+                alt="金幣圖示"
+                className="justify-self-center"
+              />
               <p className={style.cardText}>當前積分</p>
               <p className={style.cardNumber}>
                 {pointNum !== "" ? pointNum : "載入中..."}
               </p>
-              <p className={style.cardText}>Points</p>
+              <p className={style.cardText}>點</p>
             </div>
             <div className={`${style.cardContainer} justify-center gap-4`}>
-              <img src={box_count} alt="" className="justify-self-center" />
+              <img
+                src={box_count}
+                alt="紙箱圖示"
+                className="justify-self-center"
+              />
               <p className={style.cardText}>轉運紙箱</p>
               <p className={style.cardNumber}>
                 {transactionNumber !== "" ? transactionNumber : "載入中..."}
