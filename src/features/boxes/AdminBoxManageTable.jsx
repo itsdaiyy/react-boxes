@@ -127,7 +127,7 @@ const AdminBoxManageTable = () => {
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
   return (
-    <div className="px-3 lg:px-0">
+    <div className="px-3">
       <h4 className="mb-4 text-main-600">可認領紙箱列表</h4>
       <StyleSheetManager shouldForwardProp={isPropValid}>
         <DataTable
