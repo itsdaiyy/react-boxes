@@ -98,13 +98,13 @@ function AdminTrade() {
     <>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="z-100 container top-16 mx-auto my-5 flex flex-col items-center justify-center">
+          <div className="flex min-h-screen flex-col items-center justify-center bg-main-100 py-6">
             <div className="mb-3 flex w-1/3 justify-center">
               <p className="my-5 w-full border-b-4 border-b-main-600 pb-5 text-center text-4xl font-bold text-main-600">
                 交易紙箱
               </p>
             </div>
-            <div className="w-full rounded-xl bg-[#fafafa] p-5">
+            <div className="w-full max-w-5xl rounded-xl bg-white p-5">
               <div className="w-1/2">
                 <div className="mb-5 flex flex-1 items-center">
                   <Label className="mr-5 text-2xl font-bold text-main-600">
@@ -119,7 +119,7 @@ function AdminTrade() {
                     會員編號
                   </Label>
                   <Input
-                    className="w-72 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0"
+                    className="w-72 border border-neutral-400 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0"
                     type="text"
                     placeholder="請輸入會員編號"
                     {...register("userId")}
@@ -172,7 +172,7 @@ function AdminTrade() {
                       defaultValue="cash"
                       render={({ field }) => (
                         <select
-                          className="w-1/4 rounded-sm border-2 border-main-200 bg-transparent text-xl text-neutral-700 focus-visible:border-main-200 focus-visible:outline-none"
+                          className="w-1/4 rounded-md border border-neutral-400 bg-transparent text-xl text-neutral-700 focus-visible:border-main-200 focus-visible:outline-none focus-visible:ring-0"
                           {...field}
                         >
                           <option value="cash">現金</option>
@@ -183,16 +183,16 @@ function AdminTrade() {
                   </div>
                 </div>
 
-                <div className="flex flex-1 gap-3">
+                <div className="flex flex-1 justify-end gap-3 self-end">
                   <button
-                    className="btn-cancel w-1/2 text-xl"
+                    className="btn-cancel text-xl"
                     type="button"
                     onClick={() => navigate("/member/admin/boxesTable")}
                   >
                     取消
                   </button>
-                  <button className="btn w-1/2 text-xl" type="submit">
-                    確認送出
+                  <button className="btn text-xl" type="submit">
+                    確認
                   </button>
                 </div>
               </div>

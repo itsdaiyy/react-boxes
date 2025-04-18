@@ -49,6 +49,7 @@ const customStyles = {
   },
 };
 import PropTypes from "prop-types";
+import { Input } from "@/components/ui/input";
 
 const AdminTradeTable = ({ handleSelectChange }) => {
   // 資料
@@ -137,12 +138,12 @@ const AdminTradeTable = ({ handleSelectChange }) => {
     <StyleSheetManager shouldForwardProp={isPropValid}>
       {/* 搜尋框 */}
       <div className="mb-3 flex w-full justify-start">
-        <input
+        <Input
           type="text"
           placeholder="請輸入關鍵字搜尋"
           value={filterText}
           onChange={(e) => setFilterText(e.target.value)}
-          className="rounded border p-2 focus:border-main-400 focus-visible:outline-none"
+          className="w-72 border border-neutral-400 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0"
         />
       </div>
       <DataTable

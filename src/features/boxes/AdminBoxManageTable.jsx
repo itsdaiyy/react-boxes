@@ -47,9 +47,10 @@ const AdminBoxManageTable = () => {
   // 欄位
   const columns = [
     {
-      name: "紙箱編號",
+      name: "編號",
       selector: (row) => row.id,
       sortable: true,
+      width: "90px",
     },
     {
       name: "紙箱照片",
@@ -75,31 +76,41 @@ const AdminBoxManageTable = () => {
       sortable: true,
       width: "135px",
     },
-    { name: "紙箱大小", selector: (row) => row.size, sortable: true },
+    {
+      name: "紙箱大小",
+      selector: (row) => row.size,
+      sortable: true,
+      width: "110px",
+    },
     {
       name: "保存等級",
       selector: (row) => row.condition,
       sortable: true,
+      width: "110px",
     },
     {
       name: "保留天數",
       selector: (row) => row.retention_days,
       sortable: true,
+      width: "110px",
     },
     {
       name: "紙箱狀態",
       selector: (row) => row.status,
       sortable: true,
+      width: "110px",
     },
     {
-      name: "對應現金",
+      name: "現金",
       selector: (row) => row.cash_value,
       sortable: true,
+      width: "90px",
     },
     {
-      name: "對應積分",
+      name: "積分",
       selector: (row) => row.point_value,
       sortable: true,
+      width: "90px",
     },
     {
       name: "編輯",

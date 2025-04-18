@@ -127,25 +127,26 @@ function AdminAddBoxes() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-main-100 py-6">
-      <div className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-lg">
-        <h2 className="mb-4 text-center text-2xl font-bold text-main-600">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-main-100 py-6">
+      <div className="mb-3 flex w-1/3 justify-center">
+        <p className="my-5 w-full border-b-4 border-b-main-600 pb-5 text-center text-4xl font-bold text-main-600">
           新增紙箱
-        </h2>
-
+        </p>
+      </div>
+      <div className="w-full max-w-5xl rounded-xl bg-white p-6 shadow-lg">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4 space-x-4">
-            <label className="font-semibold text-[#3D3D3D]">新增時間:</label>
+            <label className="font-semibold text-main-600">新增時間:</label>
             <input
               type="text"
               {...register("created_at")}
               disabled
-              className="rounded-md bg-transparent px-2 py-1"
+              className="rounded-md bg-transparent px-2 py-1 text-neutral-700"
             />
           </div>
 
           <div className="mb-4 space-x-4">
-            <label className="font-semibold text-[#3D3D3D]">會員編號:</label>
+            <label className="font-semibold text-main-600">會員編號:</label>
             <input
               type="text"
               placeholder="請輸入會員編號"
@@ -180,7 +181,7 @@ function AdminAddBoxes() {
 
           <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-main-100 text-neutral-500">
+              <tr className="bg-main-100 text-neutral-600">
                 <th className="border p-2">編號</th>
                 <th className="border p-2">紙箱大小</th>
                 <th className="border p-2">紙箱保存等級</th>
@@ -280,9 +281,9 @@ function AdminAddBoxes() {
               {errors.boxes.message}
             </p>
           )}
-          <div className="mt-4 font-semibold text-[#3D3D3D]">
+          <div className="mt-4 font-semibold text-main-600">
             積分總計:
-            <span className="font-bold text-main-500">{totalPoints}</span>
+            <span className="ml-4 text-neutral-700">{totalPoints}</span>
           </div>
 
           <div className="mt-6 flex justify-end space-x-4">
