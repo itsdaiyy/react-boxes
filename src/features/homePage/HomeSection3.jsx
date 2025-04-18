@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import homeSection3_1 from "@/assets/homeSection3_1.png";
-import homeSection3_2 from "@/assets/homeSection3_2.png";
-import homeSection3_3 from "@/assets/homeSection3_3.png";
-import homeSection3_4 from "@/assets/homeSection3_4.png";
-import homeSection3_5 from "@/assets/homeSection3_5.png";
-import homeSection3_6 from "@/assets/homeSection3_6.png";
+import homeSection3_1 from "@/assets/homeSection3_1.svg";
+import homeSection3_2 from "@/assets/homeSection3_2.svg";
+import homeSection3_3 from "@/assets/homeSection3_3.svg";
+import homeSection3_4 from "@/assets/homeSection3_4.svg";
+import homeSection3_5 from "@/assets/homeSection3_5.svg";
+import homeSection3_6 from "@/assets/homeSection3_6.svg";
 
 function Section3_Card({ imgUrl, content, flexDirection, padding }) {
   return (
