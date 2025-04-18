@@ -14,7 +14,9 @@ const customStyles = {
   table: {
     style: {
       border: "1px solid #d9d9d9",
+      borderRadius: "12px",
       boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+      padding: "8px",
     },
   },
   headRow: {
@@ -140,7 +142,7 @@ const AdminTradeTable = ({ handleSelectChange }) => {
           placeholder="請輸入關鍵字搜尋"
           value={filterText}
           onChange={(e) => setFilterText(e.target.value)}
-          className="rounded border p-2"
+          className="rounded border p-2 focus:border-main-400 focus-visible:outline-none"
         />
       </div>
       <DataTable
@@ -151,6 +153,7 @@ const AdminTradeTable = ({ handleSelectChange }) => {
         onSelectedRowsChange={handleSelectChange}
         fixedHeader
         fixedHeaderScrollHeight="350px"
+        noDataComponent="沒有紙箱TAT"
       />
     </StyleSheetManager>
   );

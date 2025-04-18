@@ -148,30 +148,29 @@ function AdminInfoForm({ station }) {
             <h6 className="text-main-600">營業時間</h6>
           </label>
           {daysOfWeek.map((day, index) => (
-            <div
-              key={index}
-              className="flex items-center space-x-1 md:space-x-2"
-            >
+            <div key={index}>
               <input
                 type="checkbox"
                 {...register(`station_daily_hours.${index}.is_business_day`)}
                 disabled={!isEditing}
               />
-              <span className="text-nowrap p-1">{day}</span>
-              <input
-                {...register(`station_daily_hours.${index}.open_time`)}
-                placeholder="開店時間"
-                type="time"
-                disabled={!isEditing}
-                className="text-md w-full rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
-              />
-              <input
-                {...register(`station_daily_hours.${index}.close_time`)}
-                placeholder="關店時間"
-                type="time"
-                disabled={!isEditing}
-                className="text-md w-full rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
-              />
+              <span className="text-nowrap px-2">{day}</span>
+              <div className="flex items-center gap-2 px-5">
+                <input
+                  {...register(`station_daily_hours.${index}.open_time`)}
+                  placeholder="開店時間"
+                  type="time"
+                  disabled={!isEditing}
+                  className="text-md w-full rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+                />
+                <input
+                  {...register(`station_daily_hours.${index}.close_time`)}
+                  placeholder="關店時間"
+                  type="time"
+                  disabled={!isEditing}
+                  className="text-md w-full rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+                />
+              </div>
             </div>
           ))}
         </div>

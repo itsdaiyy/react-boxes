@@ -104,6 +104,7 @@ const AdminDeprecatedTable = () => {
           data={filteredData}
           pagination
           customStyles={customStyles}
+          noDataComponent="沒有紙箱TAT"
           paginationComponentOptions={paginationComponentOptions}
           subHeader
           subHeaderComponent={
@@ -115,11 +116,6 @@ const AdminDeprecatedTable = () => {
                 onChange={(e) => setFilterText(e.target.value)}
                 className="rounded border p-2 placeholder:text-[#B7B7B7] focus-within:border focus-within:border-main-500 focus-visible:outline-none"
               />
-              <div>
-                <button className="btn flex items-center gap-1 border p-2">
-                  <FaTrashAlt /> 清空表單
-                </button>
-              </div>
             </div>
           }
         />

@@ -126,6 +126,7 @@ const AdminBoxManageTable = () => {
           pagination
           paginationComponentOptions={paginationComponentOptions}
           subHeader
+          noDataComponent="沒有紙箱TAT"
           subHeaderComponent={
             <div className="mb-4 flex w-full justify-between">
               <input
