@@ -164,8 +164,7 @@ function AdminAddBoxes() {
             )}
           </div>
 
-          <div className="mb-4 flex justify-between">
-            <h3 className="text-xl font-semibold text-main-600">紙箱列表</h3>
+          <div className="mb-4 flex justify-end">
             <button
               type="button"
               onClick={() =>
@@ -290,15 +289,19 @@ function AdminAddBoxes() {
             <span className="ml-4 text-neutral-700">{totalPoints}</span>
           </div>
 
-          <div className="mt-6 flex justify-end space-x-4">
+          <div className="mt-6 flex flex-col justify-end gap-4 md:flex-row">
             <button
               type="button"
-              className="btn-cancel"
+              className="btn-cancel order-1"
               onClick={() => navigate("/member/admin/boxesTable")}
             >
               取消
             </button>
-            <button type="submit" className="btn" disabled={isAdding}>
+            <button
+              type="submit"
+              className="btn md:order-2"
+              disabled={isAdding}
+            >
               {isAdding ? "新增中" : "確認"}
             </button>
           </div>

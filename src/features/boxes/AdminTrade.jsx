@@ -180,15 +180,15 @@ function AdminTrade() {
                   </div>
                 </div>
 
-                <div className="flex flex-1 justify-end gap-3 self-end">
+                <div className="mt-6 flex flex-col justify-end gap-4 md:flex-row">
                   <button
-                    className="btn-cancel text-xl"
+                    className="btn-cancel order-1"
                     type="button"
                     onClick={() => navigate("/member/admin/boxesTable")}
                   >
                     取消
                   </button>
-                  <button className="btn text-xl" type="submit">
+                  <button className="btn md:order-2" type="submit">
                     確認
                   </button>
                 </div>
