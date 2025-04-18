@@ -98,29 +98,37 @@ function AdminTrade() {
     <>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="z-100 container top-16 mx-auto my-5 flex flex-col items-center justify-center">
-            <div className="mb-3 flex w-1/3 justify-center">
-              <p className="my-5 w-full border-b-4 border-b-main-600 pb-5 text-center text-4xl font-bold text-main-600">
-                交易紙箱
-              </p>
-            </div>
-            <div className="w-full rounded-xl bg-[#fafafa] p-5">
-              <div className="w-1/2">
-                <div className="mb-5 flex flex-1 items-center">
-                  <Label className="mr-5 text-2xl font-bold text-main-600">
+          <div className="flex flex-col items-center justify-center bg-main-100 px-3 py-6 xl:px-0">
+            <p className="my-5 border-b-4 border-b-main-600 px-3 pb-5 text-center text-4xl font-bold text-main-600">
+              交易紙箱
+            </p>
+
+            <div className="w-full max-w-5xl rounded-xl bg-white p-5">
+              <div>
+                <div className="mb-5">
+                  <Label className="mr-3 text-xl font-bold text-main-600">
                     交易時間
                   </Label>
-                  <Label className="text-2xl text-main-600">
+                  <Label className="text-xl text-main-600">
                     {new Date().toLocaleString()}
                   </Label>
                 </div>
-                <div className="mb-5 flex flex-1 items-center">
-                  <Label className="mr-5 text-2xl font-bold text-main-600">
-                    會員編號
-                  </Label>
-                  <Input className="w-72" type="text" {...register("userId")} />
+                <div className="mb-5 flex flex-col md:flex-row">
+                  <div className="flex items-center">
+                    <Label className="mr-3 text-nowrap text-xl font-bold text-main-600">
+                      會員編號
+                    </Label>
+                    <Input
+                      className="w-full max-w-60 border border-neutral-400 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0"
+                      type="text"
+                      placeholder="請輸入會員編號"
+                      {...register("userId")}
+                    />
+                  </div>
                   {errors.userId && (
-                    <p className="ml-5 text-red-500">{errors.userId.message}</p>
+                    <p className="text-red-500 md:ml-5">
+                      {errors.userId.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -147,20 +155,27 @@ function AdminTrade() {
                 </div>
               </div>
 
-              <div className="my-5 flex items-center justify-between">
-                <div className="flex flex-1 flex-col items-start">
-                  <div className="mb-3 flex w-1/2">
-                    <p className="w-1/3 text-xl font-bold">交易紙箱數</p>
-                    <p className="text-xl">{selectedCounts} 個紙箱</p>
+              <div className="my-5 flex flex-col justify-between gap-4 md:flex-row">
+                <div className="sm:w-1/2">
+                  <div className="mb-3 flex justify-between">
+                    <p className="text-nowrap text-xl font-bold text-main-600">
+                      交易紙箱數
+                    </p>
+                    <p className="w-1/2 rounded-sm px-1 text-start text-xl text-neutral-700">
+                      {selectedCounts} 個紙箱
+                    </p>
                   </div>
-                  <div className="flex w-1/2 items-center">
-                    <p className="w-1/3 text-xl font-bold">支付方式</p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-xl font-bold text-main-600">支付方式</p>
                     <Controller
                       name="paymentMethod"
                       control={methods.control}
                       defaultValue="cash"
                       render={({ field }) => (
-                        <select className="text-xl" {...field}>
+                        <select
+                          className="h-9 w-1/2 rounded-md border border-neutral-400 bg-transparent text-xl text-neutral-700 focus-visible:border-main-200 focus-visible:outline-none focus-visible:ring-0"
+                          {...field}
+                        >
                           <option value="cash">現金</option>
                           <option value="points">積分</option>
                         </select>
@@ -169,16 +184,19 @@ function AdminTrade() {
                   </div>
                 </div>
 
-                <div className="flex flex-1 gap-3">
-                  <button className="btn w-1/2 text-xl" type="submit">
-                    確認送出
-                  </button>
+                <div className="mt-6 flex flex-col justify-end gap-4 md:w-1/2 md:flex-row">
                   <button
-                    className="btn w-1/2 text-xl"
                     type="button"
+                    className="btn-cancel order-1 h-[42px] md:w-1/2 md:self-end"
                     onClick={() => navigate("/member/admin/boxesTable")}
                   >
                     取消
+                  </button>
+                  <button
+                    className="btn h-[42px] md:order-2 md:w-1/2 md:self-end"
+                    type="submit"
+                  >
+                    確認
                   </button>
                 </div>
               </div>

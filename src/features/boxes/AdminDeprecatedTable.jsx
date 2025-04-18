@@ -42,7 +42,12 @@ const AdminDeprecatedTable = () => {
 
   // 欄位
   const columns = [
-    { name: "紙箱編號", selector: (row) => row.id, sortable: true },
+    {
+      name: "編號",
+      selector: (row) => row.id,
+      sortable: true,
+      width: "90px",
+    },
     {
       name: "紙箱照片",
       selector: (row) => (
@@ -59,28 +64,50 @@ const AdminDeprecatedTable = () => {
       name: "新增時間",
       selector: (row) => row.created_at?.replace("T", " ").slice(0, 16),
       sortable: true,
-      width: "140px",
+      width: "135px",
     },
     {
       name: "更新時間",
       selector: (row) => row.updated_at?.replace("T", " ").slice(0, 16),
       sortable: true,
-      width: "140px",
+      width: "135px",
     },
-    { name: "紙箱大小", selector: (row) => row.size, sortable: true },
+    {
+      name: "紙箱大小",
+      selector: (row) => row.size,
+      sortable: true,
+      width: "110px",
+    },
     {
       name: "保存等級",
       selector: (row) => row.condition,
       sortable: true,
+      width: "110px",
     },
     {
       name: "保留天數",
       selector: (row) => row.retention_days,
       sortable: true,
+      width: "110px",
     },
-    { name: "紙箱狀態", selector: (row) => row.status, sortable: true },
-    { name: "對應現金", selector: (row) => row.cash_value, sortable: true },
-    { name: "對應積分", selector: (row) => row.point_value, sortable: true },
+    {
+      name: "紙箱狀態",
+      selector: (row) => row.status,
+      sortable: true,
+      width: "110px",
+    },
+    {
+      name: "現金",
+      selector: (row) => row.cash_value,
+      sortable: true,
+      width: "90px",
+    },
+    {
+      name: "積分",
+      selector: (row) => row.point_value,
+      sortable: true,
+      width: "90px",
+    },
     {
       name: "編輯",
       selector: (row) => (
@@ -96,7 +123,7 @@ const AdminDeprecatedTable = () => {
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
   return (
-    <>
+    <div className="px-3">
       <h4 className="mb-4 text-main-600">待回收紙箱列表</h4>
       <StyleSheetManager shouldForwardProp={isPropValid}>
         <DataTable
@@ -104,6 +131,7 @@ const AdminDeprecatedTable = () => {
           data={filteredData}
           pagination
           customStyles={customStyles}
+          noDataComponent="沒有紙箱TAT"
           paginationComponentOptions={paginationComponentOptions}
           subHeader
           subHeaderComponent={
@@ -115,16 +143,11 @@ const AdminDeprecatedTable = () => {
                 onChange={(e) => setFilterText(e.target.value)}
                 className="rounded border p-2 placeholder:text-[#B7B7B7] focus-within:border focus-within:border-main-500 focus-visible:outline-none"
               />
-              <div>
-                <button className="btn flex items-center gap-1 border p-2">
-                  <FaTrashAlt /> 清空表單
-                </button>
-              </div>
             </div>
           }
         />
       </StyleSheetManager>
-    </>
+    </div>
   );
 };
 

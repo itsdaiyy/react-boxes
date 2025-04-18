@@ -23,6 +23,8 @@ const formSchema = z.object({
 });
 
 import PropTypes from "prop-types";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 AdminInfoForm.propTypes = { station: PropTypes.object };
 
 const daysOfWeek = [
@@ -107,38 +109,41 @@ function AdminInfoForm({ station }) {
         onSubmit={handleSubmit(onSubmit)}
         className="mx-auto max-w-3xl space-y-4 py-6"
       >
-        <div className="flex items-center">
-          <label className="w-1/5">
+        <div className="flex items-center gap-2">
+          <Label htmlFor="station_name" className="w-16">
             <h6 className="text-main-600">站點名稱</h6>
-          </label>
-          <input
+          </Label>
+          <Input
+            id="station_name"
             {...register("station_name")}
             placeholder="輸入店名"
-            className="w-3/5 rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+            className="w-3/5 rounded-sm border border-neutral-400 p-1 text-gray-700 shadow-none focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent disabled:text-gray-700"
             disabled={!isEditing}
           />
         </div>
 
-        <div className="flex items-center">
-          <label className="w-1/5">
+        <div className="flex items-center gap-2">
+          <Label htmlFor="address" className="w-16">
             <h6 className="text-main-600">地址</h6>
-          </label>
-          <input
+          </Label>
+          <Input
+            id="address"
             {...register("address")}
             placeholder="輸入地址"
-            className="w-3/5 rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+            className="w-3/5 rounded-sm border border-neutral-400 p-1 text-gray-700 shadow-none focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
             disabled={!isEditing}
           />
         </div>
 
-        <div className="flex items-center">
-          <label className="w-1/5">
+        <div className="flex items-center gap-2">
+          <Label htmlFor="phone" className="w-16">
             <h6 className="text-main-600">電話</h6>
-          </label>
-          <input
+          </Label>
+          <Input
+            id="phone"
             {...register("phone")}
             placeholder="輸入電話"
-            className="w-3/5 rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+            className="w-3/5 rounded-sm border border-neutral-400 p-1 text-gray-700 shadow-none focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
             disabled={!isEditing}
           />
         </div>
@@ -148,30 +153,29 @@ function AdminInfoForm({ station }) {
             <h6 className="text-main-600">營業時間</h6>
           </label>
           {daysOfWeek.map((day, index) => (
-            <div
-              key={index}
-              className="flex items-center space-x-1 md:space-x-2"
-            >
+            <div key={index}>
               <input
                 type="checkbox"
                 {...register(`station_daily_hours.${index}.is_business_day`)}
                 disabled={!isEditing}
               />
-              <span className="text-nowrap p-1">{day}</span>
-              <input
-                {...register(`station_daily_hours.${index}.open_time`)}
-                placeholder="開店時間"
-                type="time"
-                disabled={!isEditing}
-                className="text-md w-full rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
-              />
-              <input
-                {...register(`station_daily_hours.${index}.close_time`)}
-                placeholder="關店時間"
-                type="time"
-                disabled={!isEditing}
-                className="text-md w-full rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
-              />
+              <span className="text-nowrap px-2">{day}</span>
+              <div className="flex items-center gap-2 px-5">
+                <input
+                  {...register(`station_daily_hours.${index}.open_time`)}
+                  placeholder="開店時間"
+                  type="time"
+                  disabled={!isEditing}
+                  className="text-md w-full rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+                />
+                <input
+                  {...register(`station_daily_hours.${index}.close_time`)}
+                  placeholder="關店時間"
+                  type="time"
+                  disabled={!isEditing}
+                  className="text-md w-full rounded-sm border border-neutral-400 p-1 text-gray-700 focus:border-main-400 focus:outline-none disabled:border-none disabled:bg-transparent"
+                />
+              </div>
             </div>
           ))}
         </div>

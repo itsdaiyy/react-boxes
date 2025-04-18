@@ -47,9 +47,10 @@ const AdminBoxManageTable = () => {
   // 欄位
   const columns = [
     {
-      name: "紙箱編號",
+      name: "編號",
       selector: (row) => row.id,
       sortable: true,
+      width: "90px",
     },
     {
       name: "紙箱照片",
@@ -75,31 +76,41 @@ const AdminBoxManageTable = () => {
       sortable: true,
       width: "135px",
     },
-    { name: "紙箱大小", selector: (row) => row.size, sortable: true },
+    {
+      name: "紙箱大小",
+      selector: (row) => row.size,
+      sortable: true,
+      width: "110px",
+    },
     {
       name: "保存等級",
       selector: (row) => row.condition,
       sortable: true,
+      width: "110px",
     },
     {
       name: "保留天數",
       selector: (row) => row.retention_days,
       sortable: true,
+      width: "110px",
     },
     {
       name: "紙箱狀態",
       selector: (row) => row.status,
       sortable: true,
+      width: "110px",
     },
     {
-      name: "對應現金",
+      name: "現金",
       selector: (row) => row.cash_value,
       sortable: true,
+      width: "90px",
     },
     {
-      name: "對應積分",
+      name: "積分",
       selector: (row) => row.point_value,
       sortable: true,
+      width: "90px",
     },
     {
       name: "編輯",
@@ -116,7 +127,7 @@ const AdminBoxManageTable = () => {
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
   return (
-    <>
+    <div className="px-3">
       <h4 className="mb-4 text-main-600">可認領紙箱列表</h4>
       <StyleSheetManager shouldForwardProp={isPropValid}>
         <DataTable
@@ -126,16 +137,17 @@ const AdminBoxManageTable = () => {
           pagination
           paginationComponentOptions={paginationComponentOptions}
           subHeader
+          noDataComponent="沒有紙箱TAT"
           subHeaderComponent={
-            <div className="mb-4 flex w-full justify-between">
+            <div className="mb-4 flex w-full flex-col justify-between gap-3 md:flex-row">
               <input
                 type="text"
                 placeholder="搜尋紙箱編號"
                 value={filterText}
                 onChange={(e) => setFilterText(e.target.value)}
-                className="rounded border p-2 placeholder:text-[#B7B7B7] focus-within:border focus-within:border-main-500 focus-visible:outline-none"
+                className="order-3 rounded border p-2 placeholder:text-[#B7B7B7] focus-within:border focus-within:border-main-500 focus-visible:outline-none md:order-1"
               />
-              <div className="flex gap-5">
+              <div className="order-2 flex justify-end gap-5">
                 <button
                   className="btn flex items-center gap-1 border p-2"
                   onClick={() => {
@@ -157,7 +169,7 @@ const AdminBoxManageTable = () => {
           }
         />
       </StyleSheetManager>
-    </>
+    </div>
   );
 };
 

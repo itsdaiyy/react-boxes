@@ -4,6 +4,7 @@ export const customStyles = {
     style: {
       border: "1px solid #d9d9d9",
       boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+      fontSize: "16px",
     },
   },
   headRow: {
@@ -11,6 +12,7 @@ export const customStyles = {
       backgroundColor: "#F5F1E8",
       borderBottomColor: "#d9d9d9",
       fontWeight: "bold",
+      fontSize: "14px",
       color: "#3d3d3d",
     },
   },

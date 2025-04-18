@@ -7,6 +7,8 @@ import * as z from "zod";
 
 import { useAddMultipleBoxes } from "@/hooks/boxes/useBoxes";
 import { useCreateTransaction } from "@/hooks/transactions/useCreateTransaction";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 const sizeOptions = [
   { label: "特大", value: "特大", points: 5 },
@@ -127,30 +129,33 @@ function AdminAddBoxes() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-main-100 py-6">
-      <div className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-lg">
-        <h2 className="mb-4 text-center text-2xl font-bold text-main-600">
-          新增紙箱
-        </h2>
-
+    <div className="flex flex-col items-center justify-center bg-main-100 px-3 py-6 xl:px-0">
+      <p className="my-5 border-b-4 border-b-main-600 px-3 pb-5 text-center text-4xl font-bold text-main-600">
+        新增紙箱
+      </p>
+      <div className="w-full max-w-5xl rounded-xl bg-white p-6 shadow-lg">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4 space-x-4">
-            <label className="font-semibold text-[#3D3D3D]">新增時間:</label>
-            <input
+          <div className="mb-4 flex items-center space-x-4">
+            <Label className="text-nowrap text-xl font-bold text-main-600">
+              新增時間
+            </Label>
+            <Input
               type="text"
               {...register("created_at")}
               disabled
-              className="rounded-md bg-transparent px-2 py-1"
+              className="rounded-md border-none bg-transparent px-2 py-1 text-xl disabled:text-main-600"
             />
           </div>
 
-          <div className="mb-4 space-x-4">
-            <label className="font-semibold text-[#3D3D3D]">會員編號:</label>
-            <input
+          <div className="mb-4 flex items-center space-x-4">
+            <Label className="text-nowrap text-xl font-semibold text-main-600">
+              會員編號
+            </Label>
+            <Input
               type="text"
+              className="w-full max-w-60 border border-neutral-400 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0"
               placeholder="請輸入會員編號"
               {...register("user_id")}
-              className="rounded-md border border-main-400 px-2 py-1 focus-within:border focus-within:border-main-500 focus-visible:outline-none"
             />
             {errors.user_id && (
               <p className="inline text-sm text-red-500">
@@ -159,8 +164,7 @@ function AdminAddBoxes() {
             )}
           </div>
 
-          <div className="mb-4 flex justify-between">
-            <h3 className="text-xl font-semibold text-main-600">紙箱列表</h3>
+          <div className="mb-4 flex justify-end">
             <button
               type="button"
               onClick={() =>
@@ -180,7 +184,7 @@ function AdminAddBoxes() {
 
           <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-main-100 text-neutral-500">
+              <tr className="bg-main-100 text-neutral-600">
                 <th className="border p-2">編號</th>
                 <th className="border p-2">紙箱大小</th>
                 <th className="border p-2">紙箱保存等級</th>
@@ -280,20 +284,24 @@ function AdminAddBoxes() {
               {errors.boxes.message}
             </p>
           )}
-          <div className="mt-4 font-semibold text-[#3D3D3D]">
+          <div className="mt-4 font-semibold text-main-600">
             積分總計:
-            <span className="font-bold text-main-500">{totalPoints}</span>
+            <span className="ml-4 text-neutral-700">{totalPoints}</span>
           </div>
 
-          <div className="mt-6 flex justify-end space-x-4">
+          <div className="mt-6 flex flex-col justify-end gap-4 md:flex-row">
             <button
               type="button"
-              className="btn-cancel"
+              className="btn-cancel order-1 md:w-1/4"
               onClick={() => navigate("/member/admin/boxesTable")}
             >
               取消
             </button>
-            <button type="submit" className="btn" disabled={isAdding}>
+            <button
+              type="submit"
+              className="btn md:order-2 md:w-1/4"
+              disabled={isAdding}
+            >
               {isAdding ? "新增中" : "確認"}
             </button>
           </div>
