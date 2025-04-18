@@ -292,14 +292,14 @@ function AdminAddBoxes() {
           <div className="mt-6 flex flex-col justify-end gap-4 md:flex-row">
             <button
               type="button"
-              className="btn-cancel order-1"
+              className="btn-cancel order-1 md:w-1/4"
               onClick={() => navigate("/member/admin/boxesTable")}
             >
               取消
             </button>
             <button
               type="submit"
-              className="btn md:order-2"
+              className="btn md:order-2 md:w-1/4"
               disabled={isAdding}
             >
               {isAdding ? "新增中" : "確認"}

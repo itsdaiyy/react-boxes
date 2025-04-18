@@ -113,18 +113,22 @@ function AdminTrade() {
                     {new Date().toLocaleString()}
                   </Label>
                 </div>
-                <div className="mb-5 flex items-center">
-                  <Label className="mr-3 text-nowrap text-xl font-bold text-main-600">
-                    會員編號
-                  </Label>
-                  <Input
-                    className="w-full max-w-60 border border-neutral-400 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0"
-                    type="text"
-                    placeholder="請輸入會員編號"
-                    {...register("userId")}
-                  />
+                <div className="mb-5 flex flex-col md:flex-row">
+                  <div className="flex items-center">
+                    <Label className="mr-3 text-nowrap text-xl font-bold text-main-600">
+                      會員編號
+                    </Label>
+                    <Input
+                      className="w-full max-w-60 border border-neutral-400 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0"
+                      type="text"
+                      placeholder="請輸入會員編號"
+                      {...register("userId")}
+                    />
+                  </div>
                   {errors.userId && (
-                    <p className="ml-5 text-red-500">{errors.userId.message}</p>
+                    <p className="text-red-500 md:ml-5">
+                      {errors.userId.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -180,15 +184,18 @@ function AdminTrade() {
                   </div>
                 </div>
 
-                <div className="mt-6 flex flex-col justify-end gap-4 md:flex-row">
+                <div className="mt-6 flex flex-col justify-end gap-4 md:w-1/2 md:flex-row">
                   <button
-                    className="btn-cancel order-1"
                     type="button"
+                    className="btn-cancel order-1 h-[42px] md:w-1/2 md:self-end"
                     onClick={() => navigate("/member/admin/boxesTable")}
                   >
                     取消
                   </button>
-                  <button className="btn md:order-2" type="submit">
+                  <button
+                    className="btn h-[42px] md:order-2 md:w-1/2 md:self-end"
+                    type="submit"
+                  >
                     確認
                   </button>
                 </div>
