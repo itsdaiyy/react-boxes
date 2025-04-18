@@ -98,28 +98,27 @@ function AdminTrade() {
     <>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex min-h-screen flex-col items-center justify-center bg-main-100 py-6">
-            <div className="mb-3 flex w-1/3 justify-center">
-              <p className="my-5 w-full border-b-4 border-b-main-600 pb-5 text-center text-4xl font-bold text-main-600">
-                交易紙箱
-              </p>
-            </div>
+          <div className="flex flex-col items-center justify-center bg-main-100 px-3 py-6 xl:px-0">
+            <p className="my-5 border-b-4 border-b-main-600 px-3 pb-5 text-center text-4xl font-bold text-main-600">
+              交易紙箱
+            </p>
+
             <div className="w-full max-w-5xl rounded-xl bg-white p-5">
-              <div className="w-1/2">
-                <div className="mb-5 flex flex-1 items-center">
-                  <Label className="mr-5 text-2xl font-bold text-main-600">
+              <div>
+                <div className="mb-5">
+                  <Label className="mr-3 text-xl font-bold text-main-600">
                     交易時間
                   </Label>
-                  <Label className="text-2xl text-main-600">
+                  <Label className="text-xl text-main-600">
                     {new Date().toLocaleString()}
                   </Label>
                 </div>
-                <div className="mb-5 flex flex-1 items-center">
-                  <Label className="mr-5 text-2xl font-bold text-main-600">
+                <div className="mb-5 flex items-center">
+                  <Label className="mr-3 text-nowrap text-xl font-bold text-main-600">
                     會員編號
                   </Label>
                   <Input
-                    className="w-72 border border-neutral-400 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0"
+                    className="w-full max-w-60 border border-neutral-400 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0"
                     type="text"
                     placeholder="請輸入會員編號"
                     {...register("userId")}
@@ -152,27 +151,25 @@ function AdminTrade() {
                 </div>
               </div>
 
-              <div className="my-5 flex items-center justify-between">
-                <div className="flex flex-1 flex-col items-start">
-                  <div className="mb-3 flex w-full">
-                    <p className="w-1/3 text-nowrap text-xl font-bold text-main-600">
+              <div className="my-5 flex flex-col justify-between gap-4 md:flex-row">
+                <div className="sm:w-1/2">
+                  <div className="mb-3 flex justify-between">
+                    <p className="text-nowrap text-xl font-bold text-main-600">
                       交易紙箱數
                     </p>
-                    <p className="w-1/4 rounded-sm px-1 text-xl text-neutral-700">
+                    <p className="w-1/2 rounded-sm px-1 text-start text-xl text-neutral-700">
                       {selectedCounts} 個紙箱
                     </p>
                   </div>
-                  <div className="flex w-full items-center">
-                    <p className="w-1/3 text-xl font-bold text-main-600">
-                      支付方式
-                    </p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-xl font-bold text-main-600">支付方式</p>
                     <Controller
                       name="paymentMethod"
                       control={methods.control}
                       defaultValue="cash"
                       render={({ field }) => (
                         <select
-                          className="w-1/4 rounded-md border border-neutral-400 bg-transparent text-xl text-neutral-700 focus-visible:border-main-200 focus-visible:outline-none focus-visible:ring-0"
+                          className="h-9 w-1/2 rounded-md border border-neutral-400 bg-transparent text-xl text-neutral-700 focus-visible:border-main-200 focus-visible:outline-none focus-visible:ring-0"
                           {...field}
                         >
                           <option value="cash">現金</option>

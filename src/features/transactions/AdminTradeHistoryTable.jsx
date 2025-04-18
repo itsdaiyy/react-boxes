@@ -66,7 +66,7 @@ const AdminTradeHistoryTable = () => {
   ];
 
   return (
-    <>
+    <div className="px-3 lg:px-0">
       <h4 className="mb-4 text-main-600">紙箱交易紀錄</h4>
       <StyleSheetManager shouldForwardProp={isPropValid}>
         <DataTable
@@ -77,7 +77,7 @@ const AdminTradeHistoryTable = () => {
           paginationComponentOptions={paginationComponentOptions}
         />
       </StyleSheetManager>
-    </>
+    </div>
   );
 };
 

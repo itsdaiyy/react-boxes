@@ -7,6 +7,8 @@ import * as z from "zod";
 
 import { useAddMultipleBoxes } from "@/hooks/boxes/useBoxes";
 import { useCreateTransaction } from "@/hooks/transactions/useCreateTransaction";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 const sizeOptions = [
   { label: "特大", value: "特大", points: 5 },
@@ -127,31 +129,33 @@ function AdminAddBoxes() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-main-100 py-6">
-      <div className="mb-3 flex w-1/3 justify-center">
-        <p className="my-5 w-full border-b-4 border-b-main-600 pb-5 text-center text-4xl font-bold text-main-600">
-          新增紙箱
-        </p>
-      </div>
+    <div className="flex flex-col items-center justify-center bg-main-100 px-3 py-6 xl:px-0">
+      <p className="my-5 border-b-4 border-b-main-600 px-3 pb-5 text-center text-4xl font-bold text-main-600">
+        新增紙箱
+      </p>
       <div className="w-full max-w-5xl rounded-xl bg-white p-6 shadow-lg">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4 space-x-4">
-            <label className="font-semibold text-main-600">新增時間:</label>
-            <input
+          <div className="mb-4 flex items-center space-x-4">
+            <Label className="text-nowrap text-xl font-bold text-main-600">
+              新增時間
+            </Label>
+            <Input
               type="text"
               {...register("created_at")}
               disabled
-              className="rounded-md bg-transparent px-2 py-1 text-neutral-700"
+              className="rounded-md border-none bg-transparent px-2 py-1 text-xl disabled:text-main-600"
             />
           </div>
 
-          <div className="mb-4 space-x-4">
-            <label className="font-semibold text-main-600">會員編號:</label>
-            <input
+          <div className="mb-4 flex items-center space-x-4">
+            <Label className="text-nowrap text-xl font-semibold text-main-600">
+              會員編號
+            </Label>
+            <Input
               type="text"
+              className="w-full max-w-60 border border-neutral-400 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0"
               placeholder="請輸入會員編號"
               {...register("user_id")}
-              className="rounded-md border border-main-400 px-2 py-1 focus-within:border focus-within:border-main-500 focus-visible:outline-none"
             />
             {errors.user_id && (
               <p className="inline text-sm text-red-500">

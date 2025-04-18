@@ -123,7 +123,7 @@ const AdminDeprecatedTable = () => {
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
   return (
-    <>
+    <div className="px-3 lg:px-0">
       <h4 className="mb-4 text-main-600">待回收紙箱列表</h4>
       <StyleSheetManager shouldForwardProp={isPropValid}>
         <DataTable
@@ -147,7 +147,7 @@ const AdminDeprecatedTable = () => {
           }
         />
       </StyleSheetManager>
-    </>
+    </div>
   );
 };
 

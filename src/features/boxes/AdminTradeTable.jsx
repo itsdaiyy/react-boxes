@@ -143,7 +143,7 @@ const AdminTradeTable = ({ handleSelectChange }) => {
           placeholder="請輸入關鍵字搜尋"
           value={filterText}
           onChange={(e) => setFilterText(e.target.value)}
-          className="w-72 border border-neutral-400 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0"
+          className="w-full border border-neutral-400 focus:border-main-400 focus-visible:outline-none focus-visible:ring-0 sm:w-72"
         />
       </div>
       <DataTable

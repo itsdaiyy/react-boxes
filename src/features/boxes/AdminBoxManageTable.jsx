@@ -127,7 +127,7 @@ const AdminBoxManageTable = () => {
   if (boxesError) return <ErrorMessage errorMessage={boxesError.message} />;
 
   return (
-    <>
+    <div className="px-3 lg:px-0">
       <h4 className="mb-4 text-main-600">可認領紙箱列表</h4>
       <StyleSheetManager shouldForwardProp={isPropValid}>
         <DataTable
@@ -139,15 +139,15 @@ const AdminBoxManageTable = () => {
           subHeader
           noDataComponent="沒有紙箱TAT"
           subHeaderComponent={
-            <div className="mb-4 flex w-full justify-between">
+            <div className="mb-4 flex w-full flex-col justify-between gap-3 md:flex-row">
               <input
                 type="text"
                 placeholder="搜尋紙箱編號"
                 value={filterText}
                 onChange={(e) => setFilterText(e.target.value)}
-                className="rounded border p-2 placeholder:text-[#B7B7B7] focus-within:border focus-within:border-main-500 focus-visible:outline-none"
+                className="order-3 rounded border p-2 placeholder:text-[#B7B7B7] focus-within:border focus-within:border-main-500 focus-visible:outline-none md:order-1"
               />
-              <div className="flex gap-5">
+              <div className="order-2 flex justify-end gap-5">
                 <button
                   className="btn flex items-center gap-1 border p-2"
                   onClick={() => {
@@ -169,7 +169,7 @@ const AdminBoxManageTable = () => {
           }
         />
       </StyleSheetManager>
-    </>
+    </div>
   );
 };
 
