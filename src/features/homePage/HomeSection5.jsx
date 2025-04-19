@@ -21,7 +21,7 @@ export default function HomeSection5() {
             </picture>
             
 
-            <NavLink to="/map" className='btn absolute left-1/2 -translate-x-1/2 z-10 xxl:bottom-[80px] xl:bottom-[80px] lg:bottom-[60px] md:bottom-[60px] bottom-[40px] '>
+            <NavLink to="/map" className='btn absolute left-1/2 -translate-x-1/2 z-10 xxl:bottom-[80px] xl:bottom-[80px] lg:bottom-[60px] md:bottom-[60px] bottom-[30px] '>
                 前往尋找理想紙箱
             </NavLink>
 

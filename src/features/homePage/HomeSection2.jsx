@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
-import homeSection2_1 from "@/assets/homeSection2-1.png";
-import homeSection2_2 from "@/assets/homeSection2-2.png";
-import homeSection2_3 from "@/assets/homeSection2-3.png";
+import homeSection2_1 from "@/assets/homeSection2-1.svg";
+import homeSection2_2 from "@/assets/homeSection2-2.svg";
+import homeSection2_3 from "@/assets/homeSection2-3.svg";
 import homeSection2_3_md from "@/assets/homeSection2-3_md.png";
 
 function Section2_Card({ imgUrl, title, content, padding }) {

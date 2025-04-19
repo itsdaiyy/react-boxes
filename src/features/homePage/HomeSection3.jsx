@@ -1,12 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
+
 import PropTypes from "prop-types";
 
-import homeSection3_1 from "@/assets/homeSection3_1.png";
-import homeSection3_2 from "@/assets/homeSection3_2.png";
-import homeSection3_3 from "@/assets/homeSection3_3.png";
-import homeSection3_4 from "@/assets/homeSection3_4.png";
-import homeSection3_5 from "@/assets/homeSection3_5.png";
-import homeSection3_6 from "@/assets/homeSection3_6.png";
+import { useMember } from "@/hooks/authentication/useMember";
+
+import homeSection3_1 from "@/assets/homeSection3_1.svg";
+import homeSection3_2 from "@/assets/homeSection3_2.svg";
+import homeSection3_3 from "@/assets/homeSection3_3.svg";
+import homeSection3_4 from "@/assets/homeSection3_4.svg";
+import homeSection3_5 from "@/assets/homeSection3_5.svg";
+import homeSection3_6 from "@/assets/homeSection3_6.svg";
 
 function Section3_Card({ imgUrl, content, flexDirection, padding }) {
   return (
@@ -128,6 +131,10 @@ function DecoSvgMain() {
 
 // main
 export default function HomeSection3() {
+
+  const {member} = useMember();
+  const navigate = useNavigate();
+
   const section3Data = [
     {
       imgUrl: homeSection3_1,
@@ -166,6 +173,14 @@ export default function HomeSection3() {
       padding: "lg:py-[25px] py-[24px] lg:pe-[40px] lg:ps-[17%] px-[12px]",
     },
   ];
+
+  const handleClick = ()=>{
+    if(member){
+      navigate("map")
+    }else{
+      navigate("signup")
+    }
+  }
 
   return (
     <div className="container mx-auto px-5 py-[40px] text-center lg:py-[160px]">
@@ -212,13 +227,13 @@ export default function HomeSection3() {
         <DecoSvgMain></DecoSvgMain>
       </div>
 
-      <NavLink
-        to="/signup"
+      <button
+        onClick={ handleClick}
         className="btn inline-block"
         style={{ zIndex: 100 }}
       >
         馬上註冊<br></br>加入返箱大冒險
-      </NavLink>
+      </button>
     </div>
   );
 }
