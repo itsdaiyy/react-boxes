@@ -1,11 +1,10 @@
-import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import debounce from "lodash.debounce";
 
 import { useStationSignup } from "../../hooks/authentication/useStationSignup";
-import { convertToIntlPhoneFormat, extractRoadName } from "@/utils/helpers";
+import { useDebouncedLatLng } from "@/hooks/authentication/useDebouncedLatLng";
+import { convertToIntlPhoneFormat } from "@/utils/helpers";
 
 import {
   Form,
@@ -18,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 const style = {
-  input: `border-main-100 bg-white focus-visible:border-none focus-visible:ring-main-500`,
+  input: `border-main-100 bg-white focus-visible:border-none focus-visible:ring-main-500 focus:border-none focus:ring-main-500`,
 };
 
 const formSchema = z.object({
@@ -36,34 +35,8 @@ const formSchema = z.object({
     }),
 });
 
-// 請求經緯度函式
-async function getLatLng(query, setLatLng) {
-  const extractQuery = extractRoadName(query);
-
-  try {
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(extractQuery)}`,
-    );
-    const data = await res.json();
-
-    if (data.length > 0) {
-      setLatLng({
-        latitude: Number(data[0].lat),
-        longitude: Number(data[0].lon),
-      });
-    } else {
-      setLatLng(null);
-    }
-  } catch (error) {
-    setLatLng(null);
-    console.error(error);
-  }
-}
-
 function StationSignupForm() {
-  const [latLng, setLatLng] = useState(null);
   const { createStationAsync, isCreatingStation } = useStationSignup();
-
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -73,18 +46,26 @@ function StationSignupForm() {
     },
   });
 
-  const debouncedFetch = useCallback(
-    debounce((query, setLatLng) => {
-      getLatLng(query, setLatLng);
-    }, 600),
-    [],
-  );
+  const {
+    latLng,
+    fetchLatLng,
+    isLoading: isLoadingLatLng,
+    errorMessage,
+  } = useDebouncedLatLng({
+    setFromErrorMessage: (message) => {
+      form.setError("address", {
+        type: "manual",
+        message,
+      });
+    },
+  });
 
   async function onSubmit(value) {
     if (!latLng) {
+      form.setFocus("address");
       form.setError("address", {
         type: "manual",
-        message: "無法取得地址的經緯度，請確認地址是否正確",
+        message: errorMessage,
       });
       return;
     }
@@ -102,10 +83,7 @@ function StationSignupForm() {
 
   function handleAddressChange(e, field) {
     field.onChange(e);
-    const input = e.target.value;
-    if (input.length >= 5) {
-      debouncedFetch(input, setLatLng);
-    }
+    fetchLatLng(e.target.value);
   }
 
   return (
@@ -156,7 +134,15 @@ function StationSignupForm() {
                           onChange={(e) => handleAddressChange(e, field)}
                         />
                       </FormControl>
-                      <FormMessage className="text-red-600" />
+
+                      {isLoadingLatLng ? (
+                        <p className="text-sm text-main-600">
+                          <span className="me-2 inline-block h-[14px] w-[14px] animate-spin rounded-full border-[3px] border-main-200 border-t-main-600"></span>
+                          查詢地址中
+                        </p>
+                      ) : (
+                        <FormMessage className="text-red-600" />
+                      )}
                     </FormItem>
                   )}
                 />
@@ -177,6 +163,7 @@ function StationSignupForm() {
                     </FormItem>
                   )}
                 />
+
                 <div className="flex flex-col items-start gap-5 text-start md:flex-row md:items-center">
                   <button
                     type="submit"
