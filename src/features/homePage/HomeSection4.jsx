@@ -1,5 +1,9 @@
-import { NavLink } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+
 import PropTypes from "prop-types";
+
+import { useMember } from "@/hooks/authentication/useMember";
 
 import homeSection4_1 from "@/assets/homeSection4_1.svg";
 import homeSection4_2 from "@/assets/homeSection4_2.svg";
@@ -7,6 +11,7 @@ import homeSection4_3 from "@/assets/homeSection4_3.svg";
 import homeSection4_m1 from "@/assets/homeSection4_m1.svg";
 import homeSection4_m2 from "@/assets/homeSection4_m2.svg";
 import homeSection4_m3 from "@/assets/homeSection4_m3.svg";
+
 
 function Section4_Card({ imgUrl, title, content }) {
 
@@ -34,6 +39,18 @@ Section4_Card.propTypes = {
 }
 
 export default function HomeSection4() {
+  const { member } = useMember();
+  const navigate = useNavigate();
+  const [role, setRole] = useState("");
+  
+    useEffect(() => {
+      if (member) {
+        const role = member.user.user_metadata.roles.includes("storeOwner")
+          ? "storeOwner"
+          : "normal";
+        setRole(role);
+      }
+    }, [member]);
 
   const section4Data = [
     {
@@ -53,6 +70,14 @@ export default function HomeSection4() {
     }
   ]
 
+  const handleClick = ()=>{
+    if(member){
+      role === "storeOwner" ? navigate('member/admin/adminInfo') : navigate('stationSignup')
+    }else{
+      navigate('signin')
+    }
+  }
+
   return (
     <div className="xl:bg-[url(@/assets/homeSection4_background.svg)] bg-[url(@/assets/homeSection4_background_m.svg)] bg-center bg-cover bg-no-repeat lg:py-[160px] py-[40px]">
       <div className="container mx-auto px-5 text-center">
@@ -71,7 +96,7 @@ export default function HomeSection4() {
 
         </div>
 
-        <NavLink to="/signin" className="btn z-10">申請成為紙箱轉運站</NavLink>
+        <button onClick={handleClick} className="btn z-10">申請成為紙箱轉運站</button>
 
       </div>
     </div>
