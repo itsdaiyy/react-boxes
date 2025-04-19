@@ -37,30 +37,34 @@ const daysOfWeek = [
   "星期六",
 ];
 
+function getDefaultValues(station) {
+  return {
+    station_name: station.station_name || "",
+    address: station.address || "",
+    phone: station.phone || "",
+    station_daily_hours: Array.from({ length: 7 }, (_, index) => {
+      const dayData = station.station_daily_hours.find(
+        (item) => item.day_of_week === index,
+      );
+      return {
+        id: dayData ? dayData.id : "",
+        open_time: dayData ? dayData.open_time.substring(0, 5) : "",
+        close_time: dayData ? dayData.close_time.substring(0, 5) : "",
+        is_business_day: dayData ? dayData.is_business_day : false,
+      };
+    }),
+  };
+}
+
 function AdminInfoForm({ station }) {
   const [isEditing, setIsEditing] = useState(false);
   const { updateStation, isUpdating } = useUpdateStationInfo();
 
-  const { handleSubmit, register, setValue } = useForm({
+  const { handleSubmit, register, setValue, reset, formState } = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      station_name: station.station_name || "",
-      address: station.address || "",
-      phone: station.phone || "",
-      station_daily_hours: Array.from({ length: 7 }, (_, index) => {
-        const dayData = station.station_daily_hours.find(
-          (item) => item.day_of_week === index,
-        );
-
-        return {
-          id: dayData ? dayData.id : "",
-          open_time: dayData ? dayData.open_time.substring(0, 5) : "",
-          close_time: dayData ? dayData.close_time.substring(0, 5) : "",
-          is_business_day: dayData ? dayData.is_business_day : false,
-        };
-      }),
-    },
+    defaultValues: getDefaultValues(station),
   });
+  const { errors } = formState;
 
   function onSubmit(values) {
     try {
@@ -72,6 +76,10 @@ function AdminInfoForm({ station }) {
   }
 
   function handleClickClose() {
+    if (isEditing) {
+      // 如果是取消編輯狀態，重置表單
+      reset(getDefaultValues(station));
+    }
     setIsEditing(!isEditing);
     setValue("station_name", station.station_name);
     setValue("phone", station.phone);
@@ -121,7 +129,9 @@ function AdminInfoForm({ station }) {
             disabled={!isEditing}
           />
         </div>
-
+        {errors.station_name && (
+          <p className="text-sm text-red-500">{errors.station_name.message}</p>
+        )}
         <div className="flex items-center gap-2">
           <Label htmlFor="address" className="w-16">
             <h6 className="text-main-600">地址</h6>
@@ -134,6 +144,9 @@ function AdminInfoForm({ station }) {
             disabled={!isEditing}
           />
         </div>
+        {errors.address && (
+          <p className="text-sm text-red-500">{errors.address.message}</p>
+        )}
 
         <div className="flex items-center gap-2">
           <Label htmlFor="phone" className="w-16">
@@ -147,7 +160,9 @@ function AdminInfoForm({ station }) {
             disabled={!isEditing}
           />
         </div>
-
+        {errors.phone && (
+          <p className="text-sm text-red-500">{errors.phone.message}</p>
+        )}
         <div className="flex flex-col gap-2">
           <label className="mb-2">
             <h6 className="text-main-600">營業時間</h6>

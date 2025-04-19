@@ -6,18 +6,22 @@ import { useUpdateAvailableSlots } from "@/hooks/stations/useUpdateAvailableSlot
 
 import PropTypes from "prop-types";
 
+function getDefaultValues(station) {
+  return {
+    S: station.available_slots?.S || 0,
+    M: station.available_slots?.M || 0,
+    L: station.available_slots?.L || 0,
+    XL: station.available_slots?.XL || 0,
+  };
+}
+
 function AdminRecyclingBoxForm({ station }) {
   const { updateAvailableSlots, isLoading } = useUpdateAvailableSlots();
   const [isEditing, setIsEditing] = useState(false);
   const form = useForm({
-    defaultValues: {
-      S: station.available_slots?.S || 0,
-      M: station.available_slots?.M || 0,
-      L: station.available_slots?.L || 0,
-      XL: station.available_slots?.XL || 0,
-    },
+    defaultValues: getDefaultValues(station),
   });
-  const { register, handleSubmit, formState } = form;
+  const { register, handleSubmit, formState, reset } = form;
   const { errors } = formState;
 
   function onSubmit(available_slots) {
@@ -30,14 +34,19 @@ function AdminRecyclingBoxForm({ station }) {
       toast.error("提交失敗", error);
     }
   }
+
+  function handleClickClose() {
+    if (isEditing) {
+      // 如果是取消編輯狀態，重置表單
+      reset(getDefaultValues(station));
+    }
+    setIsEditing(!isEditing);
+  }
+
   return (
     <>
       <div className="mb-2 flex">
-        <button
-          type="button"
-          onClick={() => setIsEditing(!isEditing)}
-          className="ml-auto"
-        >
+        <button type="button" onClick={handleClickClose} className="ml-auto">
           {isEditing ? (
             <FaTimes size={20} />
           ) : (
@@ -147,10 +156,19 @@ function AdminRecyclingBoxForm({ station }) {
             </label>
           </div>
         </div>
-        <p>{errors.S?.message}</p>
-        <p>{errors.M?.message}</p>
-        <p>{errors.L?.message}</p>
-        <p>{errors.XL?.message}</p>
+        {errors.S && (
+          <p className="py-2 text-sm text-red-500">{errors.S?.message}</p>
+        )}
+        {errors.M && (
+          <p className="py-2 text-sm text-red-500">{errors.M?.message}</p>
+        )}
+        {errors.L && (
+          <p className="py-2 text-sm text-red-500">{errors.L?.message}</p>
+        )}
+        {errors.XL && (
+          <p className="py-2 text-sm text-red-500">{errors.XL?.message}</p>
+        )}
+
         {isEditing && (
           <button className="btn" type="submit" disabled={isLoading}>
             {isLoading ? "更新中" : "確認修改"}

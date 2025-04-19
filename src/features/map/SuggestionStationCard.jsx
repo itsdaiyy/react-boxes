@@ -68,11 +68,21 @@ export default function SuggestionStationCard({
       <ul className="fs-6 mb-[12px] flex flex-col gap-[12px] text-[#6F6F6F]">
         <li className="flex items-start justify-start gap-[8px]">
           <span className="material-symbols-outlined">location_on</span>
-          {`地址:${station.address}`}
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(station.address)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {`地址:${station.address}`}
+          </a>
         </li>
         <li className="flex items-start justify-start gap-[8px]">
           <span className="material-symbols-outlined">call</span>
-          {`電話:${station.phone ? formatPhoneNumber(station.phone) : "尚未填寫"}`}
+          <a
+            href={`tel:${station.phone ? formatPhoneNumber(station.phone) : ""}`}
+          >
+            {`電話:${station.phone ? formatPhoneNumber(station.phone) : "尚未填寫"}`}
+          </a>
         </li>
       </ul>
 
@@ -177,11 +187,11 @@ export default function SuggestionStationCard({
 
 SuggestionStationCard.propTypes = {
   station: PropTypes.array,
-  setClickedId:PropTypes.func,
-  mapRef:PropTypes.object,
-  setIsStationInfo:PropTypes.func,
-  isLg:PropTypes.bool,
-  setIsSideBar:PropTypes.func,
-  markerRefs:PropTypes.object,
-  setPopupStation:PropTypes.func,
-}
+  setClickedId: PropTypes.func,
+  mapRef: PropTypes.object,
+  setIsStationInfo: PropTypes.func,
+  isLg: PropTypes.bool,
+  setIsSideBar: PropTypes.func,
+  markerRefs: PropTypes.object,
+  setPopupStation: PropTypes.func,
+};

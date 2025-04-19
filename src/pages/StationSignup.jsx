@@ -23,14 +23,14 @@ function StationSignup() {
 
   if (isLoadingMember || !isAuthenticated || role !== "normal")
     return (
-      <div className="flex h-screen items-center justify-center border">
+      <div className="mt-[72px] flex h-screen items-center justify-center border">
         <Spinner />
       </div>
     );
 
   return (
     <>
-      <div className="grid h-screen grid-rows-[auto_1fr_auto]">
+      <div className="mt-[72px] grid h-screen grid-rows-[auto_1fr_auto]">
         <Header />
         <main className="container mx-auto my-6 px-3 lg:max-w-3xl">
           <StationSignupForm />

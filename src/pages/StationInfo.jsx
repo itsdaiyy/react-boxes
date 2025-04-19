@@ -236,7 +236,7 @@ function StationInfo() {
       <Header />
       <main>
         {/* Section1 */}
-        <div className="bg-second-100 py-[40px]">
+        <div className="mt-[72px] bg-second-100 py-[40px]">
           <div className="container mx-auto px-5">
             <NavLink
               to="/map"
@@ -270,11 +270,21 @@ function StationInfo() {
                     <span className="material-symbols-outlined">
                       location_on
                     </span>
-                    {`地址:${station.address}`}
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(station.address)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {`地址:${station.address}`}
+                    </a>
                   </li>
                   <li className="flex items-start justify-start gap-[8px]">
                     <span className="material-symbols-outlined">call</span>
-                    {`電話:${station.phone ? formatPhoneNumber(station.phone) : "尚未填寫"}`}
+                    <a
+                      href={`tel:${station.phone ? formatPhoneNumber(station.phone) : ""}`}
+                    >
+                      {`電話:${station.phone ? formatPhoneNumber(station.phone) : "尚未填寫"}`}
+                    </a>
                   </li>
                   <li className="flex items-start justify-start gap-[8px]">
                     <span className="material-symbols-outlined">schedule</span>

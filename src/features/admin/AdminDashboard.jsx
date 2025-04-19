@@ -39,7 +39,7 @@ function AdminDashboard({ member }) {
   ];
 
   return (
-    <>
+    <div className="mt-[72px]">
       <Banner member={member}>
         <>
           <BannerInfo
@@ -65,7 +65,7 @@ function AdminDashboard({ member }) {
           <Outlet />
         </section>
       </main>
-    </>
+    </div>
   );
 }
 
