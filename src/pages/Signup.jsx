@@ -15,7 +15,7 @@ import Footer from "@/components/Footer";
 
 const style = {
   cardContainer:
-    "my-5 flex w-4/5 items-start justify-between overflow-hidden rounded-lg border-none bg-main-100 shadow shadow-neutral-400 lg:h-[600px]",
+    "my-5 flex w-4/5 items-start justify-between overflow-hidden rounded-lg border-none bg-main-100 shadow shadow-neutral-400 md:my-10 lg:h-[600px]",
   leftBox:
     "hidden h-full items-center bg-signin bg-cover bg-center bg-no-repeat p-4 lg:flex lg:w-2/3",
 };
@@ -23,7 +23,7 @@ function Signup() {
   return (
     <div className="grid h-screen grid-rows-[auto_1fr_auto]">
       <Header />
-      <main className="container mx-auto flex items-center justify-center">
+      <main className="container mx-auto mt-[72px] flex items-center justify-center">
         <Card className={style.cardContainer}>
           <div className={style.leftBox}>
             <p className="fs-1 font-bold text-white">

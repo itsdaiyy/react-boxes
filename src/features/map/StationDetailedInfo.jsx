@@ -53,11 +53,21 @@ export default function StationDetailedInfo({
         <ul className="fs-6 mb-[12px] flex flex-col gap-[12px] text-[#6F6F6F]">
           <li className="flex items-start justify-start gap-[8px]">
             <span className="material-symbols-outlined">location_on</span>
-            {`地址:${station.address}`}
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(station.address)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {`地址:${station.address}`}
+            </a>
           </li>
           <li className="flex items-start justify-start gap-[8px]">
             <span className="material-symbols-outlined">call</span>
-            {`電話:${station.phone ? formatPhoneNumber(station.phone) : "尚未填寫"}`}
+            <a
+              href={`tel:${station.phone ? formatPhoneNumber(station.phone) : ""}`}
+            >
+              {`電話:${station.phone ? formatPhoneNumber(station.phone) : "尚未填寫"}`}
+            </a>
           </li>
           <li className="flex items-start justify-start gap-[8px]">
             <span className="material-symbols-outlined">schedule</span>
@@ -190,5 +200,5 @@ StationDetailedInfo.propTypes = {
       XL: PropTypes.number,
     }),
   }),
-  handleBackSuggestaion:PropTypes.func,
+  handleBackSuggestaion: PropTypes.func,
 };

@@ -8,7 +8,7 @@ import BannerImage from "@/features/admin/BannerImage";
 
 function NormalDashboard({ member }) {
   return (
-    <>
+    <div className="mt-[72px]">
       <Banner member={member}>
         <BannerInfo
           title={member.user.user_metadata.display_name}
@@ -31,7 +31,7 @@ function NormalDashboard({ member }) {
           <Outlet />
         </section>
       </main>
-    </>
+    </div>
   );
 }
 NormalDashboard.propTypes = {

@@ -1,19 +1,12 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
 import mapMark from "@/assets/mapMark.png";
 
 import { countRecyclableBoxes, countPendingBoxes } from "@/utils/helpers";
-
 
 // 取得使用者定位
 const UserLocation = ({ setUserLocation }) => {
@@ -34,12 +27,12 @@ const UserLocation = ({ setUserLocation }) => {
     } else {
       console.error("瀏覽器不支援地理位置功能！");
     }
-  }, [map,setUserLocation]);
+  }, [map, setUserLocation]);
 
   return null; // 不需要渲染任何元素
 };
 
-UserLocation.propTypes = { setUserLocation: PropTypes.func }
+UserLocation.propTypes = { setUserLocation: PropTypes.func };
 
 //Popup
 const PopupCardLg = ({
@@ -57,7 +50,13 @@ const PopupCardLg = ({
         <span className="fs-7 rounded-full bg-main-200 px-[12px] py-[4px]">{`可回收${countRecyclableBoxes(station)}個`}</span>
         <span className="fs-7 rounded-full bg-second-200 px-[12px] py-[4px]">{`可認領${countPendingBoxes(station)}個`}</span>
       </div>
-      <p className="mb-[12px]">{station.address}</p>
+      <a
+        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(station.address)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <p className="mb-[12px] text-gray-700">{station.address}</p>
+      </a>
       <button
         className="btn w-full"
         onClick={() => {
@@ -88,7 +87,7 @@ PopupCardLg.propTypes = {
   setIsStationInfo: PropTypes.func,
   setIsSideBar: PropTypes.func,
   setClickedId: PropTypes.func,
-}
+};
 
 const PopupCard = ({ station }) => {
   return (
@@ -124,14 +123,22 @@ PopupCard.propTypes = {
       L: PropTypes.number,
       XL: PropTypes.number,
     }),
-  })
-}
+  }),
+};
 
-
-export default function MapBox({ stations, setPopupStation, isLg, setClickedId,
-  setIsStationInfo, setIsSideBar, mapRef, markerRefs, popupStation,
-  setUserLocation, isSideBar }) {
-
+export default function MapBox({
+  stations,
+  setPopupStation,
+  isLg,
+  setClickedId,
+  setIsStationInfo,
+  setIsSideBar,
+  mapRef,
+  markerRefs,
+  popupStation,
+  setUserLocation,
+  isSideBar,
+}) {
   // 設定icon、站點名稱
   const createCustomIcon = (name) => {
     return L.divIcon({
@@ -145,7 +152,6 @@ export default function MapBox({ stations, setPopupStation, isLg, setClickedId,
       popupAnchor: [0, -41], // 調整彈出視窗位置
     });
   };
-
 
   // Marker在不同螢幕下的執行動作
   const handleMarkerClick = (item) => {
@@ -202,9 +208,7 @@ export default function MapBox({ stations, setPopupStation, isLg, setClickedId,
             ) : (
               <Popup>
                 {popupStation ? (
-                  <PopupCard
-                    station={popupStation}
-                  ></PopupCard>
+                  <PopupCard station={popupStation}></PopupCard>
                 ) : (
                   <p>載入中...</p>
                 )}
@@ -219,7 +223,7 @@ export default function MapBox({ stations, setPopupStation, isLg, setClickedId,
         <button
           className="absolute left-[0px] top-[273px] z-[999999999] hidden h-[72px] w-[40px] rounded-r-lg border-b border-e border-t bg-white lg:inline"
           onClick={() => {
-            setIsSideBar(!isSideBar)
+            setIsSideBar(!isSideBar);
             setTimeout(() => {
               mapRef.current.invalidateSize(true);
             }, 10);
@@ -233,7 +237,7 @@ export default function MapBox({ stations, setPopupStation, isLg, setClickedId,
         </button>
       </MapContainer>
     </div>
-  )
+  );
 }
 
 MapBox.propTypes = {
@@ -247,5 +251,5 @@ MapBox.propTypes = {
   markerRefs: PropTypes.object,
   popupStation: PropTypes.object,
   setUserLocation: PropTypes.func,
-  isSideBar: PropTypes.bool
+  isSideBar: PropTypes.bool,
 };

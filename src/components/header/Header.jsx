@@ -11,7 +11,7 @@ const style = {
 
 function Header() {
   return (
-    <header className="bg-[rgba(255,255,255,0.75)]">
+    <header className="fixed left-0 top-0 z-[10000] w-full bg-[rgba(255,255,255,0.75)]">
       <div className={style.container}>
         <Link to="/">
           <picture>
