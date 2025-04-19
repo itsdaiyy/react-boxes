@@ -7,8 +7,26 @@ function BannerInfo({ title, infoData = [], showApplyButton }) {
     <div className="grow">
       <h2 className="mb-4 text-black">{title}</h2>
       <ul className="fs-6 mb-4 flex flex-col space-y-2 text-[#6F6F6F]">
-        {infoData.map((item) => (
-          <li key={item}>{item}</li>
+        {infoData.map(({ label, value, type }) => (
+          <li key={label}>
+            {label}：
+            {type === 'email' && (
+              <a href={`mailto:${value}`}>{value}</a>
+            )}
+            {type === 'tel' && (
+              <a href={`tel:${value}`} >{value}</a>
+            )}
+            {type === 'address' && (
+              <a
+                href={`https://www.google.com/maps/search/?q=${encodeURIComponent(value)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {value}
+              </a>
+            )}
+            {!type && value}
+          </li>
         ))}
       </ul>
       {showApplyButton && (

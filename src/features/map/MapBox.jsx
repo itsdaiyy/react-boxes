@@ -144,7 +144,7 @@ export default function MapBox({
     return L.divIcon({
       className: "custom-marker",
       html: `<div style="text-align: center;width:max-content">
-                <img src=${mapMark} style='margin:0 auto' />
+                <img src=${mapMark} style='margin:0 auto' alt=mark:${name}/>
                 <h6 style="color: #9F815B; font-size: 14px;">${name}</h6>
              </div>`,
       iconSize: [40, 41], // 調整圖標大小
