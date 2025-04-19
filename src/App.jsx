@@ -11,7 +11,6 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
-
       <RouterProvider router={route} />
       <Toaster
         position="top-center"

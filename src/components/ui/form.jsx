@@ -5,6 +5,8 @@ import { Controller, FormProvider, useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 
+import PropTypes from "prop-types";
+
 const Form = FormProvider
 
 const FormFieldContext = React.createContext({})
@@ -20,6 +22,10 @@ const FormField = (
     </FormFieldContext.Provider>)
   );
 }
+
+FormField.propTypes = {
+  name: PropTypes.string,
+};
 
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
@@ -56,6 +62,9 @@ const FormItem = React.forwardRef(({ className, ...props }, ref) => {
   );
 })
 FormItem.displayName = "FormItem"
+FormItem.propTypes = {
+  className: PropTypes.string,
+};
 
 const FormLabel = React.forwardRef(({ className, ...props }, ref) => {
   const { error, formItemId } = useFormField()
@@ -69,6 +78,9 @@ const FormLabel = React.forwardRef(({ className, ...props }, ref) => {
   );
 })
 FormLabel.displayName = "FormLabel"
+FormLabel.propTypes = {
+  className: PropTypes.string,
+};
 
 const FormControl = React.forwardRef(({ ...props }, ref) => {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
@@ -100,6 +112,9 @@ const FormDescription = React.forwardRef(({ className, ...props }, ref) => {
   );
 })
 FormDescription.displayName = "FormDescription"
+FormDescription.propTypes = {
+  className: PropTypes.string,
+};
 
 const FormMessage = React.forwardRef(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField()
@@ -120,6 +135,10 @@ const FormMessage = React.forwardRef(({ className, children, ...props }, ref) =>
   );
 })
 FormMessage.displayName = "FormMessage"
+FormMessage.propTypes = {
+  className: PropTypes.string,
+  children:PropTypes.node,
+};
 
 export {
   useFormField,

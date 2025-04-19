@@ -28,14 +28,15 @@ function AdminDashboard({ member }) {
   if (isLoadingStation) return <Spinner />;
 
   const adminInfo = [
-    `站點編號：${station.id}`,
-    `地址：${station.address}`,
-    `聯絡電話：${station.phone}`,
+    { label: '站點編號', value: station.id },
+    { label: '地址', value: station.address, type: 'address' },
+    { label: '聯絡電話', value: station.phone, type: 'tel' },
   ];
+  
   const normalInfo = [
-    `會員編號：${member.user.id}`,
-    `電子信箱：${member.user.email}`,
-    `聯絡電話：${member.user.user_metadata.phone}`,
+    { label: '會員編號', value: member.user.id },
+    { label: '電子信箱', value: member.user.email, type: 'email' },
+    { label: '聯絡電話', value: member.user.user_metadata.phone, type: 'tel' },
   ];
 
   return (

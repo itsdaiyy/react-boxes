@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import SuggestionStationCard from "@/features/map/SuggestionStationCard";
 import StationDetailedInfo from "@/features/map/StationDetailedInfo";
+import NotFoundStation from "./NotFoundStation";
 
 export default function MapSideBar({
   setIsSideBar,
@@ -49,8 +50,8 @@ export default function MapSideBar({
           handleBackSuggestaion={handleBackSuggestaion}
         ></StationDetailedInfo>
       ) : (
-        <div className="flex flex-col gap-[8px] p-[24px] pt-0 lg:p-[24px]">
-          {suggestionStations.map((item, index) => (
+        <div className="flex flex-col gap-[8px] p-[24px] pt-0 lg:p-[24px] h-full items-center justify-center">
+          {suggestionStations.length > 0 ? suggestionStations.map((item, index) => (
             <SuggestionStationCard
               station={item}
               key={index}
@@ -62,7 +63,7 @@ export default function MapSideBar({
               markerRefs={markerRefs}
               setPopupStation={setPopupStation}
             />
-          ))}
+          )) : <NotFoundStation></NotFoundStation>}
         </div>
       )}
     </div>
