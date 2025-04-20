@@ -236,7 +236,7 @@ function StationInfo() {
       <Header />
       <main>
         {/* Section1 */}
-        <div className="mt-[72px] bg-second-100 py-[40px]">
+        <div className="mt-[56px] bg-second-100 py-[40px] lg:mt-[72px]">
           <div className="container mx-auto px-5">
             <NavLink
               to="/map"

@@ -6,7 +6,7 @@ function PageNotFound() {
   return (
     <div className="grid h-screen grid-rows-[auto_1fr_auto]">
       <Header />
-      <main className="container mx-auto mt-[72px] flex flex-col">
+      <main className="container mx-auto mt-[56px] flex flex-col lg:mt-[72px]">
         <nav className="p-5"></nav>
         <div className="flex h-full items-center justify-center">
           <div className="mb-16 flex flex-col items-center">

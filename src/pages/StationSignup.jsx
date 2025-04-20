@@ -30,7 +30,7 @@ function StationSignup() {
 
   return (
     <>
-      <div className="mt-[72px] grid h-screen grid-rows-[auto_1fr_auto]">
+      <div className="mt-[56px] grid h-screen grid-rows-[auto_1fr_auto] lg:mt-[72px]">
         <Header />
         <main className="container mx-auto my-6 px-3 lg:max-w-3xl">
           <StationSignupForm />

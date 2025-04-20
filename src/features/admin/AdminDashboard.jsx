@@ -28,19 +28,19 @@ function AdminDashboard({ member }) {
   if (isLoadingStation) return <Spinner />;
 
   const adminInfo = [
-    { label: '站點編號', value: station.id },
-    { label: '地址', value: station.address, type: 'address' },
-    { label: '聯絡電話', value: station.phone, type: 'tel' },
+    { label: "站點編號", value: station.id },
+    { label: "地址", value: station.address, type: "address" },
+    { label: "聯絡電話", value: station.phone, type: "tel" },
   ];
-  
+
   const normalInfo = [
-    { label: '會員編號', value: member.user.id },
-    { label: '電子信箱', value: member.user.email, type: 'email' },
-    { label: '聯絡電話', value: member.user.user_metadata.phone, type: 'tel' },
+    { label: "會員編號", value: member.user.id },
+    { label: "電子信箱", value: member.user.email, type: "email" },
+    { label: "聯絡電話", value: member.user.user_metadata.phone, type: "tel" },
   ];
 
   return (
-    <div className="mt-[72px]">
+    <div className="mt-[56px] lg:mt-[72px]">
       <Banner member={member}>
         <>
           <BannerInfo
