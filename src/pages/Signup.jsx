@@ -23,7 +23,7 @@ function Signup() {
   return (
     <div className="grid h-screen grid-rows-[auto_1fr_auto]">
       <Header />
-      <main className="container mx-auto mt-[72px] flex items-center justify-center">
+      <main className="container mx-auto mt-[56px] flex items-center justify-center lg:mt-[72px]">
         <Card className={style.cardContainer}>
           <div className={style.leftBox}>
             <p className="fs-1 font-bold text-white">
