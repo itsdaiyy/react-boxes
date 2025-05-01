@@ -49,7 +49,7 @@ function SigninForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>會員信箱</FormLabel>
+              <FormLabel className="text-black">會員信箱</FormLabel>
               <FormControl>
                 <Input
                   placeholder="請輸入電子信箱"
@@ -68,7 +68,7 @@ function SigninForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>密碼</FormLabel>
+              <FormLabel className="text-black">密碼</FormLabel>
               <FormControl>
                 <PasswordInput
                   placeholder="請輸入密碼"
