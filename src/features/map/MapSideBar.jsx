@@ -30,7 +30,7 @@ export default function MapSideBar({
   };
 
   return (
-    <div className="scrollbar w-full flex-shrink-0 overflow-auto lg:w-[486px]">
+    <div className="w-full flex-shrink-0 overflow-auto lg:w-[486px]">
       <button
         className="flex gap-[12px] px-[24px] py-[24px] lg:hidden"
         onClick={() => {
@@ -50,20 +50,24 @@ export default function MapSideBar({
           handleBackSuggestaion={handleBackSuggestaion}
         ></StationDetailedInfo>
       ) : (
-        <div className="flex flex-col gap-[8px] p-[24px] pt-0 lg:p-[24px] h-full items-center justify-center">
-          {suggestionStations.length > 0 ? suggestionStations.map((item, index) => (
-            <SuggestionStationCard
-              station={item}
-              key={index}
-              setClickedId={setClickedId}
-              mapRef={mapRef}
-              setIsStationInfo={setIsStationInfo}
-              setIsSideBar={setIsSideBar}
-              isLg={isLg}
-              markerRefs={markerRefs}
-              setPopupStation={setPopupStation}
-            />
-          )) : <NotFoundStation></NotFoundStation>}
+        <div className="flex h-full flex-col gap-[8px] p-[24px] pt-0 lg:p-[24px]">
+          {suggestionStations.length > 0 ? (
+            suggestionStations.map((item, index) => (
+              <SuggestionStationCard
+                station={item}
+                key={index}
+                setClickedId={setClickedId}
+                mapRef={mapRef}
+                setIsStationInfo={setIsStationInfo}
+                setIsSideBar={setIsSideBar}
+                isLg={isLg}
+                markerRefs={markerRefs}
+                setPopupStation={setPopupStation}
+              />
+            ))
+          ) : (
+            <NotFoundStation></NotFoundStation>
+          )}
         </div>
       )}
     </div>
@@ -72,13 +76,13 @@ export default function MapSideBar({
 
 MapSideBar.propTypes = {
   setIsSideBar: PropTypes.func,
-  mapRef:PropTypes.object,
-  isStationInfo:PropTypes.bool,
+  mapRef: PropTypes.object,
+  isStationInfo: PropTypes.bool,
   setIsStationInfo: PropTypes.func,
   setPopupStation: PropTypes.func,
   suggestionStations: PropTypes.array,
   setClickedId: PropTypes.func,
-  isLg:PropTypes.bool,
-  markerRefs:PropTypes.object,
-  clickedId:PropTypes.string,
+  isLg: PropTypes.bool,
+  markerRefs: PropTypes.object,
+  clickedId: PropTypes.string,
 };

@@ -106,8 +106,6 @@ const PopupCard = ({ station }) => {
             可認領
           </span>
         )}
-        {/* <span className="fs-7 rounded-full bg-main-200 px-[12px] py-[4px]">{`可回收${countRecyclableBoxes(station)}個`}</span>
-      <span className="fs-7 rounded-full bg-second-200 px-[12px] py-[4px]">{`可認領${countPendingBoxes(station)}個`}</span> */}
       </div>
     </div>
   );
@@ -165,7 +163,7 @@ export default function MapBox({
   };
 
   return (
-    <div className="relative z-0 h-[calc(100vh-408.2px)] w-full md:h-[calc(100vh-264.2px)] lg:h-[700px]">
+    <div className="relative z-0 w-full">
       <MapContainer
         // className="relative z-0"
         center={[stations[0].latitude, stations[0].longitude]} // 預設第一個站點

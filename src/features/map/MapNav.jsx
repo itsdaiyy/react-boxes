@@ -54,10 +54,10 @@ const SuggestedTags = ({ filteredTags, handleSelect }) => {
   );
 };
 
-SuggestedTags.propTypes = { 
-  filteredTags:PropTypes.array,
-  handleSelect: PropTypes.func 
-}
+SuggestedTags.propTypes = {
+  filteredTags: PropTypes.array,
+  handleSelect: PropTypes.func,
+};
 
 function MapNav({
   handleLocateUser,
@@ -149,26 +149,6 @@ function MapNav({
           <div className="hidden md:block">
             <NavMenu />
           </div>
-
-          {/* <div className={style.menu}>
-            <NavMenuSm />
-          </div>
-          <nav className={style.nav}>
-            <NavLink
-              to="/map"
-              className={({ isActive }) => (isActive ? style.mapAfter : "")}
-            >
-              <h6 className="hover:text-main-500">紙箱地圖</h6>
-            </NavLink>
-            <NavLink
-              to="/signin"
-              className={({ isActive }) =>
-                isActive ? "btn fs-6 bg-main-500 shadow-none" : "btn"
-              }
-            >
-              登入
-            </NavLink>
-          </nav> */}
         </div>
       </div>
     </div>
@@ -176,13 +156,13 @@ function MapNav({
 }
 
 MapNav.propTypes = {
-  handleLocateUser:PropTypes.func,
-  searchKeyWords:PropTypes.string,
-  setSearchKeyWords:PropTypes.func,
-  handleSearchStations:PropTypes.func,
-  availableTags:PropTypes.array,
-  showSuggestedTags:PropTypes.bool,
-  setShowSuggestedTags:PropTypes.func,
-}
+  handleLocateUser: PropTypes.func,
+  searchKeyWords: PropTypes.string,
+  setSearchKeyWords: PropTypes.func,
+  handleSearchStations: PropTypes.func,
+  availableTags: PropTypes.array,
+  showSuggestedTags: PropTypes.bool,
+  setShowSuggestedTags: PropTypes.func,
+};
 
 export default MapNav;
