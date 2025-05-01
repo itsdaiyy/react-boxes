@@ -1,68 +1,80 @@
-<h1 align="center">紙箱轉運站</h1>
 <div align="center">
- <img src="https://github.com/user-attachments/assets/5b0e789b-9f8b-4367-9588-c0fc916db54c"/>
+  <a href="https://github.com/itsdaiyy/react-boxes">
+    <img src="/docs/logo.svg" alt="Logo" width="80" height="80">
+  </a>
+
+<h3 align="center">📦 返箱轉運站</h3>
+
+  <p align="center">
+    串聯「店家」與「使用者」紙箱回收與交換，減少資源浪費♻️
+    <br />
+    <br />
+    <a href="https://itsdaiyy.github.io/react-boxes/"><strong>View Demo »</strong></a>
+    <br />
+  </p>
 </div>
 
-> 紙箱轉運站－「延續紙箱生命，減少浪費，共同守護地球。」
 
-- [線上觀看連結](https://ana000701.github.io/react-boxes/)
+## 👀 關於這個專案
+<p>這是一個推廣「紙箱二次使用」的共享平台📦</p>
+我們希望讓網購收到的紙箱不再一次就報廢，而是透過合作店家收回、重複利用或開放認領，讓紙箱能多跑幾趟旅程🚗 
+店家可以省下出貨成本、使用者能換到積分，最後沒被用到的紙箱才由回收業者統一回收，真正做到物盡其用、減少浪費🌱</p>
 
-## 📜 專案概述
-隨著網購的流行，紙箱的使用量也逐年增加，但許多紙箱被使用一次後便丟棄，造成浪費。紙箱轉運站是一個平台，旨在透過店家與大眾的參與，將不再需要的紙箱進行轉交與再利用，從而延長紙箱的使用週期，達成資源的循環使用，減少環境污染。
+<br />
 
-## 🚀 使用技術
-- 前端技術：React 19、React Router 6、React Leaflet、React Hook Form、React Query
-- UI 樣式：Tailwind CSS、ShadCN/UI
-- 後端與資料庫：Supabase（用於身份驗證與資料存儲）
+## 🚀 快速預覽
+- [🔗 前往預覽連結](https://itsdaiyy.github.io/react-boxes/#/)
+  
+> ⚠️ 本專案部分功能依賴 Supabase service role key，為安全考量不公開 `.env`，請使用 [預覽連結](https://itsdaiyy.github.io/react-boxes/#/) 體驗功能。
 
-## 🔧功能介紹
-- 獲得積分：大眾可以在平台上查看附近支持的店家，將不再需要的紙箱拿到這些店家，並兌換獲得績分。
-- 兌換紙箱：當民眾需要使用紙箱，可以到指定店家使用現金或積分以優惠價格換到合適的紙箱。
-- 紙箱領取：店家可以列出可以領取的紙箱，讓有需要的人能夠來取用，減少資源浪費。
-- 店家管理：店家能夠註冊並管理紙箱的回收與兌換資訊，方便大眾查詢。
-- 地圖定位：透過地圖顯示店家的位置，讓使用者方便找到最近的捐贈/領取點。
-
-## 🖥️ 前後台畫面
-
-<h4 align="center">
- <img src="https://github.com/user-attachments/assets/9af01f64-e56b-44c4-b971-650891297240" width="600" />
- <p>站點地圖</p>
-</h4>
-<h4 align="center">
- <img src="https://github.com/user-attachments/assets/0d4b4401-fe0c-4578-8cca-2d95e3701049" width="600" />
- <p align='center'>會員管理頁面</p>
-</h4>
-<h4 align="center">
- <img src="https://github.com/user-attachments/assets/a0dd86be-a859-4286-b795-e3b42dc15237" width="600" />
- <p align='center'>站點管理頁面</p>
-</h4>
-
-
-## 安裝與執行
-請確認 nodejs 版本為 `19.9.0` 以上，npm 版本 `9.6.3` 以上
-### 取得專案
-```bash
-git clone https://github.com/Ana000701/react-boxes.git
+#### 1. 一般使用者測試帳戶
 ```
-### 移動到專案內
-```bash
-cd README-Example-Template
-```
-### 安裝套件
-```bash
-npm install
-```
-### 環境變數設定
-在專案內新增`.env`檔案，至 [supabase](https://supabase.com/) 建立專案，並將相關參數放入`.env`檔案內
-### 運行專案
-```bash
-npm run dev
-```
-### 開啟專案
-在瀏覽器網址列輸入以下即可看到畫面
-
-```bash
-http://localhost:5173/
+    email: "customer@gmail.com",
+    password: "password1",
 ```
 
-## 聯絡作者
+#### 2. 站點管理者測試帳戶
+```
+    email: "test01@gmail.com",
+    password: "password1",
+```
+
+<br />
+
+## ✨ 核心功能
+### 一般會員
+- 地圖查詢：使用者有紙箱需求，可以透過地圖定位使用者位置，或搜尋關鍵字搜尋特定回收合作店家。
+- 回收紙箱：使用者有多餘紙箱，可以至合作店家回收紙箱，並獲取積分。
+- 兌換紙箱：使用者可以使用積分或現金，向合作店家兌換紙箱。
+- 成為合作店家：使用者若有空間，可以向平台申請成為站點管理者。
+
+### 站點管理者
+- 提供紙箱：站點管理者可以上架可認領紙箱，供一般使用者兌換或購買。
+- 獲得紙箱：站點管理者可以公開可供回收的空位數資訊，讓一般使用者提供紙箱。
+- 店家管理：店家可以管理紙箱的狀態，若有不堪使用的紙箱可以報廢回收。
+
+<br />
+
+## 💻 使用技術
+#### Frontend & Libraries
+[![React](https://img.shields.io/badge/react-20232A?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://react.dev/)
+[![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white)](https://reactrouter.com/)
+[![React Query](https://img.shields.io/badge/React_Query-f04444?style=for-the-badge&logo=tanstack)](https://tanstack.com/query/latest/docs/framework/react/overview)
+[![React Hook Form](https://img.shields.io/badge/React_Hook_Form-ec5991?style=for-the-badge&logo=react%20hook%20form&logoColor=white)](https://react-hook-form.com/)
+[![Static Badge](https://img.shields.io/badge/zod-264b7f?style=for-the-badge&logo=zod)](https://zod.dev/) <br />
+[![React Leaflet](https://img.shields.io/badge/React_Leaflet-2A473E?style=for-the-badge&logo=leaflet)](https://react-leaflet.js.org/)
+
+#### Styling
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![ShadCN UI](https://img.shields.io/badge/ShadCN_UI-000000?style=for-the-badge&logo=none&logoColor=white)
+
+
+#### Backend 
+[![supabase](https://img.shields.io/badge/supabase-1c1c1c?style=for-the-badge&logo=supabase)](https://supabase.com/)
+
+
+## 🤝 團隊夥伴
+- [Ana](https://github.com/Ana000701)
+- [Shao](https://github.com/oxfoxlion)
+- [Johnny](https://github.com/JohnnyHsiehTW)
+- [Daiyy (me)](https://github.com/itsdaiyy)
