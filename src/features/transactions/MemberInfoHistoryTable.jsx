@@ -4,6 +4,7 @@ import { customStyles, paginationComponentOptions } from "@/data/constants";
 import { useMemberTransactionRecords } from "@/hooks/transactions/useBoxTransactions";
 import Spinner from "@/components/Spinner";
 import ErrorMessage from "@/components/ErrorMessage";
+import EmptyDataMessage from "@/components/EmptyDataMessage";
 
 const MemberInfoHistoryTable = () => {
   const { records, isLoadingRecords, recordsError } =
@@ -66,6 +67,7 @@ const MemberInfoHistoryTable = () => {
       pagination
       customStyles={customStyles}
       paginationComponentOptions={paginationComponentOptions}
+      noDataComponent={<EmptyDataMessage message="目前沒有交易記錄" />}
     />
   );
 };
