@@ -79,13 +79,52 @@ export function countPendingBoxes(station) {
   return station.boxes?.length;
 }
 
+export function cleanedPhoneNumber(rawPhone) {
+  return rawPhone
+    .replace(/^\+886-?/, "0")
+    .replace(/[-\s]/g, "")
+    .replace(/#$/, "");
+}
+
 // 取得電話號碼
-export function formatPhoneNumber(phone) {
-  return phone?.replace(/^\+886-/, "0").replace(/#$/, "");
+export function formatPhoneNumber(rawPhone) {
+  const cleaned = cleanedPhoneNumber(rawPhone);
+  const rules = [
+    "0836", // 馬祖
+    "082", // 金門
+    "0800",
+    "0809", // 免付費
+    "089", // 台東
+    "049", // 南投
+    "037", // 苗栗
+    "0201",
+    "0203",
+    "0204", // 多元付費
+    "03", // 桃園、新竹、花蓮、宜蘭
+    "04", // 台中、彰化
+    "05", // 嘉義、雲林
+    "06", // 台南、澎湖
+    "07", // 高雄
+    "08", // 屏東
+    "02", // 台北
+  ];
+
+  const sortedRules = rules.sort((a, b) => b.length - a.length);
+
+  for (const prefix of sortedRules) {
+    if (cleaned.startsWith("09")) {
+      return `09${cleaned.slice(2, 4)}-${cleaned.slice(4, 7)}-${cleaned.slice(7)}`;
+    }
+    if (cleaned.startsWith(prefix)) {
+      return `${prefix}-${cleaned.slice(prefix.length)}`;
+    }
+  }
+
+  return cleaned;
 }
 
 export function convertToIntlPhoneFormat(phone) {
-  return `+886${phone.slice(1)}`;
+  return `+886-${phone.slice(1)}`;
 }
 
 // 計算營業時間

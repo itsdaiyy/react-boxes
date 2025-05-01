@@ -5,6 +5,7 @@ import DashboardSubNav from "@/features/admin/DashboardSubNav";
 import DashboardNav from "@/features/admin/DashboardNav";
 import BannerInfo from "@/features/admin/BannerInfo";
 import BannerImage from "@/features/admin/BannerImage";
+import { formatPhoneNumber } from "@/utils/helpers";
 
 function NormalDashboard({ member }) {
   return (
@@ -17,7 +18,7 @@ function NormalDashboard({ member }) {
             { label: "電子信箱", value: member.user.email, type: "email" },
             {
               label: "聯絡電話",
-              value: member.user.user_metadata.phone,
+              value: formatPhoneNumber(member.user.user_metadata.phone),
               type: "tel",
             },
           ]}

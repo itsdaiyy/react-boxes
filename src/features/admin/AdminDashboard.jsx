@@ -9,6 +9,7 @@ import Spinner from "@/components/Spinner";
 import DashboardNav from "@/features/admin/DashboardNav";
 import BannerImage from "@/features/admin/BannerImage";
 import BannerInfo from "@/features/admin/BannerInfo";
+import { formatPhoneNumber } from "@/utils/helpers";
 
 function AdminDashboard({ member }) {
   const { station, isLoadingStation } = useStationAdmin();
@@ -30,13 +31,17 @@ function AdminDashboard({ member }) {
   const adminInfo = [
     { label: "站點編號", value: station.id },
     { label: "地址", value: station.address, type: "address" },
-    { label: "聯絡電話", value: station.phone, type: "tel" },
+    { label: "聯絡電話", value: formatPhoneNumber(station.phone), type: "tel" },
   ];
 
   const normalInfo = [
     { label: "會員編號", value: member.user.id },
     { label: "電子信箱", value: member.user.email, type: "email" },
-    { label: "聯絡電話", value: member.user.user_metadata.phone, type: "tel" },
+    {
+      label: "聯絡電話",
+      value: formatPhoneNumber(member.user.user_metadata.phone),
+      type: "tel",
+    },
   ];
 
   return (
