@@ -23,6 +23,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import mapMark from "../assets/mapMark.png";
 import { getPendingBoxes } from "@/utils/helpers";
+import EmptyDataMessage from "@/components/EmptyDataMessage";
 
 // 資料處理
 // 計算紙箱數量
@@ -425,6 +426,9 @@ function StationInfo() {
                 customStyles={stationInfoStyles}
                 pagination
                 paginationComponentOptions={paginationComponentOptions}
+                noDataComponent={
+                  <EmptyDataMessage message="目前沒有可認領的紙箱" />
+                }
               />
             </div>
           </StyleSheetManager>
