@@ -1,10 +1,9 @@
 <div align="center">
   <a href="https://github.com/itsdaiyy/react-boxes">
-    <img src="/docs/logo.svg" alt="Logo" width="80" height="80">
+    <img src="/docs/logo.svg" alt="Logo" width="280">
   </a>
-
-<h3 align="center">📦 返箱轉運站</h3>
-
+  <br />
+  <br />
   <p align="center">
     串聯「店家」與「使用者」紙箱回收與交換，減少資源浪費♻️
     <br />
@@ -14,6 +13,8 @@
   </p>
 </div>
 
+<br />
+<br />
 
 ## 👀 關於這個專案
 <p>這是一個推廣「紙箱二次使用」的共享平台📦</p>
