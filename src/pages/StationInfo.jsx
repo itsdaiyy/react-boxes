@@ -23,6 +23,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import mapMark from "../assets/mapMark.png";
 import { getPendingBoxes } from "@/utils/helpers";
+import EmptyDataMessage from "@/components/EmptyDataMessage";
 
 // 資料處理
 // 計算紙箱數量
@@ -275,7 +276,7 @@ function StationInfo() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {`地址:${station.address}`}
+                      {`地址：${station.address}`}
                     </a>
                   </li>
                   <li className="flex items-start justify-start gap-[8px]">
@@ -283,12 +284,12 @@ function StationInfo() {
                     <a
                       href={`tel:${station.phone ? formatPhoneNumber(station.phone) : ""}`}
                     >
-                      {`電話:${station.phone ? formatPhoneNumber(station.phone) : "尚未填寫"}`}
+                      {`電話：${station.phone ? formatPhoneNumber(station.phone) : "尚未填寫"}`}
                     </a>
                   </li>
                   <li className="flex items-start justify-start gap-[8px]">
                     <span className="material-symbols-outlined">schedule</span>
-                    <p>{`營業時間:${getTodayOpenTime(station.station_daily_hours)}`}</p>
+                    <p>{`營業時間：${getTodayOpenTime(station.station_daily_hours)}`}</p>
                     <button
                       onClick={() => setIsAllOpenTime(!isAllOpenTime)}
                       className="inline lg:hidden"
@@ -425,6 +426,9 @@ function StationInfo() {
                 customStyles={stationInfoStyles}
                 pagination
                 paginationComponentOptions={paginationComponentOptions}
+                noDataComponent={
+                  <EmptyDataMessage message="目前沒有可認領的紙箱" />
+                }
               />
             </div>
           </StyleSheetManager>

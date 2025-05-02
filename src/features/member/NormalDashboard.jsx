@@ -5,6 +5,7 @@ import DashboardSubNav from "@/features/admin/DashboardSubNav";
 import DashboardNav from "@/features/admin/DashboardNav";
 import BannerInfo from "@/features/admin/BannerInfo";
 import BannerImage from "@/features/admin/BannerImage";
+import { formatPhoneNumber } from "@/utils/helpers";
 
 function NormalDashboard({ member }) {
   return (
@@ -13,9 +14,13 @@ function NormalDashboard({ member }) {
         <BannerInfo
           title={member.user.user_metadata.display_name}
           infoData={[
-            `會員編號：${member.user.id}`,
-            `電子信箱：${member.user.email}`,
-            `聯絡電話：${member.user.user_metadata.phone}`,
+            { label: "會員編號", value: member.user.id },
+            { label: "電子信箱", value: member.user.email, type: "email" },
+            {
+              label: "聯絡電話",
+              value: formatPhoneNumber(member.user.user_metadata.phone),
+              type: "tel",
+            },
           ]}
           showApplyButton={true}
         />

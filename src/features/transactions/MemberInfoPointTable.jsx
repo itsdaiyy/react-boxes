@@ -5,6 +5,7 @@ import { useMemberTransactionRecords } from "@/hooks/transactions/useBoxTransact
 import { formatUTCTimestamp } from "@/utils/helpers";
 import Spinner from "@/components/Spinner";
 import ErrorMessage from "@/components/ErrorMessage";
+import EmptyDataMessage from "@/components/EmptyDataMessage";
 
 const MemberInfoPointTable = () => {
   const { records, isLoadingRecords, recordsError } =
@@ -55,6 +56,7 @@ const MemberInfoPointTable = () => {
       pagination
       customStyles={customStyles}
       paginationComponentOptions={paginationComponentOptions}
+      noDataComponent={<EmptyDataMessage message="目前沒有積分記錄" />}
     />
   );
 };

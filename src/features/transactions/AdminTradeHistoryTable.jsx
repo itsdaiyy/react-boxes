@@ -9,6 +9,7 @@ import { useAdminTransactionRecords } from "@/hooks/transactions/useBoxTransacti
 import Spinner from "@/components/Spinner";
 import ErrorMessage from "@/components/ErrorMessage";
 import { formatUTCTimestamp } from "@/utils/helpers";
+import EmptyDataMessage from "@/components/EmptyDataMessage";
 
 const AdminTradeHistoryTable = () => {
   // 取得可認領紙箱資料
@@ -75,6 +76,7 @@ const AdminTradeHistoryTable = () => {
           pagination
           customStyles={customStyles}
           paginationComponentOptions={paginationComponentOptions}
+          noDataComponent={<EmptyDataMessage message="目前沒有交易記錄" />}
         />
       </StyleSheetManager>
     </div>

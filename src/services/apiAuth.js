@@ -28,7 +28,8 @@ export async function apiSignUp({ username, email, password }) {
         phone: "",
         points: 0,
         roles: ["users"],
-        avatar_url: "https://fakeimg.pl/200/",
+        avatar_url:
+          "https://zmxloeyrugpwhymnzped.supabase.co/storage/v1/object/public/avatars//avatar-default.svg",
       },
     },
   };
