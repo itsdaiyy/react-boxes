@@ -28,7 +28,7 @@
 
 #### 1. 一般使用者測試帳戶
 ```
-    email: "customer@gmail.com",
+    email: "customer@test.com",
     password: "password1",
 ```
 
