@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
@@ -14,7 +14,7 @@ import homeSection3_6 from "@/assets/homeSection3_6.svg";
 function Section3_Card({ imgUrl, content, flexDirection, padding }) {
   return (
     <div
-      className={`relative z-50 flex flex-col items-center justify-center gap-[16px] lg:flex-row lg:gap-[9%] ${flexDirection}${padding}`}
+      className={`relative z-50 flex flex-col items-center justify-center gap-[16px] lg:flex-row lg:gap-[9%] ${flexDirection}${padding} title-animation`}
     >
       <h4 className="w-23 text-[20px] leading-[24px] text-second-300 lg:text-[24px] lg:leading-[28.8px]">
         {content}
@@ -26,12 +26,12 @@ function Section3_Card({ imgUrl, content, flexDirection, padding }) {
   );
 }
 
-Section3_Card.propTypes = { 
-  imgUrl:PropTypes.string, 
-  content:PropTypes.string,
-  flexDirection:PropTypes.string, 
-  padding:PropTypes.string
-}
+Section3_Card.propTypes = {
+  imgUrl: PropTypes.string,
+  content: PropTypes.string,
+  flexDirection: PropTypes.string,
+  padding: PropTypes.string,
+};
 
 function DecoSvgSecond() {
   return (
@@ -131,8 +131,7 @@ function DecoSvgMain() {
 
 // main
 export default function HomeSection3() {
-
-  const {member} = useMember();
+  const { member } = useMember();
   const navigate = useNavigate();
 
   const section3Data = [
@@ -174,22 +173,22 @@ export default function HomeSection3() {
     },
   ];
 
-  const handleClick = ()=>{
-    if(member){
-      navigate("map")
-    }else{
-      navigate("signup")
+  const handleClick = () => {
+    if (member) {
+      navigate("map");
+    } else {
+      navigate("signup");
     }
-  }
+  };
 
   return (
     <div className="container mx-auto px-5 py-[40px] text-center lg:py-[160px]">
-      <h2 className="mb-[40px] text-[28px] leading-[33.6px] lg:mb-[80px] lg:text-[40px] lg:leading-[48px]">
+      <h2 className="title-animation mb-[40px] text-[28px] leading-[33.6px] lg:mb-[80px] lg:text-[40px] lg:leading-[48px]">
         加入返箱大冒險
       </h2>
       {/* 上層 */}
       <div className="relative mb-[40px] lg:mb-[48px]">
-        <h3 className="z-40 rounded-[50px] bg-second-100 py-[16px] text-[24px] leading-[28.8px] text-second-300 lg:absolute lg:left-0 lg:top-0 lg:-translate-y-1/2 lg:px-[40px] lg:text-[28px] lg:leading-[33.6px]">
+        <h3 className="title-animation z-40 rounded-[50px] bg-second-100 py-[16px] text-[24px] leading-[28.8px] text-second-300 lg:absolute lg:left-0 lg:top-0 lg:-translate-y-1/2 lg:px-[40px] lg:text-[28px] lg:leading-[33.6px]">
           將不用的紙箱回收
         </h3>
 
@@ -207,7 +206,7 @@ export default function HomeSection3() {
       </div>
       {/* 下層 */}
       <div className="relative mb-[40px] lg:mb-[80px]">
-        <h3 className="z-40 rounded-[50px] bg-main-100 px-[40px] py-[16px] text-[24px] leading-[28.8px] text-main-600 lg:absolute lg:right-0 lg:top-0 lg:-translate-y-1/2 lg:text-[28px] lg:leading-[33.6px]">
+        <h3 className="title-animation z-40 rounded-[50px] bg-main-100 px-[40px] py-[16px] text-[24px] leading-[28.8px] text-main-600 lg:absolute lg:right-0 lg:top-0 lg:-translate-y-1/2 lg:text-[28px] lg:leading-[33.6px]">
           帶需要的紙箱回家
         </h3>
 
@@ -228,11 +227,11 @@ export default function HomeSection3() {
       </div>
 
       <button
-        onClick={ handleClick}
-        className="btn inline-block"
+        onClick={handleClick}
+        className="btn title-animation inline-block"
         style={{ zIndex: 100 }}
       >
-        馬上註冊<br></br>加入返箱大冒險
+        馬上註冊加入冒險
       </button>
     </div>
   );
