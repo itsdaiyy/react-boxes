@@ -14,7 +14,7 @@ import homeSection4_m3 from "@/assets/homeSection4_m3.svg";
 
 function Section4_Card({ imgUrl, title, content }) {
   return (
-    <div className="w-full bg-[url(@/assets/homeSection4_boxBg.svg)] bg-contain bg-center bg-no-repeat py-[64px]">
+    <div className="title-animation w-full bg-[url(@/assets/homeSection4_boxBg.svg)] bg-contain bg-center bg-no-repeat py-[64px]">
       <div className="z-10 flex flex-col items-center justify-center">
         <picture className="relative">
           <source srcSet={imgUrl[0]} media="(min-width:992px)"></source>
@@ -87,10 +87,10 @@ export default function HomeSection4() {
     <div className="bg-[url(@/assets/homeSection4_background_m.svg)] bg-cover bg-center bg-no-repeat py-[40px] lg:py-[160px] xl:bg-[url(@/assets/homeSection4_background.svg)]">
       <div className="container mx-auto px-5 text-center">
         <div className="mb-[40px] text-center xl:mb-[92px] xl:text-start">
-          <h2 className="pb-[24px] text-[28px] leading-[33.6px] xl:text-[40px] xl:leading-[48px]">
-            返箱轉運站大募集!!
+          <h2 className="title-animation pb-[24px] text-[28px] leading-[33.6px] xl:text-[40px] xl:leading-[48px]">
+            紙箱轉運站大募集!!
           </h2>
-          <p className="text-[16px] font-medium leading-[19.2px] text-[#6F6F6F] xl:text-[28px] xl:font-bold xl:leading-[33.6px]">
+          <p className="title-animation text-[16px] font-medium leading-[19.2px] text-[#6F6F6F] xl:text-[28px] xl:font-bold xl:leading-[33.6px]">
             收到紙箱後，您可以決定紙箱的去向<br></br>成為為紙箱的領路人
           </p>
         </div>
@@ -106,8 +106,8 @@ export default function HomeSection4() {
           ))}
         </div>
 
-        <button onClick={handleClick} className="btn z-10">
-          申請成為返箱轉運站
+        <button onClick={handleClick} className="btn title-animation z-10">
+          申請成為紙箱轉運站
         </button>
       </div>
     </div>
