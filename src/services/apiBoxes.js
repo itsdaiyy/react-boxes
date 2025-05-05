@@ -222,7 +222,6 @@ export async function apiAddMultipleBoxes({ formData, stationId }) {
       size: box.size,
       condition: box.condition,
       status: "可認領",
-      image_url: "https://fakeimg.pl/300/",
       cash_value: Number(box.cash_value),
       point_value: Number(box.points),
       retention_days: Number(box.retention_days) || 0,

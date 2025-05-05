@@ -58,7 +58,7 @@ export default function StationDetailedInfo({
               target="_blank"
               rel="noopener noreferrer"
             >
-              {`地址:${station.address}`}
+              {`地址：${station.address}`}
             </a>
           </li>
           <li className="flex items-start justify-start gap-[8px]">
@@ -66,12 +66,12 @@ export default function StationDetailedInfo({
             <a
               href={`tel:${station.phone ? formatPhoneNumber(station.phone) : ""}`}
             >
-              {`電話:${station.phone ? formatPhoneNumber(station.phone) : "尚未填寫"}`}
+              {`電話：${station.phone ? formatPhoneNumber(station.phone) : "尚未填寫"}`}
             </a>
           </li>
           <li className="flex items-start justify-start gap-[8px]">
             <span className="material-symbols-outlined">schedule</span>
-            <p>{`營業時間:${getTodayOpenTime(station.station_daily_hours)}`}</p>
+            <p>{`營業時間：${getTodayOpenTime(station.station_daily_hours)}`}</p>
             <button onClick={() => setIsAllOpenTime(!isAllOpenTime)}>
               {isAllOpenTime ? (
                 <span className="material-symbols-outlined">

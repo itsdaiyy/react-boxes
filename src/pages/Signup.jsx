@@ -28,7 +28,7 @@ function Signup() {
           <div className={style.leftBox}>
             <p className="fs-1 font-bold text-white">
               註冊帳號 <br />
-              加入返鄉大冒險
+              加入返箱大冒險
             </p>
           </div>
           <div className="w-full lg:w-1/3">

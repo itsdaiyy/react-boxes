@@ -16,10 +16,11 @@ import { Input } from "@/components/ui/input";
 import { FaPen } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { useUpdateMember } from "@/hooks/authentication/useUpdateMember";
+import { cleanedPhoneNumber, convertToIntlPhoneFormat } from "@/utils/helpers";
 
 const formSchema = z.object({
   display_name: z.string().min(2, { message: "姓名至少需要 2 個字" }),
-  phone: z.string().regex(/^09\d{8}$/, { message: "請輸入正確的台灣手機號碼" }),
+  phone: z.string().regex(/^09\d{8}$/, { message: "請輸入正確電話格式" }),
   avatar: z.instanceof(FileList).optional(),
 });
 
@@ -31,7 +32,7 @@ function MemberInfoForm({ data, memberLevelTitle }) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       display_name: data.user.user_metadata.display_name,
-      phone: data.user.user_metadata.phone.toString().replace("+886", "0"),
+      phone: cleanedPhoneNumber(data.user.user_metadata.phone),
     },
   });
 
@@ -50,7 +51,7 @@ function MemberInfoForm({ data, memberLevelTitle }) {
     const avatar = values.avatar[0];
     const newInfoObj = {
       display_name,
-      phone,
+      phone: convertToIntlPhoneFormat(phone),
     };
     setIsEditing(false);
     updateMember({ newInfoObj, avatar, userId: data.user.id });
@@ -59,10 +60,7 @@ function MemberInfoForm({ data, memberLevelTitle }) {
   function handleClickClose() {
     setIsEditing(!isEditing);
     setValue("display_name", data.user.user_metadata.display_name);
-    setValue(
-      "phone",
-      data.user.user_metadata.phone.toString().replace("+886", "0"),
-    );
+    setValue("phone", cleanedPhoneNumber(data.user.user_metadata.phone));
     trigger();
   }
 
@@ -117,7 +115,7 @@ function MemberInfoForm({ data, memberLevelTitle }) {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="請輸入聯絡電話"
+                    placeholder="請輸入聯絡電話（0912345678）"
                     type="tel"
                     {...field}
                     className="bg-white py-4 focus-visible:border-none focus-visible:ring-main-500"

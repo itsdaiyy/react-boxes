@@ -39,7 +39,7 @@ function NavMenuSm({ currentMember, setCurrentMember, role, setRole }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="mt-2 w-56 text-[#6f6f6f] lg:hidden"
+        className="mt-2 min-w-56 text-[#6f6f6f] lg:hidden"
         align="end"
       >
         {currentMember && (

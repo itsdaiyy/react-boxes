@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { formatUTCTimestamp } from "@/utils/helpers";
 import UpdateBoxDialog from "@/features/boxes/UpdateBoxDialog";
 import DeleteBoxDialog from "@/features/boxes/DeleteBoxDialog";
+import EmptyDataMessage from "@/components/EmptyDataMessage";
 
 const AdminBoxManageTable = () => {
   const navigate = useNavigate();
@@ -137,7 +138,7 @@ const AdminBoxManageTable = () => {
           pagination
           paginationComponentOptions={paginationComponentOptions}
           subHeader
-          noDataComponent="沒有紙箱TAT"
+          noDataComponent={<EmptyDataMessage message="目前沒有可認領紙箱" />}
           subHeaderComponent={
             <div className="mb-4 flex w-full flex-col justify-between gap-3 md:flex-row">
               <input

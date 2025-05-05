@@ -25,6 +25,7 @@ const formSchema = z.object({
 import PropTypes from "prop-types";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { cleanedPhoneNumber, convertToIntlPhoneFormat } from "@/utils/helpers";
 AdminInfoForm.propTypes = { station: PropTypes.object };
 
 const daysOfWeek = [
@@ -41,7 +42,7 @@ function getDefaultValues(station) {
   return {
     station_name: station.station_name || "",
     address: station.address || "",
-    phone: station.phone || "",
+    phone: cleanedPhoneNumber(station.phone) || "",
     station_daily_hours: Array.from({ length: 7 }, (_, index) => {
       const dayData = station.station_daily_hours.find(
         (item) => item.day_of_week === index,
@@ -68,7 +69,11 @@ function AdminInfoForm({ station }) {
 
   function onSubmit(values) {
     try {
-      updateStation({ ...values, id: station.id });
+      updateStation({
+        ...values,
+        phone: convertToIntlPhoneFormat(values.phone),
+        id: station.id,
+      });
       setIsEditing(false);
     } catch (error) {
       toast.error("Form submission error", error);
@@ -82,7 +87,7 @@ function AdminInfoForm({ station }) {
     }
     setIsEditing(!isEditing);
     setValue("station_name", station.station_name);
-    setValue("phone", station.phone);
+    setValue("phone", cleanedPhoneNumber(station.phone));
     setValue(
       "station_daily_hours",
       Array.from({ length: 7 }, (_, index) => {

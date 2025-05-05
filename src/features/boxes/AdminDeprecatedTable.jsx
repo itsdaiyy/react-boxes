@@ -14,6 +14,7 @@ import { FaTrashAlt } from "react-icons/fa";
 // 更新紙箱、刪除紙箱資料表單元件
 import UpdateBoxDialog from "@/features/boxes/UpdateBoxDialog";
 import DeleteBoxDialog from "@/features/boxes/DeleteBoxDialog";
+import EmptyDataMessage from "@/components/EmptyDataMessage";
 
 const AdminDeprecatedTable = () => {
   // 取得報廢紙箱資料
@@ -131,7 +132,7 @@ const AdminDeprecatedTable = () => {
           data={filteredData}
           pagination
           customStyles={customStyles}
-          noDataComponent="沒有紙箱TAT"
+          noDataComponent={<EmptyDataMessage message="目前沒有待回收紙箱" />}
           paginationComponentOptions={paginationComponentOptions}
           subHeader
           subHeaderComponent={
