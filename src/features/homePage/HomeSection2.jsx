@@ -8,7 +8,7 @@ import homeSection2_3_md from "@/assets/homeSection2-3_md.png";
 function Section2_Card({ imgUrl, title, content, padding }) {
   return (
     <div
-      className={`lg:w-21 w-93 flex flex-col items-center ${padding} relative`}
+      className={`lg:w-21 w-93 flex flex-col items-center ${padding} title-animation relative`}
     >
       <img src={imgUrl} alt={title} className="z-10 mb-[24px]" />
       <h3 className="z-10 mb-[16px]">{title}</h3>
@@ -45,7 +45,7 @@ export default function HomeSection2() {
   return (
     <div className="relative">
       <div className="relative z-10 py-[40px] text-center lg:py-[80px]">
-        <h2 className="mb-[40px] text-[28px] leading-[33.6px] lg:text-[40px] lg:leading-[48px]">
+        <h2 className="title-animation mb-[40px] text-[28px] leading-[33.6px] lg:text-[40px] lg:leading-[48px]">
           你也有這種困擾嗎？
         </h2>
         <div className="flex flex-col items-center justify-center lg:flex-row">

@@ -1,4 +1,8 @@
+import { useRef } from "react";
 import { useMember } from "@/hooks/authentication/useMember";
+
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 import Spinner from "@/components/Spinner";
 import Header from "@/components/header/Header";
@@ -11,11 +15,42 @@ import HomeSection5 from "@/features/homePage/HomeSection5";
 
 function HomePage() {
   const { isLoadingMember } = useMember();
+  const container = useRef();
 
-  if (isLoadingMember) return <Spinner />;
+  useGSAP(
+    () => {
+      if (isLoadingMember) return;
+      gsap.utils.toArray(".title-animation").forEach((el) => {
+        gsap.from(el, {
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 75%",
+            toggleActions: "play none none reverse",
+          },
+          duration: 0.8,
+          opacity: 0,
+          y: 20,
+        });
+      });
+
+      gsap.from(".opacity-animation", {
+        scrollTrigger: {
+          trigger: ".opacity-animation",
+          start: "top 70%",
+          toggleActions: "play none none reverse",
+        },
+        duration: 0.8,
+        opacity: 0,
+      });
+    },
+    { scope: container, dependencies: [isLoadingMember] },
+  );
 
   return (
-    <div>
+    <div ref={container}>
+      {isLoadingMember && <Spinner />}
+
       <Header />
       {/* 區塊一 */}
       <HomeSection1></HomeSection1>
@@ -27,7 +62,6 @@ function HomePage() {
       <HomeSection4></HomeSection4>
       {/* 區塊五 */}
       <HomeSection5></HomeSection5>
-
       <Footer />
     </div>
   );

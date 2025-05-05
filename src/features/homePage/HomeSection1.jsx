@@ -22,7 +22,7 @@ export default function HomeSection1() {
   return (
     <div className="relative mt-[56px] bg-[url(@/assets/homeBanner_2_reduce.jpg)] bg-cover bg-center bg-no-repeat before:absolute before:inset-0 before:bg-black before:opacity-60 before:content-[''] lg:mt-[72px]">
       <div className="container mx-auto flex flex-col items-center justify-center py-[30vh]">
-        <div className="relative z-10 mb-[16px] flex flex-col gap-[16px] text-center lg:mb-[40px] lg:gap-[40px]">
+        <div className="title-animation relative z-10 mb-[16px] flex flex-col gap-[16px] text-center lg:mb-[40px] lg:gap-[40px]">
           <h2
             className="text-[28px] font-black leading-[33.6px] text-white lg:text-[64px] lg:leading-[76.8px]"
             style={bannerText}
@@ -37,7 +37,7 @@ export default function HomeSection1() {
           </h2>
         </div>
 
-        <button onClick={handleClick} className="btn z-10">
+        <button onClick={handleClick} className="btn title-animation z-10">
           登入查詢鄰近站點
         </button>
       </div>
