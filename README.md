@@ -37,6 +37,10 @@
     email: "test01@gmail.com",
     password: "password1",
 ```
+#### 3. 交易測試用戶 ID
+```
+   32346f29-c95f-422a-9415-4834aea7987c
+```
 
 <br />
 
