@@ -107,11 +107,12 @@ export async function apiUpdateStationInfo({
 
     // 更新營業時間（如果有提供）
     if (Array.isArray(station_daily_hours) && station_daily_hours.length > 0) {
-      const { data, error } = await updateStationHours(station_daily_hours);
+      const { newDailyHours, error } =
+        await updateStationHours(station_daily_hours);
 
       if (error) throw error;
 
-      updatedHours = data;
+      updatedHours = newDailyHours;
     }
 
     return { ...station, station_daily_hours: updatedHours };
