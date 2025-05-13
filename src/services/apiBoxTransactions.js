@@ -85,6 +85,7 @@ export async function apiCreateTransaction({
   let total_points;
   let user_name_snapshot;
   try {
+    // 1. 讀取用戶名稱與最後積分
     if (memberId) {
       const { data, userError } =
         await supabaseAdmin.auth.admin.getUserById(memberId);
@@ -101,16 +102,21 @@ export async function apiCreateTransaction({
         throw new Error(`無法取該用戶，ID： ${memberId}`);
       }
 
+      // 讀取最新一筆交易紀錄
       const recordsData = records.length > 0 ? records[0] : null;
 
+      // 計算總積分
       total_points = recordsData
         ? recordsData.total_points +
           transaction.earned_points -
           transaction.points_cost
         : 0 + transaction.earned_points - transaction.points_cost;
+
+      // 會員名稱快照
       user_name_snapshot = data.user.user_metadata.display_name;
     }
 
+    // 2. 建立新的交易紀錄
     const newTransaction = {
       ...transaction,
       ...stationInfo,
@@ -130,6 +136,7 @@ export async function apiCreateTransaction({
 
     if (error) throw error;
 
+    // 3. 更新使用者的總積分
     if (total_points) {
       const { error } = await supabaseAdmin.auth.admin.updateUserById(
         memberId,
@@ -145,7 +152,7 @@ export async function apiCreateTransaction({
           .delete()
           .eq("id", transactionData.id);
 
-        throw new Error("更新用戶點數失敗");
+        throw new Error("更新用戶積分失敗");
       }
     }
 
